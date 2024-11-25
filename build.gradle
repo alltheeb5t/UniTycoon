@@ -69,11 +69,17 @@ subprojects {
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://jitpack.io' }
   }
+
+  dependencies {
+    testImplementation('org.junit.jupiter:junit-jupiter:5.7.1')
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher')
+  }
+
+  test {
+    useJUnitPlatform()
+  }
+
 }
-
-
-
-
 
 
 eclipse.project.name = 'UniTycoon' + '-parent'
