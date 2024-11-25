@@ -1,3 +1,9 @@
+# Game specific
+gameconf.bin
+
+# JUnit Test File (not entirely sure I didn't just accidentally create this)
+org.junit.jupiter.api.Test
+
 ## Gradle:
 .gradle/
 gradle-app.setting
@@ -144,6 +150,9 @@ www-test/
 
 nbactions.xml
 nb-configuration.xml
+
+#VS Code
+.vscode
 
 ## OS-Specific:
 .DS_Store
