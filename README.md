@@ -1,6 +1,8 @@
 # UniTycoon
  
-This is our game for ENG1 software engineering project
+Part of the ENG1 Assessment 2 deliverables for alltheeb5t (Cohort 3 Group 5).
+
+Contains the latest build of UniTycoon, licenced under Apache 2.0.
 
 ## Running
 
