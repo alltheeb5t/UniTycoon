@@ -92,7 +92,7 @@ public class GameScreen extends SuperScreen implements Screen {
                 // Calculate Game Stats
                 GameGlobals.ELAPSED_TIME--;
 
-                for (Building building : gameRenderer.getBuildingRenderer().getPlaceBuildings()){
+                for (Building building : gameRenderer.getBuildingRenderer().getBuildingsMap().getPlacedBuildings()){
                     GameGlobals.SATISFACTION += building.calculateSatisfaction(GameGlobals.STUDENTS);
 
                     if(building.getBuildingType() == BuildingStats.BuildingType.FOOD){

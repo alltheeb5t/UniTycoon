@@ -25,6 +25,8 @@ public class GameGlobals {
     public static int FOOD_BUILDINGS_COUNT = 0;
     public static int ELAPSED_TIME = 0;
 
+    //Size of the building SCREEN_BUILDING_SIZExSCREEN_BUILDING_SIZE
+    public static final int SCREEN_BUILDING_SIZE = 128;
 
     // Load map textures
     public static final Texture map1Texture = new Texture(Gdx.files.internal("png/map1Texture.png"));
