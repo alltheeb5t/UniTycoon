@@ -57,6 +57,9 @@ public class StatsRenderer {
     String timerStr;
     Label timer;
 
+    String inGameTimerStr;
+    Label inGameTimer;
+
     //Stores all labels
     List<Label> labels;
 
@@ -81,6 +84,7 @@ public class StatsRenderer {
         recBuildingsStr = "Recreational";
         foodBuildingsStr = "Food";
         timerStr = "Timer: ";
+        inGameTimerStr = "";
 
         // Creating labels
         balance = new Label(balStr, skin);
@@ -91,6 +95,7 @@ public class StatsRenderer {
         recBuildings = new Label(recBuildingsStr, skin);
         foodBuildings = new Label(foodBuildingsStr, skin);
         timer = new Label(timerStr, skin);
+        inGameTimer = new Label(inGameTimerStr, skin);
 
         // Adding labels to a list
         labels.add(balance);
@@ -101,6 +106,7 @@ public class StatsRenderer {
         labels.add(recBuildings);
         labels.add(foodBuildings);
         labels.add(timer);
+        labels.add(inGameTimer);
 
         for(Label lbl: labels){
             lbl.setColor(Color.BLACK);
@@ -132,6 +138,8 @@ public class StatsRenderer {
         table.add(foodBuildings).pad(padding).align(Align.left);
         table.row();
         table.add(timer).pad(padding).align(Align.left);
+        table.row();
+        table.add(inGameTimer).pad(padding).align(Align.left);
 
         stage.addActor(table);
 
@@ -156,7 +164,9 @@ public class StatsRenderer {
         foodBuildingsStr = "Food: " + GameGlobals.FOOD_BUILDINGS_COUNT;
 
         TimeUtil.Time timerAmount = TimeUtil.secondsToMinSecs(GameGlobals.ELAPSED_TIME);
-        timerStr = timerAmount == null? (timerStr = "Timer: Infinity") : (timerStr = "Timer: " + timerAmount);
+        timerStr = "Timer: " + timerAmount;
+
+        inGameTimerStr = TimeUtil.inGameTime(GameGlobals.ELAPSED_TIME);
 
         // Sets the new string to the corresponding label
         balance.setText(balStr);
@@ -167,6 +177,7 @@ public class StatsRenderer {
         recBuildings.setText(recBuildingsStr);
         foodBuildings.setText(foodBuildingsStr);
         timer.setText(timerStr);
+        inGameTimer.setText(inGameTimerStr);
 
         stage.act(delta);
         stage.draw();
