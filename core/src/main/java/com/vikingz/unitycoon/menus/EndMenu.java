@@ -30,7 +30,7 @@ public class EndMenu extends Window {
      */
     public EndMenu(Skin skin, String Message) {
 
-        super("Popup", skin);
+        super("", skin);
 
         this.setSize(800, 400);
         this.setModal(true);

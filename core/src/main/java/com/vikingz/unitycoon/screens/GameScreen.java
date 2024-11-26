@@ -60,15 +60,7 @@ public class GameScreen extends SuperScreen implements Screen {
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer(), this);
         elapsedTime = 0;
         //5 minutes
-        GameGlobals.resetGlobals(300);
-        new Timer().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                if(!isPaused){
-                    GameGlobals.ELAPSED_TIME--;
-                }
-            }
-        }, 0, 1);
+        GameGlobals.resetGlobals(3);
     }
 
 
@@ -98,6 +90,7 @@ public class GameScreen extends SuperScreen implements Screen {
             if (elapsedTime >= 1) { // Increment counter every second
 
                 // Calculate Game Stats
+                GameGlobals.ELAPSED_TIME--;
 
                 for (Building building : gameRenderer.getBuildingRenderer().getPlaceBuildings()){
                     GameGlobals.SATISFACTION += building.calculateSatisfaction(GameGlobals.STUDENTS);
