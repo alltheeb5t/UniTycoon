@@ -64,14 +64,9 @@ public class UIRenderer {
 
         // Sets what the buttons do on the end of timer window
         Runnable leftBtn = ScreenMultiplexer::closeGame;
-        Runnable rightBtn = () -> {
-            // funny
-            GameGlobals.ELAPSED_TIME = (int) Double.POSITIVE_INFINITY;
-            gameScreen.setPaused(false);
-            endOfTimerPopup.remove();
-        };
+        Runnable rightBtn = () -> {};
 
-        endOfTimerPopup.setupButtons(leftBtn, "Quit", rightBtn, "Continue");
+        endOfTimerPopup.setupButtons(leftBtn, "Quit", rightBtn, "Leaderboard");
 
     }
 
