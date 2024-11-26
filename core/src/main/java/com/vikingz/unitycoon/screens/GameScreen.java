@@ -60,7 +60,7 @@ public class GameScreen extends SuperScreen implements Screen {
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer(), this);
         elapsedTime = 0;
         //5 minutes
-        GameGlobals.resetGlobals(3);
+        GameGlobals.resetGlobals(300);
     }
 
 
