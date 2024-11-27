@@ -36,7 +36,7 @@ public class BackgroundRenderer{
     private final char ROAD2 = 'r';
 
     //batch that the tiles will be drawn on
-    private final SpriteBatch batch;
+    private SpriteBatch batch;
 
     //String of the map from file
     private final String map;
@@ -54,7 +54,6 @@ public class BackgroundRenderer{
      */
     public BackgroundRenderer(String mapName) {
         this.map = FileHandler.loadMap(mapName);
-        batch = new SpriteBatch();
         //Texture of all tiles
         Texture texture = new Texture(Gdx.files.internal("textureAtlases/backgroundAtlas.png")); // Load your 64x64 PNG
 
@@ -81,6 +80,10 @@ public class BackgroundRenderer{
         Gdx.gl.glClearColor(0, 0, 0, 1); // Set background color
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear the screen
 
+        if (batch == null) {
+            batch = new SpriteBatch();
+        }
+        
         batch.begin();
         drawTiledBackgroundFromMap();
         batch.end();

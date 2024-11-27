@@ -1,0 +1,48 @@
+apply plugin: 'application'
+
+
+java.sourceCompatibility = 17
+java.targetCompatibility = 17
+if (JavaVersion.current().isJava9Compatible()) {
+        compileJava.options.release.set(17)
+}
+
+mainClassName = 'com.vikingz.unitycoon.headless.HeadlessLauncher'
+application.setMainClass(mainClassName)
+eclipse.project.name = appName + '-headless'
+
+dependencies {
+  implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+  implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+  implementation project(':core')
+
+  // CHANGED: add JUnit 5 and Mockito to the dependencies
+  testImplementation platform('org.junit:junit-bom:5.10.0')
+  testImplementation 'org.junit.jupiter:junit-jupiter'
+  testImplementation 'org.mockito:mockito-core:5.11.0'
+}
+
+jar {
+  archiveBaseName.set(appName)
+  duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+  dependsOn configurations.runtimeClasspath
+  from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+  manifest {
+    attributes 'Main-Class': project.mainClassName
+  }
+  doLast {
+    file(archiveFile).setExecutable(true, false)
+  }
+}
+
+// Equivalent to the jar task; here for compatibility with gdx-setup.
+tasks.register('dist') {
+  dependsOn 'jar'
+}
+
+// CHANGED: need to tell Gradle about our use of JUnit and have JaCoCo look at core sources
+test {
+  project.ext.assetsDir = new File("../assets")
+  workingDir = project.ext.assetsDir
+  useJUnitPlatform()
+}
