@@ -52,13 +52,42 @@ public class TimeUtil {
         int m = secs/ 60;
         int s = secs % 60;
 
-        if(m > 100000){
-            return null;
+        return new Time(s, m, 0);
+    }
+
+    /**
+     * Calculates the in game time which totals 3 years. 
+     * Each year has two 40s semesters and a 20s summer.
+     * @param secs Time in seconds
+     * @return In game time as string written "Year #, Semester #"
+     */
+    public static String inGameTime(int secs) {
+        int SECONDS_PER_YEAR = 100;
+        int SECONDS_PER_SUMMER = 20;
+        int SECONDS_PER_SEMESTER = 40;
+
+        int timePassed = 300 - secs;
+        int year = 0;
+        String semester = "";
+        
+        year = (timePassed / SECONDS_PER_YEAR) + 1;
+        
+        //Seconds passed in the current year.
+        int annualELapsedSeconds = timePassed - (year - 1) * SECONDS_PER_YEAR; 
+        
+        //Calulates part of the year.
+        if (annualELapsedSeconds < SECONDS_PER_SUMMER) {
+            semester = "Summer";
+        }
+        else if (annualELapsedSeconds < SECONDS_PER_SUMMER + SECONDS_PER_SEMESTER) {
+            semester = "Semester 1";
+        }
+        else {
+            semester = "Semester 2";
         }
 
-        return new Time(s, m, 0);
-        
-    }
+        return "Year " + String.valueOf(year) + ", " + semester;
+    } 
 
 }
 
