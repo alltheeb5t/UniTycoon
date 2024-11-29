@@ -3,12 +3,14 @@ package com.vikingz.unitycoon.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.vikingz.unitycoon.global.GameGlobals;
+import com.vikingz.unitycoon.menus.UsernameMenu;
 
 /**
  * This class represents the screen where the user chooses the
@@ -118,6 +120,12 @@ public class MapSelectorScreen extends SuperScreen implements Screen {
 
         // Add the table to the stage
         stage.addActor(table);
+
+        // Opens a username screen
+        UsernameMenu usernamePopUp = new UsernameMenu(skin);
+        usernamePopUp.setPosition((stage.getWidth() - usernamePopUp.getWidth()) / 2, (stage.getHeight() - usernamePopUp.getHeight()) / 2);
+        usernamePopUp.setupButton();
+        stage.addActor(usernamePopUp);
     }
 
     @Override
@@ -132,7 +140,7 @@ public class MapSelectorScreen extends SuperScreen implements Screen {
     public void render(float delta) {
         // Clear the screen
         Gdx.gl.glClearColor(25/255f, 25/255f, 25/255f, 1);
-        Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         mapText.setText("Map".concat(Integer.toString(mapSelection)));
 
         stage.act(delta);

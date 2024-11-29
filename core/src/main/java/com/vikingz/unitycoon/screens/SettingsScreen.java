@@ -1,6 +1,7 @@
 package com.vikingz.unitycoon.screens;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
@@ -191,7 +192,7 @@ public class SettingsScreen extends SuperScreen implements Screen {
     public void render(float delta) {
         // Clear screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //back button
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){

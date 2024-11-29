@@ -29,23 +29,20 @@ public class GameConfig implements Serializable{
     private static boolean VSync = false;
     public float guiSize = 1;
 
-    public int TOP_SATISFACTION;
-
     // 31.5 rows
     // 56 cols
 
     // The single instance of GameConfig (eager initialization)
     private static GameConfig INSTANCE = new GameConfig(
-        1792, 1008, false, 1f,1f, 0); // Default values
+        1792, 1008, false, 1f,1f); // Default values
 
     // Private constructor to prevent instantiation from outside
-    private GameConfig(int width, int height, boolean skipMenus, float SoundVolumeValue, float MusicVolumeValue, int TOP_SATISFACTION) {
+    private GameConfig(int width, int height, boolean skipMenus, float SoundVolumeValue, float MusicVolumeValue) {
         this.windowWidth = width;
         this.windowHeight = height;
         this.skipMenus = skipMenus;
         this.SoundVolumeValue = SoundVolumeValue;
         this.MusicVolumeValue = MusicVolumeValue;
-        this.TOP_SATISFACTION = TOP_SATISFACTION;
     }
 
     //Sets VSync mode for game on or off
@@ -88,14 +85,6 @@ public class GameConfig implements Serializable{
 
     public void setGuiSize(float guiSize) {
         this.guiSize = guiSize;
-    }
-
-    public int getTopSatisfaction() {
-        return TOP_SATISFACTION;
-    }
-
-    public void setTopSatisfaction(int topSatisfaction) {
-        TOP_SATISFACTION = topSatisfaction;
     }
 }
 
