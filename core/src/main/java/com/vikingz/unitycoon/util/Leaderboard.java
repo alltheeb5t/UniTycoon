@@ -15,7 +15,7 @@ public class Leaderboard {
     private static File leaderboardFile = new File("leaderboard.txt");
 
     /**
-     * Saves leaderboard to binary file.
+     * Saves leaderboard to text file.
      */
     public static void saveLeaderboard(){
         try {
@@ -32,7 +32,7 @@ public class Leaderboard {
 
 
     /**
-     * Loads leaderboard from binary file.
+     * Loads leaderboard from text file.
      */
     public static void loadLeaderboard(){
 
