@@ -40,13 +40,29 @@ public class BuildingsMap {
      * @return true if placement was successful. false otherwise
      */
     public boolean attemptAddBuilding(BuildingInfo buildingInfo, TextureRegion buildingTexture, float x, float y) {
+        return attemptAddBuilding(buildingInfo, buildingTexture, x, y, false);
+    }
+
+    /**
+     * Attempt to add a new building to the map. This method handles checking collision information and funds
+     * 
+     * @param buildingInfo
+     * @param buildingTexture
+     * @param x
+     * @param y
+     * @param ignoreCost Used for testing to ignore any tests related to cost
+     * @return true if placement was successful. false otherwise
+     */
+    public boolean attemptAddBuilding(BuildingInfo buildingInfo, TextureRegion buildingTexture, float x, float y, boolean ignoreCost) {
         if (checkCollisions(x, y)) {
             // Check if the user has enough money to buy that building
-            float balanceAfterPurchase = GameGlobals.BALANCE - buildingInfo.getBuildingCost();
-            if (balanceAfterPurchase < 0) {
-                return false;
+            if (!ignoreCost) {
+               float balanceAfterPurchase = GameGlobals.BALANCE - buildingInfo.getBuildingCost();
+                if (balanceAfterPurchase < 0) {
+                    return false;
+                } 
             }
-
+            
             // Adds a building of the correct type to the list of buildings that are
             // to be drawn to the screen.
             switch (buildingInfo.getBuildingType()) {
@@ -148,6 +164,8 @@ public class BuildingsMap {
         //Checks building exists in spot
         float RoundedX = Math.round(x);
         float RoundedY = Math.round(y);
+
+        System.out.println(x + ":X | Y:" + y);
         
         if (!checkCollisionBuildings(RoundedX, RoundedY)) { return false; }
 
