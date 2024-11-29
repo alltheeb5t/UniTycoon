@@ -10,8 +10,8 @@ import com.vikingz.unitycoon.menus.BuildMenu;
 import com.vikingz.unitycoon.menus.EndMenu;
 import com.vikingz.unitycoon.menus.LeaderboardMenu;
 import com.vikingz.unitycoon.menus.PauseMenu;
+import com.vikingz.unitycoon.menus.UsernameMenu;
 import com.vikingz.unitycoon.screens.GameScreen;
-import com.vikingz.unitycoon.screens.MenuScreen;
 import com.vikingz.unitycoon.screens.ScreenMultiplexer;
 import com.vikingz.unitycoon.util.Leaderboard;
 
@@ -79,7 +79,6 @@ public class UIRenderer {
      * will call this function which will show the end of game popup.
      */
     public void endGame(){
-
         Leaderboard.loadLeaderboard();
 
         endOfTimerPopup.setPosition((stage.getWidth() - endOfTimerPopup.getWidth()) / 2, (stage.getHeight() - endOfTimerPopup.getHeight()) / 2);
@@ -101,7 +100,7 @@ public class UIRenderer {
      *         if the username if blank.
      */
     public String getUsername() {
-        String username = MenuScreen.getUsername();
+        String username = UsernameMenu.getUsername();
         String finalUsername = "";
 
         // Format username.

@@ -38,6 +38,7 @@ public class Leaderboard {
 
         leaderboardValue = "";
         try {
+            leaderboardFile.createNewFile();
             Scanner fileReader = new Scanner(leaderboardFile);
             while (fileReader.hasNextLine()) {
                 leaderboardValue += fileReader.nextLine() + "\n";

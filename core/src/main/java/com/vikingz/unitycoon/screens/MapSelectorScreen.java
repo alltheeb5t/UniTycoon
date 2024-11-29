@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.vikingz.unitycoon.global.GameGlobals;
+import com.vikingz.unitycoon.menus.UsernameMenu;
 
 /**
  * This class represents the screen where the user chooses the
@@ -119,6 +120,12 @@ public class MapSelectorScreen extends SuperScreen implements Screen {
 
         // Add the table to the stage
         stage.addActor(table);
+
+        // Opens a username screen
+        UsernameMenu usernamePopUp = new UsernameMenu(skin);
+        usernamePopUp.setPosition((stage.getWidth() - usernamePopUp.getWidth()) / 2, (stage.getHeight() - usernamePopUp.getHeight()) / 2);
+        usernamePopUp.setupButton();
+        stage.addActor(usernamePopUp);
     }
 
     @Override

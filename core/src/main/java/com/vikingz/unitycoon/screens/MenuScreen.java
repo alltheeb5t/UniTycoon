@@ -5,10 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 /**
  * This class represents the main menu of the game.
@@ -19,8 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
  * Inherits Screen, SuperScreen
  */
 public class MenuScreen extends SuperScreen implements Screen {
-
-    private static String username;
 
     /**
      * Creates a new menu screen
@@ -35,16 +31,10 @@ public class MenuScreen extends SuperScreen implements Screen {
         TextButton settingsButton = new TextButton("Settings", skin);
         TextButton quitButton = new TextButton("Quit", skin);
 
-        // Create text field and label
-        TextField usernameField = new TextField("", skin);
-        Label usernameLabel = new Label("Enter Username: ", skin);
-        Label usernameInfo = new Label("Username should have no puntcuation, no spaces and no more than 12 characters.", skin);
         
-
         // Add listeners to buttons
         playButton.addListener(e -> {
             if (!playButton.isPressed()) return false;
-            username = usernameField.getText();
             ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.MAPSELECTION);
             return true;
         });
@@ -68,14 +58,6 @@ public class MenuScreen extends SuperScreen implements Screen {
 
         Image texture = new Image(new Texture(Gdx.files.internal("gameLogo.png")));
         table.add(texture).pad(50);
-        table.row();
-        
-        // Add username field to table
-        table.add(usernameLabel).pad(10);
-        table.row();
-        table.add(usernameField).pad(10).width(300).height(50);
-        table.row();
-        table.add(usernameInfo).pad(10);
         table.row();
 
         // Add buttons to table
@@ -130,9 +112,5 @@ public class MenuScreen extends SuperScreen implements Screen {
         // Dispose of assets when this screen is no longer used
         stage.dispose();
         skin.dispose();
-    }
-
-    public static String getUsername() {
-        return username;
     }
 }
