@@ -5,14 +5,15 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.vikingz.unitycoon.global.GameConfig;
-import com.vikingz.unitycoon.global.GameConfigManager;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.menus.BuildMenu;
 import com.vikingz.unitycoon.menus.EndMenu;
+import com.vikingz.unitycoon.menus.LeaderboardMenu;
 import com.vikingz.unitycoon.menus.PauseMenu;
 import com.vikingz.unitycoon.screens.GameScreen;
+import com.vikingz.unitycoon.screens.MenuScreen;
 import com.vikingz.unitycoon.screens.ScreenMultiplexer;
+import com.vikingz.unitycoon.util.Leaderboard;
 
 /**
  * This class renders all the UI elements to the Screen.
@@ -36,8 +37,8 @@ public class UIRenderer {
     // Popup Menus
     private final PauseMenu pauseMenu;
     private final EndMenu endOfTimerPopup;
+    private final LeaderboardMenu leaderboardPopUp;
 
-    private boolean newHighScore = true;
     GameScreen gameScreen;
 
     /**
@@ -61,31 +62,63 @@ public class UIRenderer {
 
         pauseMenu = new PauseMenu(skin);
         endOfTimerPopup = new EndMenu(skin, "End of Game");
+        leaderboardPopUp = new LeaderboardMenu(skin, "");
 
         // Sets what the buttons do on the end of timer window
         Runnable leftBtn = ScreenMultiplexer::closeGame;
-        Runnable rightBtn = () -> {};
+        Runnable rightBtn = () -> {        
+            leaderboardPopUp.setPosition((stage.getWidth() - leaderboardPopUp.getWidth()) / 2, (stage.getHeight() - leaderboardPopUp.getHeight()) / 2);
+            stage.addActor(leaderboardPopUp);};
 
         endOfTimerPopup.setupButtons(leftBtn, "Quit", rightBtn, "Leaderboard");
-
+        leaderboardPopUp.setupButton();
     }
 
     /**
      * When the game screen has decided the game has finished the game
-     * will call this function which will show the end of game popup
-     * @param newScore boolean of if new high score has been met
+     * will call this function which will show the end of game popup.
      */
-    public void endGame(boolean newScore){
+    public void endGame(){
+
+        Leaderboard.loadLeaderboard();
 
         endOfTimerPopup.setPosition((stage.getWidth() - endOfTimerPopup.getWidth()) / 2, (stage.getHeight() - endOfTimerPopup.getHeight()) / 2);
-        if (newScore && newHighScore){
-            endOfTimerPopup.addNewHighScore();
-            GameConfig.getInstance().setTopSatisfaction(GameGlobals.SATISFACTION);
-            GameConfigManager.saveGameConfig();
-            newHighScore = false;
-        }
         stage.addActor(endOfTimerPopup);
 
+        if (Leaderboard.isLeaderboardScore(GameGlobals.SATISFACTION)) {
+            String username = getUsername();
+            Leaderboard.addScoreToLeaderBoard(GameGlobals.SATISFACTION, username);
+            Leaderboard.saveLeaderboard();
+        }
+
+        leaderboardPopUp.setMessage(Leaderboard.getLeaderboardValue());
+    }
+
+    /**
+     * Gets the username entered on the Menu Screen and ensures that it is
+     * in the correct format (no punctuation, no spaces, less than 12 characters).
+     * @return The value of the username with no spaces or punctuation or guest 
+     *         if the username if blank.
+     */
+    public String getUsername() {
+        String username = MenuScreen.getUsername();
+        String finalUsername = "";
+
+        // Format username.
+        for (Character c : username.toCharArray()) {
+            if(Character.isLetterOrDigit(c)) {
+                finalUsername += c;
+            }
+            if(finalUsername.length() >= 12) {
+                break;
+            }
+        }
+
+        // Check username is not empty.
+        if (finalUsername == "") {
+            finalUsername = "Guest";
+        }
+        return finalUsername;
     }
 
     /**

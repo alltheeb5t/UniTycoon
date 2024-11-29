@@ -3,7 +3,6 @@ package com.vikingz.unitycoon.menus;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.vikingz.unitycoon.global.GameConfig;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
@@ -14,14 +13,8 @@ import com.vikingz.unitycoon.global.GameGlobals;
  */
 public class EndMenu extends Window {
 
-    //Message to be displayed at end of the game
-    private final String Message = "";
-
     //skin used for window
     private final Skin skin;
-
-
-
 
     /**
      * Creates a new EndMenu
@@ -32,7 +25,7 @@ public class EndMenu extends Window {
 
         super("", skin);
 
-        this.setSize(800, 400);
+        this.setSize(1000, 400);
         this.setModal(true);
         this.setMovable(false);
         this.setResizable(false);
@@ -43,11 +36,6 @@ public class EndMenu extends Window {
 
         Label message = new Label(Message, skin);
         this.add(message).padLeft(-35).row();
-
-
-        //used to display the current top stored satisfaction
-        Label topSatisfaction = new Label("Top Satisfaction: " + GameConfig.getInstance().getTopSatisfaction(), skin);
-        this.add(topSatisfaction).padBottom(20).row();
     }
 
     /**
@@ -73,7 +61,6 @@ public class EndMenu extends Window {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 leftRun.run();
-                //PopupMenu.this.remove();
             }
         });
 
@@ -81,19 +68,7 @@ public class EndMenu extends Window {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 rightRun.run();
-                //PopupMenu.this.remove();
             }
         });
-    }
-
-    /**
-     * Adds new Label to endMenu,
-     * when a new highScore is reached
-     */
-    public void addNewHighScore() {
-        Label congrats = new Label("You have reached a new high score of satisfaction", skin);
-        this.row();
-        this.add(congrats);
-
     }
 }

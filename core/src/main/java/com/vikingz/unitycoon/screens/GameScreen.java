@@ -2,12 +2,10 @@ package com.vikingz.unitycoon.screens;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.utils.Timer;
 import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingStats;
 import com.vikingz.unitycoon.building.buildings.FoodBuilding;
 import com.vikingz.unitycoon.building.buildings.RecreationalBuilding;
-import com.vikingz.unitycoon.global.GameConfig;
 import com.vikingz.unitycoon.global.GameConfigManager;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.GameRenderer;
@@ -46,6 +44,9 @@ public class GameScreen extends SuperScreen implements Screen {
 
     //Determines if first tick of game has passed
     public boolean FirstTick;
+    
+    //Determines if end game has been already called
+    public boolean endedAlready;
 
 
     /**
@@ -56,6 +57,7 @@ public class GameScreen extends SuperScreen implements Screen {
         super();
 
         this.isPaused = false;
+        endedAlready = false;
         gameRenderer = new GameRenderer(mapName);
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer(), this);
         elapsedTime = 0;
@@ -112,7 +114,8 @@ public class GameScreen extends SuperScreen implements Screen {
 
         }
 
-        if(GameGlobals.ELAPSED_TIME <= 0){
+        if(GameGlobals.ELAPSED_TIME <= 0 && !endedAlready){
+            endedAlready = true;
             endGame();
         }
 
@@ -162,10 +165,7 @@ public class GameScreen extends SuperScreen implements Screen {
      */
     private void endGame(){
         isPaused = true;
-        if (GameConfig.getInstance().getTopSatisfaction() < GameGlobals.SATISFACTION){
-            uiRenderer.endGame(true);
-        }
-        uiRenderer.endGame(false);
+        uiRenderer.endGame();
 
     }
 

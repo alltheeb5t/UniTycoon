@@ -46,7 +46,7 @@ public class GameConfigManager {
 
     /**
      * Saves GameConfig Object to binary file,
-     * to save settings and high score.
+     * to save settings.
      */
     public static void saveGameConfig(){
         try {
@@ -62,13 +62,12 @@ public class GameConfigManager {
             System.out.println("FILE NOT FOUND");
         }
 
-
     }
 
 
     /**
      * Loads GameConfig Object from binary file,
-     * to load existing settings and high score.
+     * to load existing settings.
      */
     public static void loadGameConfig(){
 
@@ -82,7 +81,6 @@ public class GameConfigManager {
 
             GameConfig.getInstance().setInstance(conf);
             System.out.println("\n\nLoaded GameConfig");
-            System.out.println("TOP_SATISFACTION: " + GameConfig.getInstance().TOP_SATISFACTION);
             System.out.println("Music_Volume: " + GameConfig.getInstance().MusicVolumeValue);
             System.out.println("Song_Volume: " + GameConfig.getInstance().SoundVolumeValue);
 
@@ -96,8 +94,4 @@ public class GameConfigManager {
             //c.printStackTrace();
         }
     }
-
-
-
-
 }
