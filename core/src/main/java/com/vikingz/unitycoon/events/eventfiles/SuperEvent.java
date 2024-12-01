@@ -14,6 +14,8 @@ public abstract class SuperEvent {
     public Runnable rightRun;
     public String rightText;
 
+    public boolean noChoice;
+
     public SuperEvent() {
 
         GameSkins skinLoader = new GameSkins();
@@ -36,5 +38,7 @@ public abstract class SuperEvent {
             }
         };
         rightText = "";
+
+        noChoice = true;
     }
 }

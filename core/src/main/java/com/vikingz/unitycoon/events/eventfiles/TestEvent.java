@@ -4,7 +4,7 @@ public class TestEvent extends SuperEvent {
 
     public TestEvent() {
 
-        super.message = "This is a test message";
+        super.message = "This is a test message\nThis a test\nThanks";
 
         super.leftRun = new Runnable() {
             @Override
@@ -21,6 +21,8 @@ public class TestEvent extends SuperEvent {
             }
         };
         super.rightText = "Right";
+
+        noChoice = false;
 
     }
 }

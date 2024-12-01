@@ -31,7 +31,7 @@ public class PopupMenu extends Window {
 
         super("Event", skin);
 
-        this.setSize(600, 400);
+        this.setSize(700, 400);
         this.setModal(true);
         this.setMovable(false);
         this.setResizable(false);
@@ -62,7 +62,6 @@ public class PopupMenu extends Window {
         this.add(rightBtn).pad(10);
 
         // Created for yes - no game events
-        // The Popup needs to call back to parent object in someway
 
         leftBtn.addListener(new ClickListener() {
             @Override
@@ -91,8 +90,7 @@ public class PopupMenu extends Window {
 
         this.add(closeButton);
 
-        // Created for yes - no game events
-        // The Popup needs to call back to parent object in someway
+        // Created for game events with no choices
 
         closeButton.addListener(new ClickListener() {
             @Override

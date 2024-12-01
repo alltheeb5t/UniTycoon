@@ -20,6 +20,11 @@ public class EventManager {
             case 1 -> new TestEvent2();
             default -> new TestEvent3();
         };
-        return new EventPopup(e.skin, e.message, e.leftRun, e.leftText, e.rightRun, e.rightText);
+
+        if (e.noChoice) {
+            return new EventPopup(e.skin, e.message);
+        } else {
+            return new EventPopup(e.skin, e.message, e.leftRun, e.leftText, e.rightRun, e.rightText);
+        }
     }
 }
