@@ -5,6 +5,10 @@ import com.vikingz.unitycoon.screens.GameScreen;
 
 public class TestEvent extends SuperEvent {
 
+    /**
+     * Test event with 2 button
+     * @param gameScreen Game screen
+     */
     public TestEvent(GameScreen gameScreen) {
 
         super(gameScreen);

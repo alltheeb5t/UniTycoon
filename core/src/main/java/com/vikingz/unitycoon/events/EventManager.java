@@ -9,11 +9,16 @@ public class EventManager {
 
     GameScreen gameScreen;
 
+    /**
+     * Manages the in game events, adds functionality for creating events
+     * @param gameScreen Game screen
+     */
     public EventManager(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
     }
+
     /**
-     * Chooses a random event to run
+     * Chooses a random event to run and sends it to the correct constructor
      */
     public EventPopup randomEvent() {
 
