@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.vikingz.unitycoon.global.GameGlobals;
+import com.vikingz.unitycoon.util.Achievements;
 
 /**
  * This class creates a Menu that pops up when the user chooses to play the game.
@@ -17,7 +18,7 @@ public class UsernameMenu extends Window{
 
     private String message = "Usernames should have no puntcuation, no spaces and no more than 12 characters.";
     private Label messageLabel;
-    private static String username;
+    private static String username = "";
 
     // Text field for entering username.
     TextField usernameField;
@@ -67,12 +68,35 @@ public class UsernameMenu extends Window{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 username = usernameField.getText();
+                Achievements.loadAchievements();
                 UsernameMenu.this.remove();
             }
         });
     }
 
+    /**
+     * Gets the entered username and ensures that it is in the correct format 
+     * (no punctuation, no spaces, less than 12 characters).
+     * @return The value of the username with no spaces or punctuation or guest 
+     *         if the username if blank.
+     */
     public static String getUsername() {
-        return username;
+        String finalUsername = "";
+
+        // Format username.
+        for (Character c : username.toCharArray()) {
+            if(Character.isLetterOrDigit(c)) {
+                finalUsername += c;
+            }
+            if(finalUsername.length() >= 12) {
+                break;
+            }
+        }
+
+        // Check username is not empty.
+        if (finalUsername == "") {
+            finalUsername = "Guest";
+        }
+        return finalUsername;
     }
 }

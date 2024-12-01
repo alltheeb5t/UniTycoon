@@ -10,6 +10,7 @@ import com.vikingz.unitycoon.building.buildings.FoodBuilding;
 import com.vikingz.unitycoon.building.buildings.RecreationalBuilding;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.BackgroundRenderer;
+import com.vikingz.unitycoon.util.Achievements;
 import com.vikingz.unitycoon.util.Point;
 
 public class BuildingsMap {
@@ -108,9 +109,12 @@ public class BuildingsMap {
      */
     public Boolean attemptBuildingDelete(Building toRemove) {
         if (toRemove != null) {
-            float value = toRemove.getBuildingInfo().getBuildingCost();
+            BuildingInfo buildingInfo = toRemove.getBuildingInfo();
             placedBuildings.remove(toRemove);
-            GameGlobals.BALANCE += Math.round(value*0.75f);
+            GameGlobals.BALANCE += Math.round(buildingInfo.getBuildingCost()*0.75f);
+            GameGlobals.STUDENTS -= buildingInfo.getNumberOfStudents();
+            decrementBuildingsCount(buildingInfo.getBuildingType());
+            Achievements.incrementRemovedBuildings();
             return true;
         }
 
@@ -240,6 +244,23 @@ public class BuildingsMap {
             case ACCOMODATION -> GameGlobals.ACCOMODATION_BUILDINGS_COUNT++;
             case RECREATIONAL -> GameGlobals.RECREATIONAL_BUILDINGS_COUNT++;
             case FOOD -> GameGlobals.FOOD_BUILDINGS_COUNT++;
+            default -> System.out.println("Building type doesnt exist!");
+        }
+
+    }
+
+    /**
+     * Increments the counter on the screen for the
+     * corresponding building that has been placed down
+     * @param type Type of the building that has been added
+     */
+    private void decrementBuildingsCount(BuildingStats.BuildingType type){
+
+        switch (type) {
+            case ACADEMIC -> GameGlobals.ACADEMIC_BUILDINGS_COUNT--;
+            case ACCOMODATION -> GameGlobals.ACCOMODATION_BUILDINGS_COUNT--;
+            case RECREATIONAL -> GameGlobals.RECREATIONAL_BUILDINGS_COUNT--;
+            case FOOD -> GameGlobals.FOOD_BUILDINGS_COUNT--;
             default -> System.out.println("Building type doesnt exist!");
         }
 

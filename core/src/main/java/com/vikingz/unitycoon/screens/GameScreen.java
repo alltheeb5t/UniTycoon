@@ -1,6 +1,8 @@
 package com.vikingz.unitycoon.screens;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingStats;
@@ -10,6 +12,7 @@ import com.vikingz.unitycoon.global.GameConfigManager;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.GameRenderer;
 import com.vikingz.unitycoon.render.UIRenderer;
+import com.vikingz.unitycoon.util.Achievements;
 
 /**
  * This is the main game class from which the game is run.
@@ -48,6 +51,8 @@ public class GameScreen extends SuperScreen implements Screen {
     //Determines if end game has been already called
     public boolean endedAlready;
 
+    // Game Achievements
+    Achievements achievements;
 
     /**
      * Creates a new Game Screen
@@ -62,7 +67,8 @@ public class GameScreen extends SuperScreen implements Screen {
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer(), this);
         elapsedTime = 0;
         //5 minutes
-        GameGlobals.resetGlobals(10);
+        GameGlobals.resetGlobals(300);
+        achievements = new Achievements();
     }
 
 
@@ -110,9 +116,11 @@ public class GameScreen extends SuperScreen implements Screen {
                 }
                 elapsedTime = 0; // Reset elapsed time
             }
-
-
         }
+
+        // Checks for and displays completed achievements
+        achievements.checkAllAchievements();
+        uiRenderer.displayAchievements();
 
         if(GameGlobals.ELAPSED_TIME <= 0 && !endedAlready){
             endedAlready = true;
@@ -146,8 +154,6 @@ public class GameScreen extends SuperScreen implements Screen {
     public void resize(int width, int height) {
         uiRenderer.resize(width, height);
         gameRenderer.resize(width, height);
-
-
     }
 
     /**
@@ -165,8 +171,8 @@ public class GameScreen extends SuperScreen implements Screen {
      */
     private void endGame(){
         isPaused = true;
+        GameGlobals.SATISFACTION += achievements.getBonus();
         uiRenderer.endGame();
-
     }
 
     @Override
@@ -201,6 +207,4 @@ public class GameScreen extends SuperScreen implements Screen {
     public void setPaused(boolean isPaused){
         this.isPaused = isPaused;
     }
-
-
 }

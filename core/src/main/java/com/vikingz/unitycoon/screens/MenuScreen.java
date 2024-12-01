@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.vikingz.unitycoon.menus.AchievementsMenu;
 
 /**
  * This class represents the main menu of the game.
@@ -28,14 +29,24 @@ public class MenuScreen extends SuperScreen implements Screen {
 
         // Create buttons
         TextButton playButton = new TextButton("Play", skin);
+        TextButton achievementsButton = new TextButton("Achievements",skin);
         TextButton settingsButton = new TextButton("Settings", skin);
         TextButton quitButton = new TextButton("Quit", skin);
 
+        AchievementsMenu achievementsMenu = new AchievementsMenu(skin);
         
         // Add listeners to buttons
         playButton.addListener(e -> {
             if (!playButton.isPressed()) return false;
             ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.MAPSELECTION);
+            return true;
+        });
+
+        achievementsButton.addListener(e -> {
+            if (!achievementsButton.isPressed()) return false;
+                achievementsMenu.update();
+                achievementsMenu.setPosition((stage.getWidth() - achievementsMenu.getWidth()) / 2, (stage.getHeight() - achievementsMenu.getHeight()) / 2);
+                stage.addActor(achievementsMenu);
             return true;
         });
 
@@ -61,11 +72,13 @@ public class MenuScreen extends SuperScreen implements Screen {
         table.row();
 
         // Add buttons to table
-        table.add(playButton).pad(10);
+        table.add(playButton).width(425).pad(10);
         table.row();
-        table.add(settingsButton).pad(10);
+        table.add(achievementsButton).width(425).pad(10);
         table.row();
-        table.add(quitButton).pad(10);
+        table.add(settingsButton).width(425).pad(10);
+        table.row();
+        table.add(quitButton).width(425).pad(10);
 
         // Add the table to the stage
         stage.addActor(table);
