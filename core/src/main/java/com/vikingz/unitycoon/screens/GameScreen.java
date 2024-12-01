@@ -44,7 +44,7 @@ public class GameScreen extends SuperScreen implements Screen {
 
     //Determines if first tick of game has passed
     public boolean FirstTick;
-    
+
     //Determines if end game has been already called
     public boolean endedAlready;
 
@@ -62,7 +62,7 @@ public class GameScreen extends SuperScreen implements Screen {
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer(), this);
         elapsedTime = 0;
         //5 minutes
-        GameGlobals.resetGlobals(10);
+        GameGlobals.resetGlobals(300);
     }
 
 
@@ -84,6 +84,11 @@ public class GameScreen extends SuperScreen implements Screen {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             pause();
+        }
+
+        // Testing events key
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SEMICOLON)){
+            event();
         }
 
         if(!isPaused){
@@ -158,6 +163,13 @@ public class GameScreen extends SuperScreen implements Screen {
     public void pause() {
         uiRenderer.pause(isPaused);
 
+    }
+
+    /**
+     * Creates an event and calls the UI renderer to display it
+     */
+    public void event() {
+        uiRenderer.createEvent();
     }
 
     /**

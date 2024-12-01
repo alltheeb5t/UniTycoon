@@ -5,12 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.vikingz.unitycoon.events.EventManager;
 import com.vikingz.unitycoon.global.GameGlobals;
-import com.vikingz.unitycoon.menus.BuildMenu;
-import com.vikingz.unitycoon.menus.EndMenu;
-import com.vikingz.unitycoon.menus.LeaderboardMenu;
-import com.vikingz.unitycoon.menus.PauseMenu;
-import com.vikingz.unitycoon.menus.UsernameMenu;
+import com.vikingz.unitycoon.menus.*;
 import com.vikingz.unitycoon.screens.GameScreen;
 import com.vikingz.unitycoon.screens.ScreenMultiplexer;
 import com.vikingz.unitycoon.util.Leaderboard;
@@ -35,6 +32,7 @@ public class UIRenderer {
     private final StatsRenderer statsRenderer;
 
     // Popup Menus
+    private final EventManager eventManager;
     private final PauseMenu pauseMenu;
     private final EndMenu endOfTimerPopup;
     private final LeaderboardMenu leaderboardPopUp;
@@ -60,13 +58,14 @@ public class UIRenderer {
         statsRenderer = new StatsRenderer(skin);
         buildMenu = new BuildMenu(skin, buildingRenderer, stage);
 
+        eventManager = new EventManager();
         pauseMenu = new PauseMenu(skin);
         endOfTimerPopup = new EndMenu(skin, "End of Game");
         leaderboardPopUp = new LeaderboardMenu(skin, "");
 
         // Sets what the buttons do on the end of timer window
         Runnable leftBtn = ScreenMultiplexer::closeGame;
-        Runnable rightBtn = () -> {        
+        Runnable rightBtn = () -> {
             leaderboardPopUp.setPosition((stage.getWidth() - leaderboardPopUp.getWidth()) / 2, (stage.getHeight() - leaderboardPopUp.getHeight()) / 2);
             stage.addActor(leaderboardPopUp);};
 
@@ -78,7 +77,7 @@ public class UIRenderer {
      * When the game screen has decided the game has finished the game
      * will call this function which will show the end of game popup.
      */
-    public void endGame(){
+    public void endGame() {
         Leaderboard.loadLeaderboard();
 
         endOfTimerPopup.setPosition((stage.getWidth() - endOfTimerPopup.getWidth()) / 2, (stage.getHeight() - endOfTimerPopup.getHeight()) / 2);
@@ -96,8 +95,8 @@ public class UIRenderer {
     /**
      * Gets the username entered on the Menu Screen and ensures that it is
      * in the correct format (no punctuation, no spaces, less than 12 characters).
-     * @return The value of the username with no spaces or punctuation or guest 
-     *         if the username if blank.
+     * @return The value of the username with no spaces or punctuation or guest
+     *         if the username is blank.
      */
     public String getUsername() {
         String username = UsernameMenu.getUsername();
@@ -118,6 +117,17 @@ public class UIRenderer {
             finalUsername = "Guest";
         }
         return finalUsername;
+    }
+
+    /**
+     * Creates the event and displays it
+     */
+    public void createEvent() {
+        System.out.println("Event made");
+
+        PopupMenu event = eventManager.randomEvent().getPopup();
+        stage.addActor(event);
+        event.setPosition((stage.getWidth() - pauseMenu.getWidth()) / 2, (stage.getHeight() - pauseMenu.getHeight()) / 2);
     }
 
     /**

@@ -10,7 +10,7 @@ import com.vikingz.unitycoon.global.GameGlobals;
  * popups. This class is crucial for the implementation of random events
  * in the game during later development.
  *
- * The user can assign everything in the popup, all of the text displayed
+ * The user can assign everything in the popup, all the text displayed
  * as well as the runnable that run when the 2 buttons are pressed.
  */
 public class PopupMenu extends Window {
@@ -29,7 +29,7 @@ public class PopupMenu extends Window {
      */
     public PopupMenu(Skin skin, String Message) {
 
-        super("Popup", skin);
+        super("Event", skin);
 
         this.setSize(600, 400);
         this.setModal(true);
@@ -68,42 +68,6 @@ public class PopupMenu extends Window {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 leftRun.run();
-                //PopupMenu.this.remove();
-            }
-        });
-
-        rightBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                rightRun.run();
-                //PopupMenu.this.remove();
-            }
-        });
-    }
-
-
-    /**
-     * Configures on the right button with the left button being
-     * closing the popup
-     * @param rightRun Button runnable
-     * @param rightText Button text
-     */
-    public void setupRightBtn(Runnable rightRun, String rightText){
-
-
-
-        TextButton leftBtn = new TextButton("Close", skin);
-        TextButton rightBtn = new TextButton(rightText, skin);
-
-        this.add(leftBtn).pad(10);
-        this.add(rightBtn).pad(10);
-
-        // Created for yes - no game events
-        // The Popup needs to call back to parent object in someway
-
-        leftBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
                 PopupMenu.this.remove();
             }
         });
@@ -112,6 +76,28 @@ public class PopupMenu extends Window {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 rightRun.run();
+                PopupMenu.this.remove();
+            }
+        });
+    }
+
+
+    /**
+     * Configures a close button for the popup
+     */
+    public void setupClose(){
+
+        TextButton closeButton = new TextButton("Close", skin);
+
+        this.add(closeButton);
+
+        // Created for yes - no game events
+        // The Popup needs to call back to parent object in someway
+
+        closeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                PopupMenu.this.remove();
             }
         });
 

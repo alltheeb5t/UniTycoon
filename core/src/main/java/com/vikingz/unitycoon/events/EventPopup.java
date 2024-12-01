@@ -5,16 +5,20 @@ import com.vikingz.unitycoon.menus.PopupMenu;
 
 public class EventPopup {
 
+    public PopupMenu getPopup() {
+        return popup;
+    }
+
     private final PopupMenu popup;
 
     /**
      * Creates a new event popup
      *
      */
-    public EventPopup(Skin skin, String message, Runnable button, String buttonText) {
+    public EventPopup(Skin skin, String message) {
 
         popup = new PopupMenu(skin, message);
-        popup.setupRightBtn(button, buttonText);
+        popup.setupClose();
     }
 
     /**

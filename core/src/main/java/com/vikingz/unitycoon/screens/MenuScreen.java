@@ -8,8 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.vikingz.unitycoon.events.eventfiles.SuperEvent;
-import com.vikingz.unitycoon.events.eventfiles.TestEvent;
 
 /**
  * This class represents the main menu of the game.
@@ -39,8 +37,6 @@ public class MenuScreen extends SuperScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //SuperEvent myEvent = new TestEvent();
-                //myEvent.leftRun();
                 ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.MAPSELECTION);
             };
         });
