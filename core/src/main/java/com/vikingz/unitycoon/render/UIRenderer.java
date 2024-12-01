@@ -58,7 +58,7 @@ public class UIRenderer {
         statsRenderer = new StatsRenderer(skin);
         buildMenu = new BuildMenu(skin, buildingRenderer, stage);
 
-        eventManager = new EventManager();
+        eventManager = new EventManager(gameScreen);
         pauseMenu = new PauseMenu(skin);
         endOfTimerPopup = new EndMenu(skin, "End of Game");
         leaderboardPopUp = new LeaderboardMenu(skin, "");
@@ -128,6 +128,7 @@ public class UIRenderer {
         PopupMenu event = eventManager.randomEvent().getPopup();
         stage.addActor(event);
         event.setPosition((stage.getWidth() - pauseMenu.getWidth()) / 2, (stage.getHeight() - pauseMenu.getHeight()) / 2);
+        gameScreen.setPaused(true);
     }
 
     /**

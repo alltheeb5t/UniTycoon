@@ -15,10 +15,10 @@ public class EventPopup {
      * Creates a new event popup
      *
      */
-    public EventPopup(Skin skin, String message) {
+    public EventPopup(Skin skin, String message, Runnable runnable) {
 
         popup = new PopupMenu(skin, message);
-        popup.setupClose();
+        popup.setupClose(runnable);
     }
 
     /**

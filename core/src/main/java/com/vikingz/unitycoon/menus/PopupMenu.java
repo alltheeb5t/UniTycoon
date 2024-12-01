@@ -15,9 +15,6 @@ import com.vikingz.unitycoon.global.GameGlobals;
  */
 public class PopupMenu extends Window {
 
-    private String Message = "";
-
-
     // Skin for the popup
     private final Skin skin;
 
@@ -84,7 +81,7 @@ public class PopupMenu extends Window {
     /**
      * Configures a close button for the popup
      */
-    public void setupClose(){
+    public void setupClose(Runnable runnable){
 
         TextButton closeButton = new TextButton("Close", skin);
 
@@ -95,20 +92,9 @@ public class PopupMenu extends Window {
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                runnable.run();
                 PopupMenu.this.remove();
             }
         });
-
     }
-
-    //Getters and Setters
-    public String getMessage() {
-        return Message;
-    }
-    public void setMessage(String message) {
-        Message = message;
-    }
-
-
-
 }

@@ -1,11 +1,13 @@
 package com.vikingz.unitycoon.events.eventfiles;
 
+import com.vikingz.unitycoon.screens.GameScreen;
+
 public class TestEvent3 extends SuperEvent {
 
     //This event shouldn't ever fire and is only here for debug reasons
-    public TestEvent3() {
+    public TestEvent3(GameScreen gameScreen) {
+        super(gameScreen);
 
         super.message = "This shouldn't be seen";
-
     }
 }
