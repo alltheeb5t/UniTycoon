@@ -4,22 +4,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.vikingz.unitycoon.global.GameGlobals;
+import com.vikingz.unitycoon.screens.GameScreen;
 
 /**
  * This is a generic PopupMenu class that can create user defined
  * popups. This class is crucial for the implementation of random events
  * in the game during later development.
  *
- * The user can assign everything in the popup, all of the text displayed
+ * The user can assign everything in the popup, all the text displayed
  * as well as the runnable that run when the 2 buttons are pressed.
  */
 public class PopupMenu extends Window {
 
-    private String Message = "";
-
-
     // Skin for the popup
     private final Skin skin;
+
+    GameScreen gameScreen;
 
 
     /**
@@ -27,11 +27,11 @@ public class PopupMenu extends Window {
      * @param skin Skin for the menu
      * @param Message Message to be displayed in the popup
      */
-    public PopupMenu(Skin skin, String Message) {
+    public PopupMenu(Skin skin, String Message, GameScreen gameScreen) {
 
-        super("Popup", skin);
+        super("", skin);
 
-        this.setSize(600, 400);
+        this.setSize(700, 400);
         this.setModal(true);
         this.setMovable(false);
         this.setResizable(false);
@@ -42,6 +42,10 @@ public class PopupMenu extends Window {
 
         Label message = new Label(Message, skin);
         this.add(message).padBottom(20).row();
+
+        this.gameScreen = gameScreen;
+
+        gameScreen.setPaused(true);
 
     }
 
@@ -62,13 +66,13 @@ public class PopupMenu extends Window {
         this.add(rightBtn).pad(10);
 
         // Created for yes - no game events
-        // The Popup needs to call back to parent object in someway
 
         leftBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 leftRun.run();
-                //PopupMenu.this.remove();
+                PopupMenu.this.remove();
+                gameScreen.setPaused(false);
             }
         });
 
@@ -76,55 +80,31 @@ public class PopupMenu extends Window {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 rightRun.run();
-                //PopupMenu.this.remove();
+                PopupMenu.this.remove();
+                gameScreen.setPaused(false);
             }
         });
     }
 
 
     /**
-     * Configures on the right button with the left button being
-     * closing the popup
-     * @param rightRun Button runnable
-     * @param rightText Button text
+     * Configures a close button for the popup
      */
-    public void setupRightBtn(Runnable rightRun, String rightText){
+    public void setupClose(Runnable runnable){
 
+        TextButton closeButton = new TextButton("Close", skin);
 
+        this.add(closeButton);
 
-        TextButton leftBtn = new TextButton("Close", skin);
-        TextButton rightBtn = new TextButton(rightText, skin);
+        // Created for game events with no choices
 
-        this.add(leftBtn).pad(10);
-        this.add(rightBtn).pad(10);
-
-        // Created for yes - no game events
-        // The Popup needs to call back to parent object in someway
-
-        leftBtn.addListener(new ClickListener() {
+        closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                runnable.run();
                 PopupMenu.this.remove();
+                gameScreen.setPaused(false);
             }
         });
-
-        rightBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                rightRun.run();
-            }
-        });
-
     }
-
-    //Getters and Setters
-    public String getMessage() {
-        return Message;
-    }
-    public void setMessage(String message) {
-        Message = message;
-    }
-
-
-
 }
