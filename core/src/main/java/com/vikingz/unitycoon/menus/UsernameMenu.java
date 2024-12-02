@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.vikingz.unitycoon.achievements.Achievements;
 import com.vikingz.unitycoon.global.GameGlobals;
-import com.vikingz.unitycoon.util.Achievements;
 
 /**
  * This class creates a Menu that pops up when the user chooses to play the game.
@@ -61,14 +61,13 @@ public class UsernameMenu extends Window{
      */
     public void setupButton(){
 
-        TextButton leftBtn = new TextButton("Close", skin);
+        TextButton leftBtn = new TextButton("Ok", skin);
         this.add(leftBtn).pad(10);
 
         leftBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                username = usernameField.getText();
-                Achievements.loadAchievements();
+                setUsername();
                 UsernameMenu.this.remove();
             }
         });
@@ -80,7 +79,7 @@ public class UsernameMenu extends Window{
      * @return The value of the username with no spaces or punctuation or guest 
      *         if the username if blank.
      */
-    public static String getUsername() {
+    private void formatUsername() {
         String finalUsername = "";
 
         // Format username.
@@ -97,6 +96,18 @@ public class UsernameMenu extends Window{
         if (finalUsername == "") {
             finalUsername = "Guest";
         }
-        return finalUsername;
+        
+        username = finalUsername;
+    }
+
+
+    public static String getUsername() {
+        return username;
+    }
+
+    private void setUsername() {
+        username = usernameField.getText();
+        formatUsername();
+        Achievements.loadAchievements();
     }
 }

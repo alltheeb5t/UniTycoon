@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.vikingz.unitycoon.menus.AchievementsMenu;
+import com.vikingz.unitycoon.menus.UsernameMenu;
 
 /**
  * This class represents the main menu of the game.
@@ -82,6 +83,14 @@ public class MenuScreen extends SuperScreen implements Screen {
 
         // Add the table to the stage
         stage.addActor(table);
+
+        // Opens a username screen if it hasn't already been entered
+        if (UsernameMenu.getUsername() == "") {
+            UsernameMenu usernamePopUp = new UsernameMenu(skin);
+            usernamePopUp.setPosition((stage.getWidth() - usernamePopUp.getWidth()) / 2, (stage.getHeight() - usernamePopUp.getHeight()) / 2);
+            usernamePopUp.setupButton();
+            stage.addActor(usernamePopUp);
+        }
     }
 
     @Override

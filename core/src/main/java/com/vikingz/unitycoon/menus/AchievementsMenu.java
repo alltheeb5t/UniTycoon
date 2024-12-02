@@ -9,29 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.vikingz.unitycoon.achievements.Achievements;
 import com.vikingz.unitycoon.global.GameGlobals;
-import com.vikingz.unitycoon.util.Achievements;
 
 /**
  * This class creates a Menu that pops up when the user chooses to view the achievements.
  */
 public class AchievementsMenu extends Window{
-
-    public static final String[] ACHIEVEMENT_TITLES = {"Bankruptcy", "Bare Minimum", "Busy Campus",
-        "Clean Slate", "Indecisive", "Is This A University", "Lucky","Master Of Change", 
-        "Mike Freeman Award", "Priorities", "Saviour", "Unlucky"};
-
-    public static final String[] ACHIEVEMENT_DESCRIPTIONS = {"Balance drops below 0.", 
-        "Place exactly 1 of each building type.", "Place more than 40 buildings.",
-        "Place 10 or more buildings and remove them all.", "Remove more than 20 buildings.", 
-        "Have twice as many reacreation as study buildings after 20 buildings.", 
-        "Get 3 positive events in one game.", 
-        "Remain under 50% satisfaction for the first 3 minutes and then win the game.", 
-        "Maintain 80% or higher satisfaction for more than 3 minutes.", 
-        "Have twice as many study as reactreation buildings after 20 buildings.", 
-        "Save a burning building.", "Get 3 negative events in one game."};
-
-    public static final int NUM_OF_ACHIEVEMENTS = 12;
 
     // Skin for the popup
     private final Skin skin;
@@ -89,11 +73,13 @@ public class AchievementsMenu extends Window{
         table.row();
 
         //Adds row for each achievement
-        for (int i = 0; i < NUM_OF_ACHIEVEMENTS; i++) {
-            String achievementTitle = ACHIEVEMENT_TITLES[i];
-            String achievementDescription = ACHIEVEMENT_DESCRIPTIONS[i];
-            if((i == 7 && !Achievements.getUsernameAchievements()[7])  
-                    || (i == 8 && !Achievements.getUsernameAchievements()[8])) { // Skip Hidden achievements
+        Achievements[] achievements = Achievements.getAchievements();
+        int numHiddenAchievements = 0;
+        for (int i = 0; i < achievements.length; i++) {
+            String achievementTitle = achievements[i].getName();
+            String achievementDescription = achievements[i].getDescription();
+            if((achievements[i].getHidden() && !achievements[i].usernameAchieved)) { // Skip Hidden achievements
+                numHiddenAchievements++;
                 continue;
             }
             Label achievementTitleLabel = new Label(achievementTitle, skin);
@@ -103,7 +89,7 @@ public class AchievementsMenu extends Window{
             table.add(achievementDesriptionLabel).uniformX().align(Align.left);
 
             Label achievementCompletedLabel = new Label("no", skin);
-            if (Achievements.getUsernameAchievements()[i]) {
+            if (Achievements.getAchievements()[i].usernameAchieved) {
                 achievementCompletedLabel.setText("yes");
             }
             table.add(achievementCompletedLabel).uniformX().pad(10);
@@ -111,21 +97,16 @@ public class AchievementsMenu extends Window{
         }
 
         //Add hidden achievements to the end
-        for (int i = 7; i <= 8; i++) {
-            if((!Achievements.getUsernameAchievements()[i])) {
-                Label achievementTitleLabel = new Label("?????", skin);
-                table.add(achievementTitleLabel).uniformX().pad(10);
+        for (int i = 0; i < numHiddenAchievements; i++) {
+            Label achievementTitleLabel = new Label("?????", skin);
+            table.add(achievementTitleLabel).uniformX().pad(10);
 
-                Label achievementDesriptionLabel = new Label("?????", skin);
-                table.add(achievementDesriptionLabel).uniformX().align(Align.left);
+            Label achievementDesriptionLabel = new Label("?????", skin);
+            table.add(achievementDesriptionLabel).uniformX().align(Align.left);
 
-                Label achievementCompletedLabel = new Label("no", skin);
-                if (Achievements.getUsernameAchievements()[i]) {
-                    achievementCompletedLabel.setText("yes");
-                }
-                table.add(achievementCompletedLabel).uniformX().pad(10);
-                table.row();
-            }
+            Label achievementCompletedLabel = new Label("no", skin);
+            table.add(achievementCompletedLabel).uniformX().pad(10);
+            table.row();
         }
 
         //Adds button

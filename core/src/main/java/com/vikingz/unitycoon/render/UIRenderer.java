@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.vikingz.unitycoon.achievements.Achievements;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.menus.BuildMenu;
 import com.vikingz.unitycoon.menus.EndMenu;
@@ -20,7 +21,6 @@ import com.vikingz.unitycoon.menus.PauseMenu;
 import com.vikingz.unitycoon.menus.UsernameMenu;
 import com.vikingz.unitycoon.screens.GameScreen;
 import com.vikingz.unitycoon.screens.ScreenMultiplexer;
-import com.vikingz.unitycoon.util.Achievements;
 import com.vikingz.unitycoon.util.Leaderboard;
 
 /**

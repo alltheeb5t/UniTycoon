@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.vikingz.unitycoon.achievements.IndecisiveAchievement;
 import com.vikingz.unitycoon.building.buildings.AcademicBuilding;
 import com.vikingz.unitycoon.building.buildings.AccommodationBuilding;
 import com.vikingz.unitycoon.building.buildings.FoodBuilding;
 import com.vikingz.unitycoon.building.buildings.RecreationalBuilding;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.BackgroundRenderer;
-import com.vikingz.unitycoon.util.Achievements;
 import com.vikingz.unitycoon.util.Point;
 
 public class BuildingsMap {
@@ -114,7 +114,6 @@ public class BuildingsMap {
             GameGlobals.BALANCE += Math.round(buildingInfo.getBuildingCost()*0.75f);
             GameGlobals.STUDENTS -= buildingInfo.getNumberOfStudents();
             decrementBuildingsCount(buildingInfo.getBuildingType());
-            Achievements.incrementRemovedBuildings();
             return true;
         }
 
@@ -264,5 +263,6 @@ public class BuildingsMap {
             default -> System.out.println("Building type doesnt exist!");
         }
 
+        IndecisiveAchievement.incrementRemovedBuildings();
     }
 }
