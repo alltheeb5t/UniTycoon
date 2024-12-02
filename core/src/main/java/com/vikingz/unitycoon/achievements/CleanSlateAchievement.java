@@ -2,6 +2,9 @@ package com.vikingz.unitycoon.achievements;
 
 import com.vikingz.unitycoon.global.GameGlobals;
 
+/**
+ * This class creates a clean slate achievement object.
+ */
 public class CleanSlateAchievement extends Achievements {
 
     private boolean cleanSlateMinReached;

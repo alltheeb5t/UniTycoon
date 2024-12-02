@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.vikingz.unitycoon.achievements.Achievements;
+import com.vikingz.unitycoon.achievements.AchievementsHandler;
 import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingStats;
 import com.vikingz.unitycoon.building.buildings.FoodBuilding;
@@ -52,7 +52,7 @@ public class GameScreen extends SuperScreen implements Screen {
     public boolean endedAlready;
 
     // Game Achievements
-    Achievements achievements;
+    AchievementsHandler achievements;
 
     /**
      * Creates a new Game Screen
@@ -68,7 +68,7 @@ public class GameScreen extends SuperScreen implements Screen {
         elapsedTime = 0;
         //5 minutes
         GameGlobals.resetGlobals(300);
-        achievements = new Achievements();
+        achievements = new AchievementsHandler();
     }
 
 

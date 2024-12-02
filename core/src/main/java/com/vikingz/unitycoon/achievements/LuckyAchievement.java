@@ -1,5 +1,8 @@
 package com.vikingz.unitycoon.achievements;
 
+/**
+ * This class creates a lucky achievement object.
+ */
 public class LuckyAchievement extends Achievements {
 
     private int luckyCounter;

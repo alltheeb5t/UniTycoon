@@ -1,5 +1,8 @@
 package com.vikingz.unitycoon.achievements;
 
+/**
+ * This class creates a unlucky achievement object.
+ */
 public class UnluckyAchievement extends Achievements {
 
     private int unluckyCounter;

@@ -2,6 +2,9 @@ package com.vikingz.unitycoon.achievements;
 
 import com.vikingz.unitycoon.global.GameGlobals;
 
+/**
+ * This class creates a priorities achievement object.
+ */
 public class PrioritiesAchievement extends Achievements {
     
     private final String NAME = "Priorities";

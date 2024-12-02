@@ -2,6 +2,9 @@ package com.vikingz.unitycoon.achievements;
 
 import com.vikingz.unitycoon.global.GameGlobals;
 
+/**
+ * This class creates a master of change achievement object.
+ */
 public class MasterOfChangeAchievement extends Achievements {
     
     private boolean masterOfChangePossible;

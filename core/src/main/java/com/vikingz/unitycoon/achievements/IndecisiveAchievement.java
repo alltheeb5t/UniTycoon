@@ -1,5 +1,8 @@
 package com.vikingz.unitycoon.achievements;
 
+/**
+ * This class creates an indecisive achievement object.
+ */
 public class IndecisiveAchievement extends Achievements {
 
     private static int removedBuildings;

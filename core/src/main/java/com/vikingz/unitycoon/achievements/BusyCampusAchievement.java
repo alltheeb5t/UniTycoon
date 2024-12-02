@@ -2,6 +2,9 @@ package com.vikingz.unitycoon.achievements;
 
 import com.vikingz.unitycoon.global.GameGlobals;
 
+/**
+ * This class creates a busy campus achievement object.
+ */
 public class BusyCampusAchievement extends Achievements {
 
     private final String NAME = "Busy Campus";

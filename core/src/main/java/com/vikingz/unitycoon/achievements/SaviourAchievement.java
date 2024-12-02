@@ -1,5 +1,8 @@
 package com.vikingz.unitycoon.achievements;
 
+/**
+ * This class creates a saviour achievement object.
+ */
 public class SaviourAchievement extends Achievements {
     
     private final String NAME = "Saviour";

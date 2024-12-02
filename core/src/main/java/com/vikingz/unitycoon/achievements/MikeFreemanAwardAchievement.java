@@ -2,6 +2,9 @@ package com.vikingz.unitycoon.achievements;
 
 import com.vikingz.unitycoon.global.GameGlobals;
 
+/**
+ * This class creates a mike freeman award achievement object.
+ */
 public class MikeFreemanAwardAchievement extends Achievements {
 
     private int mikeFreemanAwardStartTime;

@@ -2,6 +2,9 @@ package com.vikingz.unitycoon.achievements;
 
 import com.vikingz.unitycoon.global.GameGlobals;
 
+/**
+ * This class creates an is this a university achievement object.
+ */
 public class IsThisAUniversityAchievement extends Achievements {
     
     private final String NAME = "Is This A University";

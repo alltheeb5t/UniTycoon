@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.vikingz.unitycoon.achievements.Achievements;
+import com.vikingz.unitycoon.achievements.AchievementsHandler;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
@@ -108,6 +108,6 @@ public class UsernameMenu extends Window{
     private void setUsername() {
         username = usernameField.getText();
         formatUsername();
-        Achievements.loadAchievements();
+        AchievementsHandler.loadAchievements();
     }
 }

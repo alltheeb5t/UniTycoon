@@ -2,6 +2,9 @@ package com.vikingz.unitycoon.achievements;
 
 import com.vikingz.unitycoon.global.GameGlobals;
 
+/**
+ * This class creates a bare minimum achievement object.
+ */
 public class BareMinimumAchievement extends Achievements {
     
     private boolean bareMinimumPossible;

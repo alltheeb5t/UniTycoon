@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.vikingz.unitycoon.achievements.Achievements;
+import com.vikingz.unitycoon.achievements.AchievementsHandler;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.menus.BuildMenu;
 import com.vikingz.unitycoon.menus.EndMenu;
@@ -98,7 +98,7 @@ public class UIRenderer {
     public void endGame(){
         Leaderboard.loadLeaderboard();
         
-        endOfTimerPopup.setMessage(Achievements.allAchievementsCompleted());
+        endOfTimerPopup.setMessage(AchievementsHandler.allAchievementsCompleted());
         endOfTimerPopup.setPosition((stage.getWidth() - endOfTimerPopup.getWidth()) / 2, (stage.getHeight() - endOfTimerPopup.getHeight()) / 2);
         stage.addActor(endOfTimerPopup);
 
@@ -108,7 +108,7 @@ public class UIRenderer {
         }
 
         leaderboardPopUp.setMessage(Leaderboard.getLeaderboardValue());
-        Achievements.saveAchievements();
+        AchievementsHandler.saveAchievements();
     }
 
     /**
@@ -185,8 +185,8 @@ public class UIRenderer {
         });
         timer.setRepeats(false);
 
-        if (Achievements.achievementsToDisplay.size() != 0 && !displayingAchievement) {
-            achievementLabel.setText(Achievements.achievementsToDisplay.remove());
+        if (AchievementsHandler.achievementsToDisplay.size() != 0 && !displayingAchievement) {
+            achievementLabel.setText(AchievementsHandler.achievementsToDisplay.remove());
             stage.addActor(achievementLabel);
             displayingAchievement = true;
             timer.start();

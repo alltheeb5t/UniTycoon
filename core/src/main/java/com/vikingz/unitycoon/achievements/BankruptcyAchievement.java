@@ -2,6 +2,9 @@ package com.vikingz.unitycoon.achievements;
 
 import com.vikingz.unitycoon.global.GameGlobals;
 
+/**
+ * This class creates a bankruptcy achievement object.
+ */
 public class BankruptcyAchievement extends Achievements {
 
     private final String NAME = "Bankruptcy";

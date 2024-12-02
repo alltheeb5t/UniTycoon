@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.vikingz.unitycoon.achievements.Achievements;
+import com.vikingz.unitycoon.achievements.AchievementsHandler;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
@@ -73,7 +74,7 @@ public class AchievementsMenu extends Window{
         table.row();
 
         //Adds row for each achievement
-        Achievements[] achievements = Achievements.getAchievements();
+        Achievements[] achievements = AchievementsHandler.getAchievements();
         int numHiddenAchievements = 0;
         for (int i = 0; i < achievements.length; i++) {
             String achievementTitle = achievements[i].getName();
@@ -89,7 +90,7 @@ public class AchievementsMenu extends Window{
             table.add(achievementDesriptionLabel).uniformX().align(Align.left);
 
             Label achievementCompletedLabel = new Label("no", skin);
-            if (Achievements.getAchievements()[i].usernameAchieved) {
+            if (AchievementsHandler.getAchievements()[i].usernameAchieved) {
                 achievementCompletedLabel.setText("yes");
             }
             table.add(achievementCompletedLabel).uniformX().pad(10);
