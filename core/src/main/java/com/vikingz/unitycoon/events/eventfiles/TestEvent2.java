@@ -1,7 +1,6 @@
 package com.vikingz.unitycoon.events.eventfiles;
 
 import com.vikingz.unitycoon.global.GameGlobals;
-import com.vikingz.unitycoon.screens.GameScreen;
 
 public class TestEvent2 extends SuperEvent {
 
@@ -9,9 +8,7 @@ public class TestEvent2 extends SuperEvent {
      * Test event with one close button
      * @param gameScreen Game screen
      */
-    public TestEvent2(GameScreen gameScreen) {
-
-        super(gameScreen);
+    public TestEvent2() {
 
         super.message = "This is a test2 message\nYou lost 200000 money";
 
@@ -24,7 +21,6 @@ public class TestEvent2 extends SuperEvent {
                 } else {
                     GameGlobals.BALANCE = 0;
                 }
-                gameScreen.setPaused(false);
             }
         };
 

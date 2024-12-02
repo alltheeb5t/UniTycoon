@@ -2,7 +2,6 @@ package com.vikingz.unitycoon.events.eventfiles;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.vikingz.unitycoon.global.GameSkins;
-import com.vikingz.unitycoon.screens.GameScreen;
 
 /**
  * This is an abstract class that contains all the components
@@ -22,15 +21,12 @@ public abstract class SuperEvent {
 
     public boolean noChoice;
 
-    public GameScreen gameScreen;
 
     /**
      * Defines the SuperEvent constructor, which other events use for the base cases.
      * @param gameScreen Game screen
      */
-    public SuperEvent(GameScreen gameScreen) {
-
-        this.gameScreen = gameScreen;
+    public SuperEvent() {
 
         GameSkins skinLoader = new GameSkins();
         skin = skinLoader.getDefaultSkin();
@@ -40,7 +36,6 @@ public abstract class SuperEvent {
         leftRun = new Runnable() {
             @Override
             public void run() {
-                gameScreen.setPaused(false);
             }
         };
         leftText = "";
@@ -48,7 +43,6 @@ public abstract class SuperEvent {
         rightRun = new Runnable() {
             @Override
             public void run() {
-                gameScreen.setPaused(false);
             }
         };
         rightText = "";

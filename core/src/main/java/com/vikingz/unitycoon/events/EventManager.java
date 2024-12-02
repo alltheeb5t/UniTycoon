@@ -27,15 +27,15 @@ public class EventManager {
 
         int randomChoice = random.nextInt(2);
         e = switch (randomChoice) {
-            case 0 -> new TestEvent(gameScreen);
-            case 1 -> new TestEvent2(gameScreen);
-            default -> new TestEvent3(gameScreen);
+            case 0 -> new TestEvent();
+            case 1 -> new TestEvent2();
+            default -> new TestEvent3();
         };
 
         if (e.noChoice) {
-            return new EventPopup(e.skin, e.message, e.leftRun);
+            return new EventPopup(e.skin, e.message, e.leftRun, gameScreen);
         } else {
-            return new EventPopup(e.skin, e.message, e.leftRun, e.leftText, e.rightRun, e.rightText);
+            return new EventPopup(e.skin, e.message, e.leftRun, e.leftText, e.rightRun, e.rightText, gameScreen);
         }
     }
 }

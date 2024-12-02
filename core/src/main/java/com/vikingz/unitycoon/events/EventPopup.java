@@ -2,8 +2,11 @@ package com.vikingz.unitycoon.events;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.vikingz.unitycoon.menus.PopupMenu;
+import com.vikingz.unitycoon.screens.GameScreen;
 
 public class EventPopup {
+
+    GameScreen gameScreen;
 
     public PopupMenu getPopup() {
         return popup;
@@ -17,9 +20,11 @@ public class EventPopup {
      * @param message Message used in the event
      * @param runnable Functionality of the close button
      */
-    public EventPopup(Skin skin, String message, Runnable runnable) {
+    public EventPopup(Skin skin, String message, Runnable runnable, GameScreen gameScreen) {
 
-        popup = new PopupMenu(skin, message);
+        this.gameScreen = gameScreen;
+
+        popup = new PopupMenu(skin, message, gameScreen);
         popup.setupClose(runnable);
     }
 
@@ -32,9 +37,11 @@ public class EventPopup {
      * @param rightRun Functionality of the right button
      * @param rightText Text on the right button
      */
-    public EventPopup(Skin skin, String message, Runnable leftRun, String leftText, Runnable rightRun, String rightText) {
+    public EventPopup(Skin skin, String message, Runnable leftRun, String leftText, Runnable rightRun, String rightText, GameScreen gameScreen) {
 
-        popup = new PopupMenu(skin, message);
+        this.gameScreen = gameScreen;
+
+        popup = new PopupMenu(skin, message, gameScreen);
         popup.setupButtons(leftRun, leftText, rightRun, rightText);
     }
 

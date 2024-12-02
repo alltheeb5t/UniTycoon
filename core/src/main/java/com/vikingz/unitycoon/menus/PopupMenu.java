@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.vikingz.unitycoon.global.GameGlobals;
+import com.vikingz.unitycoon.screens.GameScreen;
 
 /**
  * This is a generic PopupMenu class that can create user defined
@@ -18,15 +19,17 @@ public class PopupMenu extends Window {
     // Skin for the popup
     private final Skin skin;
 
+    GameScreen gameScreen;
+
 
     /**
      * Creates a new Popup menu
      * @param skin Skin for the menu
      * @param Message Message to be displayed in the popup
      */
-    public PopupMenu(Skin skin, String Message) {
+    public PopupMenu(Skin skin, String Message, GameScreen gameScreen) {
 
-        super("Event", skin);
+        super("", skin);
 
         this.setSize(700, 400);
         this.setModal(true);
@@ -39,6 +42,10 @@ public class PopupMenu extends Window {
 
         Label message = new Label(Message, skin);
         this.add(message).padBottom(20).row();
+
+        this.gameScreen = gameScreen;
+
+        gameScreen.setPaused(true);
 
     }
 
@@ -65,6 +72,7 @@ public class PopupMenu extends Window {
             public void clicked(InputEvent event, float x, float y) {
                 leftRun.run();
                 PopupMenu.this.remove();
+                gameScreen.setPaused(false);
             }
         });
 
@@ -73,6 +81,7 @@ public class PopupMenu extends Window {
             public void clicked(InputEvent event, float x, float y) {
                 rightRun.run();
                 PopupMenu.this.remove();
+                gameScreen.setPaused(false);
             }
         });
     }
@@ -94,6 +103,7 @@ public class PopupMenu extends Window {
             public void clicked(InputEvent event, float x, float y) {
                 runnable.run();
                 PopupMenu.this.remove();
+                gameScreen.setPaused(false);
             }
         });
     }
