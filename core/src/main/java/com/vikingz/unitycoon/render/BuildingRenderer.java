@@ -2,6 +2,7 @@ package com.vikingz.unitycoon.render;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.vikingz.unitycoon.building.Building;
@@ -85,6 +86,20 @@ public class BuildingRenderer{
         // Draw all placed textures
         for (Building building : campusBuildingsMap.getPlacedBuildings()) {
             batch.draw(building.getTexture(), building.getX(), building.getY());
+            // Checks if building is under construction
+            if (building.getConstructing()) {
+                batch.draw(new Texture("png\\UnderConstruction.png"), building.getX(), 
+                    building.getY(), GameGlobals.SCREEN_BUILDING_SIZE, (int) (GameGlobals.SCREEN_BUILDING_SIZE * 0.75));
+                
+                // Starts or stops timer if needed
+                if (building.getEndConstructionTime() == -1) {
+                    building.setEndConstructionTime(GameGlobals.ELAPSED_TIME - 10);
+                }
+                else if(building.getEndConstructionTime() == GameGlobals.ELAPSED_TIME) {
+                    building.setConstructing(false);
+                    campusBuildingsMap.builtBuilding(building);
+                }
+            }
         }
 
         // Draw the preview texture if one is selected

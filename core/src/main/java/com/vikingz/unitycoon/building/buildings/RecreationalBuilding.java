@@ -45,6 +45,10 @@ public class RecreationalBuilding extends Building{
      * @return float of profit made
      */
     public float calculateProfitMade(){
+        // No profits if not built yet
+        if (getConstructing()) {
+            return 0;
+        }
         return StatsCalculator.calculateProfitMade(this.coinsPerSecond);
     }
 
