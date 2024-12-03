@@ -1,10 +1,18 @@
 package com.vikingz.unitycoon.render;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.vikingz.unitycoon.achievements.AchievementsHandler;
 import com.vikingz.unitycoon.events.EventManager;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.menus.*;
@@ -37,6 +45,9 @@ public class UIRenderer {
     private final EndMenu endOfTimerPopup;
     private final LeaderboardMenu leaderboardPopUp;
 
+    private boolean displayingAchievement = false;
+    private TextButton achievementLabel;
+
     GameScreen gameScreen;
 
     /**
@@ -63,6 +74,12 @@ public class UIRenderer {
         endOfTimerPopup = new EndMenu(skin, "End of Game");
         leaderboardPopUp = new LeaderboardMenu(skin, "");
 
+        // Set up achievements popup
+        achievementLabel = new TextButton("", skin);
+        achievementLabel.setWidth(1000);
+        achievementLabel.setPosition((stage.getWidth() - achievementLabel.getWidth()) / 2, (stage.getHeight() - 100));
+        achievementLabel.getLabel().setFontScale((float)0.4,(float)0.4);
+
         // Sets what the buttons do on the end of timer window
         Runnable leftBtn = ScreenMultiplexer::closeGame;
         Runnable rightBtn = () -> {
@@ -79,44 +96,18 @@ public class UIRenderer {
      */
     public void endGame() {
         Leaderboard.loadLeaderboard();
-
+        
+        endOfTimerPopup.setMessage(AchievementsHandler.allAchievementsCompleted());
         endOfTimerPopup.setPosition((stage.getWidth() - endOfTimerPopup.getWidth()) / 2, (stage.getHeight() - endOfTimerPopup.getHeight()) / 2);
         stage.addActor(endOfTimerPopup);
 
         if (Leaderboard.isLeaderboardScore(GameGlobals.SATISFACTION)) {
-            String username = getUsername();
-            Leaderboard.addScoreToLeaderBoard(GameGlobals.SATISFACTION, username);
+            Leaderboard.addScoreToLeaderBoard(GameGlobals.SATISFACTION, UsernameMenu.getUsername());
             Leaderboard.saveLeaderboard();
         }
 
         leaderboardPopUp.setMessage(Leaderboard.getLeaderboardValue());
-    }
-
-    /**
-     * Gets the username entered on the Menu Screen and ensures that it is
-     * in the correct format (no punctuation, no spaces, less than 12 characters).
-     * @return The value of the username with no spaces or punctuation or guest
-     *         if the username is blank.
-     */
-    public String getUsername() {
-        String username = UsernameMenu.getUsername();
-        String finalUsername = "";
-
-        // Format username.
-        for (Character c : username.toCharArray()) {
-            if(Character.isLetterOrDigit(c)) {
-                finalUsername += c;
-            }
-            if(finalUsername.length() >= 12) {
-                break;
-            }
-        }
-
-        // Check username is not empty.
-        if (finalUsername == "") {
-            finalUsername = "Guest";
-        }
-        return finalUsername;
+        AchievementsHandler.saveAchievements();
     }
 
     /**
@@ -190,4 +181,26 @@ public class UIRenderer {
         stage.dispose();
     }
 
+    /**
+     * Displays achievements in the order they were completed.
+     */
+    public void displayAchievements() {
+
+        //Creates a task to remove the event from the screen after 8s.
+        Timer timer = new Timer(8000, new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                achievementLabel.remove();
+                displayingAchievement = false;
+            }
+        });
+        timer.setRepeats(false);
+
+        if (AchievementsHandler.achievementsToDisplay.size() != 0 && !displayingAchievement) {
+            achievementLabel.setText(AchievementsHandler.achievementsToDisplay.remove());
+            stage.addActor(achievementLabel);
+            displayingAchievement = true;
+            timer.start();
+        }
+    }
 }

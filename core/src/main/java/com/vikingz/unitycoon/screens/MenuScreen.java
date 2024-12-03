@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.vikingz.unitycoon.menus.AchievementsMenu;
+import com.vikingz.unitycoon.menus.UsernameMenu;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -30,8 +32,11 @@ public class MenuScreen extends SuperScreen implements Screen {
 
         // Create buttons
         TextButton playButton = new TextButton("Play", skin);
+        TextButton achievementsButton = new TextButton("Achievements",skin);
         TextButton settingsButton = new TextButton("Settings", skin);
         TextButton quitButton = new TextButton("Quit", skin);
+
+        AchievementsMenu achievementsMenu = new AchievementsMenu(skin);
 
         // Add listeners to buttons
         playButton.addListener(new ClickListener() {
@@ -40,6 +45,7 @@ public class MenuScreen extends SuperScreen implements Screen {
                 ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.MAPSELECTION);
             };
         });
+
 
         settingsButton.addListener(new ClickListener() {
             @Override
@@ -65,14 +71,24 @@ public class MenuScreen extends SuperScreen implements Screen {
         table.row();
 
         // Add buttons to table
-        table.add(playButton).pad(10);
+        table.add(playButton).width(425).pad(10);
         table.row();
-        table.add(settingsButton).pad(10);
+        table.add(achievementsButton).width(425).pad(10);
         table.row();
-        table.add(quitButton).pad(10);
+        table.add(settingsButton).width(425).pad(10);
+        table.row();
+        table.add(quitButton).width(425).pad(10);
 
         // Add the table to the stage
         stage.addActor(table);
+
+        // Opens a username screen if it hasn't already been entered
+        if (UsernameMenu.getUsername() == "") {
+            UsernameMenu usernamePopUp = new UsernameMenu(skin);
+            usernamePopUp.setPosition((stage.getWidth() - usernamePopUp.getWidth()) / 2, (stage.getHeight() - usernamePopUp.getHeight()) / 2);
+            usernamePopUp.setupButton();
+            stage.addActor(usernamePopUp);
+        }
     }
 
     @Override

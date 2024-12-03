@@ -13,6 +13,8 @@ import com.vikingz.unitycoon.global.GameGlobals;
  */
 public class EndMenu extends Window {
 
+    private Label messageLabel;
+
     //skin used for window
     private final Skin skin;
 
@@ -34,8 +36,8 @@ public class EndMenu extends Window {
         this.setBackground(GameGlobals.backGroundDrawable);
 
 
-        Label message = new Label(Message, skin);
-        this.add(message).padLeft(-35).row();
+        messageLabel = new Label(Message, skin);
+        this.add(messageLabel).padLeft(-35).row();
     }
 
     /**
@@ -70,5 +72,9 @@ public class EndMenu extends Window {
                 rightRun.run();
             }
         });
+    }
+
+    public void setMessage(String message) {
+        messageLabel.setText(message);
     }
 }
