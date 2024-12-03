@@ -62,9 +62,9 @@ public class TimeUtil {
      * @return In game time as string written "Year #, Semester #"
      */
     public static String inGameTime(int secs) {
-        int SECONDS_PER_YEAR = 100;
-        int SECONDS_PER_SUMMER = 20;
-        int SECONDS_PER_SEMESTER = 40;
+        final int SECONDS_PER_YEAR = 100;
+        final int SECONDS_PER_SUMMER = 20;
+        final int SECONDS_PER_SEMESTER = 40;
 
         int timePassed = 300 - secs;
         int year = 0;

@@ -1,12 +1,41 @@
 package com.vikingz.unitycoon.events;
 
+import com.vikingz.unitycoon.events.eventfiles.*;
+import com.vikingz.unitycoon.screens.GameScreen;
+
+import java.util.Random;
+
 public class EventManager {
 
+    GameScreen gameScreen;
+
     /**
-     * Chooses a random event to run
+     * Manages the in game events, adds functionality for creating events
+     * @param gameScreen Game screen
      */
-    public void randomEvent() {
+    public EventManager(GameScreen gameScreen) {
+        this.gameScreen = gameScreen;
+    }
 
+    /**
+     * Chooses a random event to run and sends it to the correct constructor
+     */
+    public EventPopup randomEvent() {
 
+        Random random = new Random();
+        SuperEvent e;
+
+        int randomChoice = random.nextInt(2);
+        e = switch (randomChoice) {
+            case 0 -> new TestEvent();
+            case 1 -> new TestEvent2();
+            default -> new TestEvent3();
+        };
+
+        if (e.noChoice) {
+            return new EventPopup(e.skin, e.message, e.leftRun, gameScreen);
+        } else {
+            return new EventPopup(e.skin, e.message, e.leftRun, e.leftText, e.rightRun, e.rightText, gameScreen);
+        }
     }
 }

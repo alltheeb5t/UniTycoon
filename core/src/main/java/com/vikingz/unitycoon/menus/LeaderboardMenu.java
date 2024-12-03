@@ -11,9 +11,7 @@ import com.vikingz.unitycoon.global.GameGlobals;
  */
 public class LeaderboardMenu extends Window{
 
-    private String message = "";
     private Label messageLabel;
-
 
     // Skin for the popup
     private final Skin skin;
@@ -40,7 +38,6 @@ public class LeaderboardMenu extends Window{
         title.setFontScale(3);
         this.add(title).padTop(1).row();
 
-        this.message = message;
         messageLabel = new Label(message, skin);
         this.add(messageLabel).padBottom(10).row();
         
@@ -61,13 +58,8 @@ public class LeaderboardMenu extends Window{
             }
         });
     }
-
-    public String getMessage() {
-        return message;
-    }
     
     public void setMessage(String message) {
-        this.message = message;
         messageLabel.setText(message);
     }
 }

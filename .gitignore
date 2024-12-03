@@ -1,6 +1,7 @@
 # Game specific
 gameconf.bin
 leaderboard.txt
+achievements.txt
 
 # JUnit Test File (not entirely sure I didn't just accidentally create this)
 org.junit.jupiter.api.Test

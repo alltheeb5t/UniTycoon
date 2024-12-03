@@ -1,26 +1,31 @@
 package com.vikingz.unitycoon.render;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.vikingz.unitycoon.achievements.AchievementsHandler;
+import com.vikingz.unitycoon.events.EventManager;
 import com.vikingz.unitycoon.global.GameGlobals;
-import com.vikingz.unitycoon.menus.BuildMenu;
-import com.vikingz.unitycoon.menus.EndMenu;
-import com.vikingz.unitycoon.menus.LeaderboardMenu;
-import com.vikingz.unitycoon.menus.PauseMenu;
-import com.vikingz.unitycoon.menus.UsernameMenu;
+import com.vikingz.unitycoon.menus.*;
 import com.vikingz.unitycoon.screens.GameScreen;
 import com.vikingz.unitycoon.screens.ScreenMultiplexer;
 import com.vikingz.unitycoon.util.Leaderboard;
 
 /**
  * This class renders all the UI elements to the Screen.
- *
+ * <p>
  * This enables us to control how the UI is draw and resized
  * differently from how the rest of the game is drawn.
- *
+ * <p>
  * This class essentially forms another layer on the screen that
  * renders all the UI elements on this layer as opposed to the
  * game layer.
@@ -35,9 +40,13 @@ public class UIRenderer {
     private final StatsRenderer statsRenderer;
 
     // Popup Menus
+    private final EventManager eventManager;
     private final PauseMenu pauseMenu;
     private final EndMenu endOfTimerPopup;
     private final LeaderboardMenu leaderboardPopUp;
+
+    private boolean displayingAchievement = false;
+    private TextButton achievementLabel;
 
     GameScreen gameScreen;
 
@@ -60,13 +69,20 @@ public class UIRenderer {
         statsRenderer = new StatsRenderer(skin);
         buildMenu = new BuildMenu(skin, buildingRenderer, stage);
 
+        eventManager = new EventManager(gameScreen);
         pauseMenu = new PauseMenu(skin);
         endOfTimerPopup = new EndMenu(skin, "End of Game");
         leaderboardPopUp = new LeaderboardMenu(skin, "");
 
+        // Set up achievements popup
+        achievementLabel = new TextButton("", skin);
+        achievementLabel.setWidth(1000);
+        achievementLabel.setPosition((stage.getWidth() - achievementLabel.getWidth()) / 2, (stage.getHeight() - 100));
+        achievementLabel.getLabel().setFontScale((float)0.4,(float)0.4);
+
         // Sets what the buttons do on the end of timer window
         Runnable leftBtn = ScreenMultiplexer::closeGame;
-        Runnable rightBtn = () -> {        
+        Runnable rightBtn = () -> {
             leaderboardPopUp.setPosition((stage.getWidth() - leaderboardPopUp.getWidth()) / 2, (stage.getHeight() - leaderboardPopUp.getHeight()) / 2);
             stage.addActor(leaderboardPopUp);};
 
@@ -78,46 +94,32 @@ public class UIRenderer {
      * When the game screen has decided the game has finished the game
      * will call this function which will show the end of game popup.
      */
-    public void endGame(){
+    public void endGame() {
         Leaderboard.loadLeaderboard();
-
+        
+        endOfTimerPopup.setMessage(AchievementsHandler.allAchievementsCompleted());
         endOfTimerPopup.setPosition((stage.getWidth() - endOfTimerPopup.getWidth()) / 2, (stage.getHeight() - endOfTimerPopup.getHeight()) / 2);
         stage.addActor(endOfTimerPopup);
 
         if (Leaderboard.isLeaderboardScore(GameGlobals.SATISFACTION)) {
-            String username = getUsername();
-            Leaderboard.addScoreToLeaderBoard(GameGlobals.SATISFACTION, username);
+            Leaderboard.addScoreToLeaderBoard(GameGlobals.SATISFACTION, UsernameMenu.getUsername());
             Leaderboard.saveLeaderboard();
         }
 
         leaderboardPopUp.setMessage(Leaderboard.getLeaderboardValue());
+        AchievementsHandler.saveAchievements();
     }
 
     /**
-     * Gets the username entered on the Menu Screen and ensures that it is
-     * in the correct format (no punctuation, no spaces, less than 12 characters).
-     * @return The value of the username with no spaces or punctuation or guest 
-     *         if the username if blank.
+     * Creates the event and displays it
      */
-    public String getUsername() {
-        String username = UsernameMenu.getUsername();
-        String finalUsername = "";
+    public void createEvent() {
+        System.out.println("Event made");
 
-        // Format username.
-        for (Character c : username.toCharArray()) {
-            if(Character.isLetterOrDigit(c)) {
-                finalUsername += c;
-            }
-            if(finalUsername.length() >= 12) {
-                break;
-            }
-        }
-
-        // Check username is not empty.
-        if (finalUsername == "") {
-            finalUsername = "Guest";
-        }
-        return finalUsername;
+        PopupMenu event = eventManager.randomEvent().getPopup();
+        stage.addActor(event);
+        event.setPosition((stage.getWidth() - pauseMenu.getWidth()) / 2, (stage.getHeight() - pauseMenu.getHeight()) / 2);
+        gameScreen.setPaused(true);
     }
 
     /**
@@ -179,4 +181,26 @@ public class UIRenderer {
         stage.dispose();
     }
 
+    /**
+     * Displays achievements in the order they were completed.
+     */
+    public void displayAchievements() {
+
+        //Creates a task to remove the event from the screen after 8s.
+        Timer timer = new Timer(8000, new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                achievementLabel.remove();
+                displayingAchievement = false;
+            }
+        });
+        timer.setRepeats(false);
+
+        if (AchievementsHandler.achievementsToDisplay.size() != 0 && !displayingAchievement) {
+            achievementLabel.setText(AchievementsHandler.achievementsToDisplay.remove());
+            stage.addActor(achievementLabel);
+            displayingAchievement = true;
+            timer.start();
+        }
+    }
 }

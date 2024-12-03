@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.vikingz.unitycoon.achievements.AchievementsHandler;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
@@ -17,7 +18,7 @@ public class UsernameMenu extends Window{
 
     private String message = "Usernames should have no puntcuation, no spaces and no more than 12 characters.";
     private Label messageLabel;
-    private static String username;
+    private static String username = "";
 
     // Text field for entering username.
     TextField usernameField;
@@ -60,19 +61,53 @@ public class UsernameMenu extends Window{
      */
     public void setupButton(){
 
-        TextButton leftBtn = new TextButton("Close", skin);
+        TextButton leftBtn = new TextButton("Ok", skin);
         this.add(leftBtn).pad(10);
 
         leftBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                username = usernameField.getText();
+                setUsername();
                 UsernameMenu.this.remove();
             }
         });
     }
 
+    /**
+     * Gets the entered username and ensures that it is in the correct format 
+     * (no punctuation, no spaces, less than 12 characters).
+     * @return The value of the username with no spaces or punctuation or guest 
+     *         if the username if blank.
+     */
+    private void formatUsername() {
+        String finalUsername = "";
+
+        // Format username.
+        for (Character c : username.toCharArray()) {
+            if(Character.isLetterOrDigit(c)) {
+                finalUsername += c;
+            }
+            if(finalUsername.length() >= 12) {
+                break;
+            }
+        }
+
+        // Check username is not empty.
+        if (finalUsername == "") {
+            finalUsername = "Guest";
+        }
+        
+        username = finalUsername;
+    }
+
+
     public static String getUsername() {
         return username;
+    }
+
+    private void setUsername() {
+        username = usernameField.getText();
+        formatUsername();
+        AchievementsHandler.loadAchievements();
     }
 }
