@@ -2,13 +2,14 @@ package com.vikingz.unitycoon.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.vikingz.unitycoon.menus.AchievementsMenu;
 import com.vikingz.unitycoon.menus.UsernameMenu;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
  * This class represents the main menu of the game.
@@ -19,6 +20,7 @@ import com.vikingz.unitycoon.menus.UsernameMenu;
  * Inherits Screen, SuperScreen
  */
 public class MenuScreen extends SuperScreen implements Screen {
+
 
     /**
      * Creates a new menu screen
@@ -35,32 +37,28 @@ public class MenuScreen extends SuperScreen implements Screen {
         TextButton quitButton = new TextButton("Quit", skin);
 
         AchievementsMenu achievementsMenu = new AchievementsMenu(skin);
-        
+
         // Add listeners to buttons
-        playButton.addListener(e -> {
-            if (!playButton.isPressed()) return false;
-            ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.MAPSELECTION);
-            return true;
+        playButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.MAPSELECTION);
+            };
         });
 
-        achievementsButton.addListener(e -> {
-            if (!achievementsButton.isPressed()) return false;
-                achievementsMenu.update();
-                achievementsMenu.setPosition((stage.getWidth() - achievementsMenu.getWidth()) / 2, (stage.getHeight() - achievementsMenu.getHeight()) / 2);
-                stage.addActor(achievementsMenu);
-            return true;
+
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.SETTINGS);
+            };
         });
 
-        settingsButton.addListener(e -> {
-            if (!settingsButton.isPressed()) return false;
-            ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.SETTINGS);
-            return true;
-        });
-
-        quitButton.addListener(e -> {
-            if (!quitButton.isPressed()) return false;
-            Gdx.app.exit(); // Quit the application
-            return true;
+        quitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit(); // Quit the application
+            };
         });
 
         // Create a table for layout
@@ -102,7 +100,7 @@ public class MenuScreen extends SuperScreen implements Screen {
     public void render(float delta) {
         // Clear the screen
         Gdx.gl.glClearColor(25/255f, 25/255f, 25/255f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
 
         // Draw the stage
         stage.act(delta);
