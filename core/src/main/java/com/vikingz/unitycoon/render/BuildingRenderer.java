@@ -104,6 +104,9 @@ public class BuildingRenderer{
             if(!campusBuildingsMap.attemptBuildingDeleteAt(translatedPoint.getX(), translatedPoint.getY())) {
                 System.out.println("building was null: " + null);
             }
+            else {
+                StatsCalculator.calculateSatisfaction(campusBuildingsMap.getPlacedBuildings());
+            }
         }
 
         // Check for left mouse click to place the texture

@@ -22,7 +22,7 @@ public class StatsCalculator {
         int satisfaction;
         satisfaction = calculateMaxSatisfaction();
         satisfaction -= calculateBuildingProportionLoss();
-        //satisfaction -= calculateProximityLoss(placedBuildings);
+        satisfaction -= calculateProximityLoss(placedBuildings);
 
         satisfaction += satisfactionModifier;
         if (satisfaction < 0) {
@@ -48,26 +48,28 @@ public class StatsCalculator {
             boolean nearFood = false;
             boolean nearRecreation = false;
 
-            if (accomodationBuilding.getBuildingType() == BuildingType.ACCOMODATION) {
+            if (accomodationBuilding.getBuildingType() == BuildingType.ACCOMODATION && !accomodationBuilding.getConstructing()) {
                 for (Building otherBuilding : placedBuildings) {
-                    // Checks if the other type of building is within 4 buildings distance
-                    if (otherBuilding.getBuildingType() == BuildingType.ACADEMIC && !nearAcademic) {
-                        if (getDistance(accomodationBuilding, otherBuilding) < 4 * GameGlobals.SCREEN_BUILDING_SIZE) {
-                            nearAcademic = true;
+                    if (!otherBuilding.getConstructing()) {
+                        // Checks if the other type of building is within 4 buildings distance
+                        if (otherBuilding.getBuildingType() == BuildingType.ACADEMIC && !nearAcademic) {
+                            if (getDistance(accomodationBuilding, otherBuilding) < 4 * GameGlobals.SCREEN_BUILDING_SIZE) {
+                                nearAcademic = true;
+                            }
+                            continue;
                         }
-                        continue;
-                    }
-                    else if (otherBuilding.getBuildingType() == BuildingType.FOOD && !nearFood) {
-                        if (getDistance(accomodationBuilding, otherBuilding) < 4 * GameGlobals.SCREEN_BUILDING_SIZE) {
-                            nearFood = true;
+                        else if (otherBuilding.getBuildingType() == BuildingType.FOOD && !nearFood) {
+                            if (getDistance(accomodationBuilding, otherBuilding) < 4 * GameGlobals.SCREEN_BUILDING_SIZE) {
+                                nearFood = true;
+                            }
+                            continue;
                         }
-                        continue;
-                    }
-                    else if (otherBuilding.getBuildingType() == BuildingType.RECREATIONAL && !nearRecreation) {
-                        if (getDistance(accomodationBuilding, otherBuilding) < 4 * GameGlobals.SCREEN_BUILDING_SIZE) {
-                            nearRecreation = true;
+                        else if (otherBuilding.getBuildingType() == BuildingType.RECREATIONAL && !nearRecreation) {
+                            if (getDistance(accomodationBuilding, otherBuilding) < 4 * GameGlobals.SCREEN_BUILDING_SIZE) {
+                                nearRecreation = true;
+                            }
+                            continue;
                         }
-                        continue;
                     }
                 }
             }
