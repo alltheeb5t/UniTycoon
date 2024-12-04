@@ -19,7 +19,6 @@ public class CounterTest extends TestSuper {
 
         // Test Academic Counter
         assertEquals(0, GameGlobals.ACADEMIC_BUILDINGS_COUNT);
-
         addBasicTestBuilding(testMap, BuildingType.ACADEMIC, 110, 10, true);
         assertEquals(1, GameGlobals.ACADEMIC_BUILDINGS_COUNT);
 
@@ -33,6 +32,7 @@ public class CounterTest extends TestSuper {
         assertEquals(1, GameGlobals.FOOD_BUILDINGS_COUNT);
 
         assertFalse(testMap.attemptBuildingDeleteAt(111, 11).isEmpty());
+
         assertEquals(0, GameGlobals.FOOD_BUILDINGS_COUNT);
 
         // Test Academic Counter
@@ -42,6 +42,7 @@ public class CounterTest extends TestSuper {
         assertEquals(1, GameGlobals.RECREATIONAL_BUILDINGS_COUNT);
 
         assertFalse(testMap.attemptBuildingDeleteAt(111, 11).isEmpty());
+
         assertEquals(0, GameGlobals.RECREATIONAL_BUILDINGS_COUNT);
 
         // Test Academic Counter
