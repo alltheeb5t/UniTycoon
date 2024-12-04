@@ -13,6 +13,7 @@ import com.vikingz.unitycoon.building.buildings.RecreationalBuilding;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.BackgroundRenderer;
 import com.vikingz.unitycoon.util.Point;
+import com.vikingz.unitycoon.util.StatsCalculator;
 
 public class BuildingsMap {
     // List of all buildings placed and needs rendering
@@ -106,6 +107,7 @@ public class BuildingsMap {
     public void builtBuilding(Building building) {
         GameGlobals.STUDENTS += building.getBuildingInfo().getNumberOfStudents();
         incrementBuildingsCount(building.getBuildingInfo().getBuildingType());
+        StatsCalculator.calculateSatisfaction(getPlacedBuildings());
     }
 
     /**
@@ -143,7 +145,8 @@ public class BuildingsMap {
                 GameGlobals.STUDENTS -= buildingInfo.getNumberOfStudents();
                 decrementBuildingsCount(buildingInfo.getBuildingType());
             }
-            removed.add(toRemove);
+            removed.add(toRemove);     
+            StatsCalculator.calculateSatisfaction(getPlacedBuildings());
         }
 
         return removed;
@@ -214,10 +217,9 @@ public class BuildingsMap {
      */
     private boolean checkCollisionBuildings(float roundedX, float roundedY) {
         for (Building building: this.placedBuildings) {
-            if (
-                (roundedX > (building.getX() - GameGlobals.SCREEN_BUILDING_SIZE) && roundedX < (building.getX() + GameGlobals.SCREEN_BUILDING_SIZE)) &&
-                    (roundedY > (building.getY() - GameGlobals.SCREEN_BUILDING_SIZE/1.75) && roundedY < (building.getY() + GameGlobals.SCREEN_BUILDING_SIZE/1.75))
-            ) {
+             //Only check collision for base of building(3/4 of the way up)
+            if ((roundedX > (building.getX() - GameGlobals.SCREEN_BUILDING_SIZE) && roundedX < (building.getX() + GameGlobals.SCREEN_BUILDING_SIZE)) &&
+                    (roundedY > (building.getY() - GameGlobals.SCREEN_BUILDING_SIZE * 3/4) && roundedY < (building.getY() + GameGlobals.SCREEN_BUILDING_SIZE * 3/4))) {
                 return false;
             }
         }

@@ -72,12 +72,12 @@ public class StatsCalculator {
                         }
                     }
                 }
-            }
-
+                
             // Adds 1 to proximity for each building that isn't close enough
             if(!nearAcademic) {proximityLoss++;}
             if(!nearFood) {proximityLoss++;}
             if(!nearRecreation) {proximityLoss++;}
+            }
         }
 
         return proximityLoss;

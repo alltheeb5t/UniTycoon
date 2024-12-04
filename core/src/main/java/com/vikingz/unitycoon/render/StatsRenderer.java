@@ -157,7 +157,7 @@ public class StatsRenderer {
         // Update the label contents each frame
         balStr = "Balance: " + GameGlobals.BALANCE;
         studentsStr = "Students: " + GameGlobals.STUDENTS;
-        satisStr = "Satisfaction: " + GameGlobals.SATISFACTION;
+        satisStr = "Satisfaction: " + GameGlobals.SATISFACTION + "%";
         accomBuildingsStr = "Accomodation: " + GameGlobals.ACCOMODATION_BUILDINGS_COUNT;
         academBuildingsStr = "Academic: " + GameGlobals.ACADEMIC_BUILDINGS_COUNT;
         recBuildingsStr = "Recreational: " + GameGlobals.RECREATIONAL_BUILDINGS_COUNT;
