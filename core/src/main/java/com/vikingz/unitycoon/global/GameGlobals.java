@@ -17,7 +17,8 @@ public class GameGlobals {
     //Static stats of the current game
     private static final int startingBALANCE = 500;
     public static int BALANCE = startingBALANCE;
-    public static int SATISFACTION = 0;
+    private static final int startingSATISFACTION = 10;
+    public static int SATISFACTION = startingSATISFACTION;
     public static int STUDENTS = 0;
     public static int ACADEMIC_BUILDINGS_COUNT = 0;
     public static int ACCOMODATION_BUILDINGS_COUNT = 0;
@@ -52,7 +53,7 @@ public class GameGlobals {
         ACCOMODATION_BUILDINGS_COUNT = 0;
         RECREATIONAL_BUILDINGS_COUNT = 0;
         FOOD_BUILDINGS_COUNT = 0;
-        SATISFACTION = 0;
+        SATISFACTION = startingSATISFACTION;
         STUDENTS = 0;
         BALANCE = startingBALANCE;
     }

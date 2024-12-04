@@ -2,7 +2,6 @@ package com.vikingz.unitycoon.building;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.vikingz.unitycoon.util.Point;
-import com.vikingz.unitycoon.util.StatsCalculator;
 
 
 /**
@@ -22,7 +21,6 @@ public abstract class Building {
 
     // Building functional properties
     private BuildingStats.BuildingType buildingType;
-    private float satisfactionMultiplier;
     private BuildingInfo buildingInfo;
 
 
@@ -40,7 +38,6 @@ public abstract class Building {
         this.height = 128;
         this.texture = texture;
         this.buildingType = buildingInfo.getBuildingType();
-        this.satisfactionMultiplier = buildingInfo.getSatisfactionMultiplier();
         this.buildingInfo = buildingInfo;
     }
 
@@ -58,21 +55,7 @@ public abstract class Building {
         this.height = 64;
         this.texture = texture;
         this.buildingType = buildingInfo.getBuildingType();
-        this.satisfactionMultiplier = buildingInfo.getSatisfactionMultiplier();
         this.buildingInfo = buildingInfo;
-    }
-
-
-
-    /**
-     * Calculates satisfaction logic
-     * @param numberOfStudents Number of students
-     * @return Amount of satisfaction
-     */
-    public int calculateSatisfaction(int numberOfStudents){
-
-        return StatsCalculator.calculateSatisfaction(numberOfStudents, this.satisfactionMultiplier);
-
     }
 
 
@@ -193,11 +176,6 @@ public abstract class Building {
         str += " height: " + this.height;
         str += " type: " + this.buildingType;
 
-
         return str;
-
     }
-
-
-
 }

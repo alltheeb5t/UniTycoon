@@ -10,6 +10,7 @@ import com.vikingz.unitycoon.global.GameConfigManager;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.GameRenderer;
 import com.vikingz.unitycoon.render.UIRenderer;
+import com.vikingz.unitycoon.util.StatsCalculator;
 
 /**
  * This is the main game class from which the game is run.
@@ -61,8 +62,9 @@ public class GameScreen extends SuperScreen implements Screen {
         gameRenderer = new GameRenderer(mapName);
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer(), this);
         elapsedTime = 0;
+        StatsCalculator.resetSatisfactionModifier();
         //5 minutes
-        GameGlobals.resetGlobals(10);
+        GameGlobals.resetGlobals(300);
     }
 
 
@@ -95,7 +97,6 @@ public class GameScreen extends SuperScreen implements Screen {
                 GameGlobals.ELAPSED_TIME--;
 
                 for (Building building : gameRenderer.getBuildingRenderer().getBuildingsMap().getPlacedBuildings()){
-                    GameGlobals.SATISFACTION += building.calculateSatisfaction(GameGlobals.STUDENTS);
 
                     if(building.getBuildingType() == BuildingStats.BuildingType.FOOD){
                         FoodBuilding foodBuilding = (FoodBuilding) building;

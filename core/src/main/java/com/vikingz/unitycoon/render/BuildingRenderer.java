@@ -11,6 +11,7 @@ import com.vikingz.unitycoon.building.BuildingsMap;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.util.GameSounds;
 import com.vikingz.unitycoon.util.Point;
+import com.vikingz.unitycoon.util.StatsCalculator;
 
 /**
  *  This class is in charge of drawing Buildings in the game.
@@ -110,6 +111,7 @@ public class BuildingRenderer{
             if (campusBuildingsMap.attemptAddBuilding(currentBuildingInfo, selectedTexture, previewX, previewY)) {
                 // Plays the sound of a building being places
                 GameSounds.playPlacedBuilding();
+                StatsCalculator.calculateSatisfaction(campusBuildingsMap.getPlacedBuildings());
 
                 // The building is no longer being placed
                 isPreviewing = false;
