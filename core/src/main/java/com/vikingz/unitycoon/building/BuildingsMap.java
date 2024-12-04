@@ -1,9 +1,11 @@
 package com.vikingz.unitycoon.building;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.vikingz.unitycoon.achievements.IndecisiveAchievement;
 import com.vikingz.unitycoon.building.buildings.AcademicBuilding;
 import com.vikingz.unitycoon.building.buildings.AccommodationBuilding;
 import com.vikingz.unitycoon.building.buildings.FoodBuilding;
@@ -37,9 +39,9 @@ public class BuildingsMap {
      * @param buildingTexture
      * @param x
      * @param y
-     * @return true if placement was successful. false otherwise
+     * @return List<Building> Empty if unsuccessful. Contains placed building otherwise.
      */
-    public boolean attemptAddBuilding(BuildingInfo buildingInfo, TextureRegion buildingTexture, float x, float y) {
+    public List<Building> attemptAddBuilding(BuildingInfo buildingInfo, TextureRegion buildingTexture, float x, float y) {
         return attemptAddBuilding(buildingInfo, buildingTexture, x, y, false);
     }
 
@@ -51,15 +53,16 @@ public class BuildingsMap {
      * @param x
      * @param y
      * @param ignoreCost Used for testing to ignore any tests related to cost
-     * @return true if placement was successful. false otherwise
+     * @return List<Building> Empty if unsuccessful. Contains placed building otherwise.
      */
-    public boolean attemptAddBuilding(BuildingInfo buildingInfo, TextureRegion buildingTexture, float x, float y, boolean ignoreCost) {
+    public List<Building> attemptAddBuilding(BuildingInfo buildingInfo, TextureRegion buildingTexture, float x, float y, boolean ignoreCost) {
+        List<Building> addedBuildings = new LinkedList<>();
         if (checkCollisions(x, y)) {
             // Check if the user has enough money to buy that building
             if (!ignoreCost) {
                float balanceAfterPurchase = GameGlobals.BALANCE - buildingInfo.getBuildingCost();
                 if (balanceAfterPurchase < 0) {
-                    return false;
+                    return addedBuildings;  // Added buildings will simply be empty at this point
                 } 
             }
             
@@ -67,20 +70,19 @@ public class BuildingsMap {
             // to be drawn to the screen.
             switch (buildingInfo.getBuildingType()) {
                 case ACADEMIC:
-                    placedBuildings.add(new AcademicBuilding(buildingTexture, new Point(x, y), buildingInfo));
+                    addedBuildings.add(addPlacedBuilding(new AcademicBuilding(buildingTexture, new Point(x, y), buildingInfo)));
                     break;
 
                 case ACCOMODATION:
-                    placedBuildings.add(new AccommodationBuilding(buildingTexture, new Point(x, y), buildingInfo, buildingInfo.getNumberOfStudents()));
+                    addedBuildings.add(addPlacedBuilding(new AccommodationBuilding(buildingTexture, new Point(x, y), buildingInfo, buildingInfo.getNumberOfStudents())));
                     break;
 
-
                 case RECREATIONAL:
-                    placedBuildings.add(new RecreationalBuilding(buildingTexture, new Point(x, y), buildingInfo, buildingInfo.getCoinsPerSecond()));
+                    addedBuildings.add(addPlacedBuilding(new RecreationalBuilding(buildingTexture, new Point(x, y), buildingInfo, buildingInfo.getCoinsPerSecond())));
                     break;
 
                 case FOOD:
-                    placedBuildings.add(new FoodBuilding(buildingTexture, new Point(x, y),buildingInfo, buildingInfo.getCoinsPerSecond()));
+                    addedBuildings.add(addPlacedBuilding(new FoodBuilding(buildingTexture, new Point(x, y),buildingInfo, buildingInfo.getCoinsPerSecond())));
                     break;
 
                 case NONE:
@@ -92,29 +94,59 @@ public class BuildingsMap {
 
             //Updates stats
             GameGlobals.BALANCE -= buildingInfo.getBuildingCost();
-            GameGlobals.STUDENTS += buildingInfo.getNumberOfStudents();
-            incrementBuildingsCount(buildingInfo.getBuildingType());
-
-            return true;
         }
 
-        return false;
+        return addedBuildings;
+    }
+
+    /**
+     * Updates stats to reflect building being built
+     * @param building Building which has finished building
+     */
+    public void builtBuilding(Building building) {
+        GameGlobals.STUDENTS += building.getBuildingInfo().getNumberOfStudents();
+        incrementBuildingsCount(building.getBuildingInfo().getBuildingType());
+    }
+
+    /**
+     * Adds a new building to the list of placed buildings by y coordinate
+     * rendered in the correct order. Buildings infront are displayed infront.
+     */
+    public Building addPlacedBuilding(Building newBuilding) {
+        boolean isadded = false;
+        for (int i = 0; i < placedBuildings.size(); i++) {
+            if (placedBuildings.get(i).getY() < newBuilding.getY()) {
+                placedBuildings.add(i, newBuilding);
+                isadded = true;
+                break;
+            }
+        }
+        if (!isadded) {
+            placedBuildings.add(newBuilding);
+        }
+
+        return newBuilding;
     }
 
     /**
      * Attempt to remove a building from the list of placed buildings.
      * @param toRemove Building object to remove
-     * @return true or false depending on if removal was successful
+     * @return List<Building>. Empty if uncessful, otherwise contains the removed buidling
      */
-    public Boolean attemptBuildingDelete(Building toRemove) {
+    public List<Building> attemptBuildingDelete(Building toRemove) {
+        List<Building> removed = new LinkedList<>();
         if (toRemove != null) {
-            float value = toRemove.getBuildingInfo().getBuildingCost();
+            BuildingInfo buildingInfo = toRemove.getBuildingInfo();
             placedBuildings.remove(toRemove);
-            GameGlobals.BALANCE += Math.round(value*0.75f);
-            return true;
+            GameGlobals.BALANCE += Math.round(buildingInfo.getBuildingCost()*0.75f);
+            if (!toRemove.getConstructing()) {
+                GameGlobals.STUDENTS -= buildingInfo.getNumberOfStudents();
+                decrementBuildingsCount(buildingInfo.getBuildingType());
+            }
+            removed.add(toRemove);
         }
 
-        return false;
+        return removed;
     }
 
     /**
@@ -122,9 +154,9 @@ public class BuildingsMap {
      * It is important coordinates have been translated into game coordinates.
      * @param gameX
      * @param gameY
-     * @return Boolean whether or not placement was successful
+     * @return List<Building>. Empty if uncessful, otherwise contains the removed buidling
      */
-    public Boolean attemptBuildingDeleteAt(float gameX, float gameY) {
+    public List<Building> attemptBuildingDeleteAt(float gameX, float gameY) {
         Building toRemove = getBuildingAtPoint(gameX, gameY);
 
         return attemptBuildingDelete(toRemove);
@@ -144,7 +176,7 @@ public class BuildingsMap {
 
             float bx = building.getX();
             float by = building.getY();
-
+            
             if(  (x > bx && x < (bx + building.getWidth())) &&
                  (y > by && y < (by + building.getHeight())) ){
                     return building;
@@ -184,7 +216,7 @@ public class BuildingsMap {
         for (Building building: this.placedBuildings) {
             if (
                 (roundedX > (building.getX() - GameGlobals.SCREEN_BUILDING_SIZE) && roundedX < (building.getX() + GameGlobals.SCREEN_BUILDING_SIZE)) &&
-                    (roundedY > (building.getY() - GameGlobals.SCREEN_BUILDING_SIZE) && roundedY < (building.getY() + GameGlobals.SCREEN_BUILDING_SIZE))
+                    (roundedY > (building.getY() - GameGlobals.SCREEN_BUILDING_SIZE/1.75) && roundedY < (building.getY() + GameGlobals.SCREEN_BUILDING_SIZE/1.75))
             ) {
                 return false;
             }
@@ -203,11 +235,11 @@ public class BuildingsMap {
         String hold = backgroundRenderer.getMap();
 
         //CheckTiles on the ground are grassBlocks
-        int yIndexLow = Math.round((roundedY-64)/32) + 3;
+        int yIndexLow = Math.round(((roundedY-64)/32)) + 3;
         int xIndexLow = Math.round((roundedX-64)/32) + 2;
         int lengthTiles = hold.split("\n").length;
-        char[][] TileSet = new char[4][4];
-        for (int yCord=0;yCord<4;yCord++){
+        char[][] TileSet = new char[3][4]; //Only check collision for base of building(3/4 of the way up)
+        for (int yCord=0;yCord<3;yCord++){
             for (int xCord=0;xCord<4;xCord++){
                 try {
                     TileSet[yCord][xCord] = hold.split("\n")[lengthTiles - (yIndexLow + yCord)].charAt(xIndexLow + xCord);
@@ -243,5 +275,23 @@ public class BuildingsMap {
             default -> System.out.println("Building type doesnt exist!");
         }
 
+    }
+
+    /**
+     * Increments the counter on the screen for the
+     * corresponding building that has been placed down
+     * @param type Type of the building that has been added
+     */
+    private void decrementBuildingsCount(BuildingStats.BuildingType type){
+
+        switch (type) {
+            case ACADEMIC -> GameGlobals.ACADEMIC_BUILDINGS_COUNT--;
+            case ACCOMODATION -> GameGlobals.ACCOMODATION_BUILDINGS_COUNT--;
+            case RECREATIONAL -> GameGlobals.RECREATIONAL_BUILDINGS_COUNT--;
+            case FOOD -> GameGlobals.FOOD_BUILDINGS_COUNT--;
+            default -> System.out.println("Building type doesnt exist!");
+        }
+
+        IndecisiveAchievement.incrementRemovedBuildings();
     }
 }

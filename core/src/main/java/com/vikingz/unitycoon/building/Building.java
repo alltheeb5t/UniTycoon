@@ -1,6 +1,7 @@
 package com.vikingz.unitycoon.building;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.util.Point;
 
 
@@ -17,6 +18,8 @@ public abstract class Building {
     private float y;
     private float width;
     private float height;
+    private boolean constructing;    
+    private int endConstructionTime;
 
 
     // Building functional properties
@@ -34,9 +37,11 @@ public abstract class Building {
     public Building(TextureRegion texture, float x, float y, BuildingInfo buildingInfo){
         this.x = x;
         this.y = y;
-        this.width = 128;
-        this.height = 128;
+        this.width = GameGlobals.SCREEN_BUILDING_SIZE;
+        this.height = GameGlobals.SCREEN_BUILDING_SIZE;
         this.texture = texture;
+        this.constructing = true;
+        this.endConstructionTime = -1;
         this.buildingType = buildingInfo.getBuildingType();
         this.buildingInfo = buildingInfo;
     }
@@ -51,9 +56,11 @@ public abstract class Building {
     public Building(TextureRegion texture, Point p, BuildingInfo buildingInfo){
         this.x = p.getX();
         this.y = p.getY();
-        this.width = 64;
-        this.height = 64;
+        this.width = GameGlobals.SCREEN_BUILDING_SIZE;
+        this.height = GameGlobals.SCREEN_BUILDING_SIZE;
         this.texture = texture;
+        this.constructing = true;
+        this.endConstructionTime = -1;
         this.buildingType = buildingInfo.getBuildingType();
         this.buildingInfo = buildingInfo;
     }
@@ -152,6 +159,22 @@ public abstract class Building {
      */
     public void setY(float y) {
         this.y = y;
+    }
+
+    public boolean getConstructing() {
+        return constructing;
+    }
+
+    public void setConstructing(boolean constructing) {
+        this.constructing = constructing;
+    }
+
+    public int getEndConstructionTime() {
+        return endConstructionTime;
+    }
+
+    public void setEndConstructionTime(int endConstructionTime) {
+        this.endConstructionTime = endConstructionTime;
     }
 
     /**

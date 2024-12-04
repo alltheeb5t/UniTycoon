@@ -1,40 +1,17 @@
 package com.vikingz.unitycoon.headless;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.vikingz.unitycoon.building.BuildingInfo;
 import com.vikingz.unitycoon.building.BuildingStats;
 import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.building.BuildingsMap;
-import com.vikingz.unitycoon.render.BackgroundRenderer;
-import com.vikingz.unitycoon.util.FileHandler;
 
-public class BuildingTest {
-    @BeforeEach
-    public void setup() {
-        System.out.println("Starting LibGDX Headless");
-        Gdx.gl = Gdx.gl20 = mock(GL20.class);
-        HeadlessLauncher.main(new String[0]);
-        
-        System.out.println("Started Headless Mode");
-    }
-
-    private BuildingsMap getTestMap() {
-        FileHandler.loadBuildings("buildingInfo","TextureAtlasMap"); // Load list of buildings from file
-
-        BackgroundRenderer testBackgroundRenderer = new BackgroundRenderer("map1");
-        return new BuildingsMap(testBackgroundRenderer);
-    }
-
+public class BuildingTest extends TestSuper {
     /**
      * Test placement of building in empty space
      */
@@ -47,7 +24,7 @@ public class BuildingTest {
         BuildingInfo testBuildingInfo = BuildingStats.getInfo(testBuildingType, testBuildingIndex);
         TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuildingType)[testBuildingIndex]);
 
-        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 100, 10, true));
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 100, 10, true).isEmpty());
     }
 
     /**
@@ -62,13 +39,13 @@ public class BuildingTest {
         BuildingInfo testBuildingInfo = BuildingStats.getInfo(testBuildingType, testBuildingIndex);
         TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuildingType)[testBuildingIndex]);
 
-        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 100, 10, true));
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 100, 10, true).isEmpty());
 
         // Fully on top of existing building
-        assertEquals(false, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 100, 10, true));
+        assertTrue(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 100, 10, true).isEmpty());
 
         // Partially on top of existing building
-        assertEquals(false, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 125, 10, true));
+        assertTrue(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 125, 10, true).isEmpty());
     }
 
     /**
@@ -91,21 +68,21 @@ public class BuildingTest {
 
         // Right
         testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 480, 288);
-        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 608, 288, true),
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 608, 288, true).isEmpty(),
                                                                "Testing closest valid placement to right of reference building (McDonalds)");
 
         // Top
         testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 896, 192);
-        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 896, 256, true),
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 896, 256, true).isEmpty(),
                                                                "Testing closest valid placement above reference building (McDonalds)");
         
         testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 1536, 352);
-        assertEquals(true, testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 1530, 448, true),
+        assertFalse(testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 1530, 448, true).isEmpty(),
                                                                 "Testing closest valid placement above reference building (York Sport Village)");
 
         // Bottom
         testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1088, 288);
-        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1088, 224, true),
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1088, 224, true).isEmpty(),
                                                                "Testing closest valid placement below reference building (McDonalds)");
     }
 
@@ -123,23 +100,23 @@ public class BuildingTest {
         TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuildingType)[testBuildingIndex]);
 
         // Road & RCH
-        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 320, 544, true),
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 320, 544, true).isEmpty(),
                                                                "Test placing RCH directly next to road (above)");
         
-        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 384, 352, true),
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 384, 352, true).isEmpty(),
                                                                "Test placing RCH directly next to road (left)");
         
-        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 192, 352, true),
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 192, 352, true).isEmpty(),
                                                                "Test placing RCH directly next to road (right)");
 
-        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 672, 416, true),
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 672, 384, true).isEmpty(),
                                                                "Test placing RCH directly next to road (below)");
         
         // Lake & RCH
-        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1280, 736, true),
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1280, 736, true).isEmpty(),
                                                                "Test placing RCH directly next to lake (right)");
 
-        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1216, 640, true),
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1248, 640, true).isEmpty(),
                                                                "Test placing RCH directly next to lake (below)");
 
         BuildingType testBuilding2Type = BuildingType.RECREATIONAL;
@@ -148,11 +125,11 @@ public class BuildingTest {
         TextureRegion testBuilding2Texture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuilding2Type)[testBuilding2Index]);
 
         // Road & YSV
-        assertEquals(true, testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 640, 384, true),
+        assertFalse(testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 540, 384, true).isEmpty(),
                                                                "Test placing YSV directly next to road (below)");
         
         // Lake & YSV
-        assertEquals(true, testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 704, 544, true),
+        assertFalse(testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 704, 544, true).isEmpty(),
                                                                "Test placing YSV directly next to lake (below)");
     }
 
@@ -168,13 +145,13 @@ public class BuildingTest {
         BuildingInfo testBuildingInfo = BuildingStats.getInfo(testBuildingType, testBuildingIndex);
         TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuildingType)[testBuildingIndex]);
 
-        assertEquals(false, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 896, 608, true),
+        assertTrue(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 896, 608, true).isEmpty(),
                                                                "RCH partial intersection top edge");
         
-        assertEquals(false, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1248, 736, true),
+        assertTrue(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1248, 736, true).isEmpty(),
                                                                "Test placing RCH partially to left of lake");
         
-        assertEquals(false, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 384, 480, true),
+        assertTrue(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 384, 480, true).isEmpty(),
                                                                "Test placing RCH fully on top of road");
     }
 
@@ -210,25 +187,27 @@ public class BuildingTest {
         BuildingInfo testBuilding5Info = BuildingStats.getInfo(testBuilding5Type, testBuilding5Index);
         TextureRegion testBuilding5Texture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuilding5Type)[testBuilding5Index]);
 
-        assertEquals(false, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, -64, 384, true),
+        assertTrue(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, -64, 384, true).isEmpty(),
                                                                "MacDonalds attempt to place too far left");
         
-        assertEquals(false, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1728, 384, true),
+        assertTrue(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1728, 384, true).isEmpty(),
                                                                "MacDonalds attempt to place too far right");
         
-        assertEquals(true, testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 1588, 896, true),
+        assertFalse(testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 1588, 896, true).isEmpty(),
                                                                "Test placing YSV Very near top of map");
+
+        testMap = getTestMap(); // Reset map to ensure enough space at the top
         
-        assertEquals(true, testMap.attemptAddBuilding(testBuilding3Info, testBuilding3Texture, 1568, 928, true),
+        assertFalse(testMap.attemptAddBuilding(testBuilding3Info, testBuilding3Texture, 1536, 928, true).isEmpty(),
                                                                "Test placing RCH Very near top of map");
                                                                
-        assertEquals(true, testMap.attemptAddBuilding(testBuilding4Info, testBuilding4Texture, 1568, 928, true),
+        assertFalse(testMap.attemptAddBuilding(testBuilding4Info, testBuilding4Texture, 1664, 928, true).isEmpty(),
                                                                "Test placing PZA Very near top of map");
 
-        assertEquals(false, testMap.attemptAddBuilding(testBuilding5Info, testBuilding5Texture, 1088, -64, true),
+        assertTrue(testMap.attemptAddBuilding(testBuilding5Info, testBuilding5Texture, 1088, -64, true).isEmpty(),
                                                                "Test can't place David Kato beyond bottom of map");
         
-        assertEquals(true, testMap.attemptAddBuilding(testBuilding5Info, testBuilding5Texture, 1664, 608, true),
+        assertFalse(testMap.attemptAddBuilding(testBuilding5Info, testBuilding5Texture, 1664, 608, true).isEmpty(),
                                                                "Test can place a David Kato building next to right side");
     }
 
@@ -245,12 +224,12 @@ public class BuildingTest {
 
         testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 480, 288, true);
 
-        assertFalse(testMap.attemptBuildingDeleteAt(412,300), "Confirm that buildings aren't deleted incorrectly");
+        assertTrue(testMap.attemptBuildingDeleteAt(412,300).isEmpty(), "Confirm that buildings aren't deleted incorrectly");
 
         // Assume user clicks to delete in x centre, y bottom + 10
-        assertTrue(testMap.attemptBuildingDeleteAt(512, 298), "Test building is deleted when centre coordinates are supplied");
+        assertFalse(testMap.attemptBuildingDeleteAt(512, 298).isEmpty(), "Test building is deleted when centre coordinates are supplied");
 
-        assertTrue(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 480, 288, true), "Check that new building can be placed covering a deleted building");
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 480, 288, true).isEmpty(), "Check that new building can be placed covering a deleted building");
     }
 }
 

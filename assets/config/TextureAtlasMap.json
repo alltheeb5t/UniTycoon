@@ -1,1 +1,1 @@
-{"textureAtlasLocation":"textureAtlases/buildingsAtlas.png","atlasBuildingSize":128,"buildings":["PZA","RCH","KATO","LISTER","YSV","MCD"],"buildingPos":["0,0","1,0","0,1","1,1","0,2","0,3"]}
+{"textureAtlasLocation":"textureAtlases/buildingsAtlas.png","atlasBuildingSize":128,"buildings":["PZA","RCH","KATO","LISTER","YSV", "CINEMA","MCD", "BURGERK"],"buildingPos":["0,0","1,0","0,1","1,1","0,2", "1,2","0,3", "1,3"]}

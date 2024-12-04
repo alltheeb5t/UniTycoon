@@ -2,6 +2,7 @@ package com.vikingz.unitycoon.render;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.vikingz.unitycoon.building.Building;
@@ -86,6 +87,20 @@ public class BuildingRenderer{
         // Draw all placed textures
         for (Building building : campusBuildingsMap.getPlacedBuildings()) {
             batch.draw(building.getTexture(), building.getX(), building.getY());
+            // Checks if building is under construction
+            if (building.getConstructing()) {
+                batch.draw(new Texture("png\\UnderConstruction.png"), building.getX(), 
+                    building.getY(), GameGlobals.SCREEN_BUILDING_SIZE, (int) (GameGlobals.SCREEN_BUILDING_SIZE * 0.75));
+                
+                // Starts or stops timer if needed
+                if (building.getEndConstructionTime() == -1) {
+                    building.setEndConstructionTime(GameGlobals.ELAPSED_TIME - 10);
+                }
+                else if(building.getEndConstructionTime() == GameGlobals.ELAPSED_TIME) {
+                    building.setConstructing(false);
+                    campusBuildingsMap.builtBuilding(building);
+                }
+            }
         }
 
         // Draw the preview texture if one is selected
@@ -101,7 +116,7 @@ public class BuildingRenderer{
             Point translatedPoint = gameRenderer.translateCoords(new Point(Gdx.input.getX(),
                                                                            Gdx.input.getY()));
 
-            if(!campusBuildingsMap.attemptBuildingDeleteAt(translatedPoint.getX(), translatedPoint.getY())) {
+            if(campusBuildingsMap.attemptBuildingDeleteAt(translatedPoint.getX(), translatedPoint.getY()).isEmpty()) {
                 System.out.println("building was null: " + null);
             }
             else {
@@ -111,7 +126,7 @@ public class BuildingRenderer{
 
         // Check for left mouse click to place the texture
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && selectedTexture != null) {
-            if (campusBuildingsMap.attemptAddBuilding(currentBuildingInfo, selectedTexture, previewX, previewY)) {
+            if (!campusBuildingsMap.attemptAddBuilding(currentBuildingInfo, selectedTexture, previewX, previewY).isEmpty()) {
                 // Plays the sound of a building being places
                 GameSounds.playPlacedBuilding();
                 StatsCalculator.calculateSatisfaction(campusBuildingsMap.getPlacedBuildings());

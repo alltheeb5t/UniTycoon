@@ -71,7 +71,6 @@ public class SettingsScreen extends SuperScreen implements Screen {
         MusicVolumeLabel = new Label(soundVolume, skin);
         this.musicVolume = "Music Volume: " + MusicVolumeSlider.getValue();
 
-
         // Adds event listeners to buttons
 
         // Back button to return to MenuScreen
@@ -116,9 +115,6 @@ public class SettingsScreen extends SuperScreen implements Screen {
             }
             return true;
         });
-
-
-
 
         // Create layout table
         Table table = new Table();

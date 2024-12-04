@@ -2,11 +2,14 @@ package com.vikingz.unitycoon.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.vikingz.unitycoon.menus.AchievementsMenu;
+import com.vikingz.unitycoon.menus.UsernameMenu;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
  * This class represents the main menu of the game.
@@ -18,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
  */
 public class MenuScreen extends SuperScreen implements Screen {
 
+
     /**
      * Creates a new menu screen
      */
@@ -28,27 +32,33 @@ public class MenuScreen extends SuperScreen implements Screen {
 
         // Create buttons
         TextButton playButton = new TextButton("Play", skin);
+        TextButton achievementsButton = new TextButton("Achievements",skin);
         TextButton settingsButton = new TextButton("Settings", skin);
         TextButton quitButton = new TextButton("Quit", skin);
 
-        
+        AchievementsMenu achievementsMenu = new AchievementsMenu(skin);
+
         // Add listeners to buttons
-        playButton.addListener(e -> {
-            if (!playButton.isPressed()) return false;
-            ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.MAPSELECTION);
-            return true;
+        playButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.MAPSELECTION);
+            };
         });
 
-        settingsButton.addListener(e -> {
-            if (!settingsButton.isPressed()) return false;
-            ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.SETTINGS);
-            return true;
+
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.SETTINGS);
+            };
         });
 
-        quitButton.addListener(e -> {
-            if (!quitButton.isPressed()) return false;
-            Gdx.app.exit(); // Quit the application
-            return true;
+        quitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit(); // Quit the application
+            };
         });
 
         // Create a table for layout
@@ -61,14 +71,24 @@ public class MenuScreen extends SuperScreen implements Screen {
         table.row();
 
         // Add buttons to table
-        table.add(playButton).pad(10);
+        table.add(playButton).width(425).pad(10);
         table.row();
-        table.add(settingsButton).pad(10);
+        table.add(achievementsButton).width(425).pad(10);
         table.row();
-        table.add(quitButton).pad(10);
+        table.add(settingsButton).width(425).pad(10);
+        table.row();
+        table.add(quitButton).width(425).pad(10);
 
         // Add the table to the stage
         stage.addActor(table);
+
+        // Opens a username screen if it hasn't already been entered
+        if (UsernameMenu.getUsername() == "") {
+            UsernameMenu usernamePopUp = new UsernameMenu(skin);
+            usernamePopUp.setPosition((stage.getWidth() - usernamePopUp.getWidth()) / 2, (stage.getHeight() - usernamePopUp.getHeight()) / 2);
+            usernamePopUp.setupButton();
+            stage.addActor(usernamePopUp);
+        }
     }
 
     @Override
@@ -80,7 +100,7 @@ public class MenuScreen extends SuperScreen implements Screen {
     public void render(float delta) {
         // Clear the screen
         Gdx.gl.glClearColor(25/255f, 25/255f, 25/255f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
 
         // Draw the stage
         stage.act(delta);

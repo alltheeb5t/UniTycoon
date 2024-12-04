@@ -47,6 +47,10 @@ public class FoodBuilding extends Building{
      * @return float coins made
      */
     public float calculateProfitMade(){
+        // No profits if not built yet
+        if (getConstructing()) {
+            return 0;
+        }
         return StatsCalculator.calculateProfitMade(this.coinsPerSecond);
     }
 }

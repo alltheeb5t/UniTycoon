@@ -3,6 +3,7 @@ package com.vikingz.unitycoon.global;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
@@ -73,21 +74,23 @@ public class GameConfigManager {
 
         GameConfig conf;
         try {
-            FileInputStream fileIn = new FileInputStream("config/gameconf.bin");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            conf = (GameConfig) in.readObject();
-            in.close();
-            fileIn.close();
-
-            GameConfig.getInstance().setInstance(conf);
-            System.out.println("\n\nLoaded GameConfig");
-            System.out.println("Music_Volume: " + GameConfig.getInstance().MusicVolumeValue);
-            System.out.println("Song_Volume: " + GameConfig.getInstance().SoundVolumeValue);
-
-
+            // Creates file if it doesn't exsist
+            File gameconfFile = new File("config/gameconf.bin");
+            if (!gameconfFile.createNewFile()) {
+                FileInputStream fileIn = new FileInputStream("config/gameconf.bin");
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                conf = (GameConfig) in.readObject();
+                in.close();
+                fileIn.close();
+    
+                GameConfig.getInstance().setInstance(conf);
+                System.out.println("\n\nLoaded GameConfig");
+                System.out.println("Music_Volume: " + GameConfig.getInstance().MusicVolumeValue);
+                System.out.println("Song_Volume: " + GameConfig.getInstance().SoundVolumeValue);
+            }
 
         } catch (IOException i) {
-            System.out.println("FILE NOT FOUND");
+            System.out.println("FILE NOT FOUND");        
             //i.printStackTrace();
         } catch (ClassNotFoundException c) {
             System.out.println("GameConfig class not found");
