@@ -132,14 +132,14 @@ public class BuildingTest {
         assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 192, 352, true),
                                                                "Test placing RCH directly next to road (right)");
 
-        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 672, 416, true),
+        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 672, 384, true),
                                                                "Test placing RCH directly next to road (below)");
         
         // Lake & RCH
         assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1280, 736, true),
                                                                "Test placing RCH directly next to lake (right)");
 
-        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1216, 640, true),
+        assertEquals(true, testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1248, 640, true),
                                                                "Test placing RCH directly next to lake (below)");
 
         BuildingType testBuilding2Type = BuildingType.RECREATIONAL;
@@ -148,7 +148,7 @@ public class BuildingTest {
         TextureRegion testBuilding2Texture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuilding2Type)[testBuilding2Index]);
 
         // Road & YSV
-        assertEquals(true, testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 640, 384, true),
+        assertEquals(true, testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 540, 384, true),
                                                                "Test placing YSV directly next to road (below)");
         
         // Lake & YSV
@@ -218,11 +218,13 @@ public class BuildingTest {
         
         assertEquals(true, testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 1588, 896, true),
                                                                "Test placing YSV Very near top of map");
+
+        testMap = getTestMap(); // Reset map to ensure enough space at the top
         
-        assertEquals(true, testMap.attemptAddBuilding(testBuilding3Info, testBuilding3Texture, 1568, 928, true),
+        assertEquals(true, testMap.attemptAddBuilding(testBuilding3Info, testBuilding3Texture, 1536, 928, true),
                                                                "Test placing RCH Very near top of map");
                                                                
-        assertEquals(true, testMap.attemptAddBuilding(testBuilding4Info, testBuilding4Texture, 1568, 928, true),
+        assertEquals(true, testMap.attemptAddBuilding(testBuilding4Info, testBuilding4Texture, 1664, 928, true),
                                                                "Test placing PZA Very near top of map");
 
         assertEquals(false, testMap.attemptAddBuilding(testBuilding5Info, testBuilding5Texture, 1088, -64, true),
