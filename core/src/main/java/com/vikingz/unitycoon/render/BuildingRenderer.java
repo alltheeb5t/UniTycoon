@@ -115,14 +115,14 @@ public class BuildingRenderer{
             Point translatedPoint = gameRenderer.translateCoords(new Point(Gdx.input.getX(),
                                                                            Gdx.input.getY()));
 
-            if(!campusBuildingsMap.attemptBuildingDeleteAt(translatedPoint.getX(), translatedPoint.getY())) {
+            if(campusBuildingsMap.attemptBuildingDeleteAt(translatedPoint.getX(), translatedPoint.getY()).isEmpty()) {
                 System.out.println("building was null: " + null);
             }
         }
 
         // Check for left mouse click to place the texture
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && selectedTexture != null) {
-            if (campusBuildingsMap.attemptAddBuilding(currentBuildingInfo, selectedTexture, previewX, previewY)) {
+            if (!campusBuildingsMap.attemptAddBuilding(currentBuildingInfo, selectedTexture, previewX, previewY).isEmpty()) {
                 // Plays the sound of a building being places
                 GameSounds.playPlacedBuilding();
 

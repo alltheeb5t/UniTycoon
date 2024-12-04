@@ -1,7 +1,7 @@
 package com.vikingz.unitycoon.headless;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,37 +20,37 @@ public class CounterTest extends TestSuper {
         // Test Academic Counter
         assertEquals(0, GameGlobals.ACADEMIC_BUILDINGS_COUNT);
 
-        addBasicTestBuilding(testMap, BuildingType.ACADEMIC, 110, 10);
+        addBasicTestBuilding(testMap, BuildingType.ACADEMIC, 110, 10, true);
         assertEquals(1, GameGlobals.ACADEMIC_BUILDINGS_COUNT);
 
-        assertTrue(testMap.attemptBuildingDeleteAt(111, 11));
+        assertFalse(testMap.attemptBuildingDeleteAt(111, 11).isEmpty());
         assertEquals(0, GameGlobals.ACADEMIC_BUILDINGS_COUNT);
 
         // Test Food Counter
         assertEquals(0, GameGlobals.FOOD_BUILDINGS_COUNT);
 
-        addBasicTestBuilding(testMap, BuildingType.FOOD, 110, 10);
+        addBasicTestBuilding(testMap, BuildingType.FOOD, 110, 10, true);
         assertEquals(1, GameGlobals.FOOD_BUILDINGS_COUNT);
 
-        assertTrue(testMap.attemptBuildingDeleteAt(111, 11));
+        assertFalse(testMap.attemptBuildingDeleteAt(111, 11).isEmpty());
         assertEquals(0, GameGlobals.FOOD_BUILDINGS_COUNT);
 
         // Test Academic Counter
         assertEquals(0, GameGlobals.RECREATIONAL_BUILDINGS_COUNT);
 
-        addBasicTestBuilding(testMap, BuildingType.RECREATIONAL, 110, 10);
+        addBasicTestBuilding(testMap, BuildingType.RECREATIONAL, 110, 10, true);
         assertEquals(1, GameGlobals.RECREATIONAL_BUILDINGS_COUNT);
 
-        assertTrue(testMap.attemptBuildingDeleteAt(111, 11));
+        assertFalse(testMap.attemptBuildingDeleteAt(111, 11).isEmpty());
         assertEquals(0, GameGlobals.RECREATIONAL_BUILDINGS_COUNT);
 
         // Test Academic Counter
         assertEquals(0, GameGlobals.ACCOMODATION_BUILDINGS_COUNT);
 
-        addBasicTestBuilding(testMap, BuildingType.ACCOMODATION, 110, 10);
+        addBasicTestBuilding(testMap, BuildingType.ACCOMODATION, 110, 10, true);
         assertEquals(1, GameGlobals.ACCOMODATION_BUILDINGS_COUNT);
 
-        assertTrue(testMap.attemptBuildingDeleteAt(111, 11));
+        assertFalse(testMap.attemptBuildingDeleteAt(111, 11).isEmpty());
         assertEquals(0, GameGlobals.ACCOMODATION_BUILDINGS_COUNT);
     }
 }
