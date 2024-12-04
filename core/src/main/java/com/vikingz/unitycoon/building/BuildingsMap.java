@@ -136,8 +136,10 @@ public class BuildingsMap {
             BuildingInfo buildingInfo = toRemove.getBuildingInfo();
             placedBuildings.remove(toRemove);
             GameGlobals.BALANCE += Math.round(buildingInfo.getBuildingCost()*0.75f);
-            GameGlobals.STUDENTS -= buildingInfo.getNumberOfStudents();
-            decrementBuildingsCount(buildingInfo.getBuildingType());
+            if (!toRemove.getConstructing()) {
+                GameGlobals.STUDENTS -= buildingInfo.getNumberOfStudents();
+                decrementBuildingsCount(buildingInfo.getBuildingType());
+            }
             return true;
         }
 
