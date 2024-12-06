@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.vikingz.unitycoon.achievements.AchievementsHandler;
 import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingStats;
 import com.vikingz.unitycoon.building.buildings.FoodBuilding;
@@ -13,7 +12,6 @@ import com.vikingz.unitycoon.global.GameConfigManager;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.GameRenderer;
 import com.vikingz.unitycoon.render.UIRenderer;
-import com.vikingz.unitycoon.util.StatsCalculator;
 
 /**
  * This is the main game class from which the game is run.
@@ -52,9 +50,6 @@ public class GameScreen extends SuperScreen implements Screen {
     //Determines if end game has been already called
     public boolean endedAlready;
 
-    // Game Achievements
-    AchievementsHandler achievements;
-
     /**
      * Creates a new Game Screen
      * @param mapName The name of the map that will be used
@@ -67,12 +62,8 @@ public class GameScreen extends SuperScreen implements Screen {
         gameRenderer = new GameRenderer(mapName);
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer(), this);
         elapsedTime = 0;
-        StatsCalculator.resetSatisfactionModifier();
         //5 minutes
         GameGlobals.resetGlobals(300);
-      
-        achievements = new AchievementsHandler();
-
     }
 
 
@@ -127,7 +118,7 @@ public class GameScreen extends SuperScreen implements Screen {
         }
 
         // Checks for and displays completed achievements
-        achievements.checkAllAchievements();
+        GameGlobals.ACHIEVEMENTS.checkAllAchievements();
         uiRenderer.displayAchievements();
 
         if(GameGlobals.ELAPSED_TIME <= 0 && !endedAlready){
@@ -186,7 +177,7 @@ public class GameScreen extends SuperScreen implements Screen {
      */
     private void endGame(){
         isPaused = true;
-        GameGlobals.SATISFACTION += achievements.getBonus();
+        GameGlobals.SATISFACTION.addBonus(GameGlobals.ACHIEVEMENTS.getBonus());
         uiRenderer.endGame();
     }
 
