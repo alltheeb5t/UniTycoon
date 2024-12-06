@@ -47,7 +47,7 @@ public class Leaderboard {
 
             if (leaderboardValue == "") {
                 //Puts 5 empty scores on the leaderboard if the file is empty.
-                leaderboardValue = "0 -\n0 -\n0 -\n0 -\n0 -\n"; 
+                leaderboardValue = "0% -\n0% -\n0% -\n0% -\n0% -\n"; 
             }
             //Updates the leaderboard removing the additional \n at the end."
             leaderboardValue = leaderboardValue.substring(0, leaderboardValue.length()-1);
@@ -65,8 +65,9 @@ public class Leaderboard {
      */
     public static Boolean isLeaderboardScore(int finalScore) {
         String[] scores = leaderboardValue.split("\n");
-        //Finds the 5th placed score stored on the leaderboard and converts to integer.  
-        int lowestSavedScore = Integer.valueOf(scores[4].split(" ")[0]);
+        //Finds the 5th placed score stored on the leaderboard, removes % and converts to integer.  
+        String lowestSavedPercentage = scores[4].split(" ")[0];
+        int lowestSavedScore = Integer.valueOf(lowestSavedPercentage.substring(0, lowestSavedPercentage.length()-1));
 
         if (lowestSavedScore < finalScore) {
             return true;
@@ -86,12 +87,13 @@ public class Leaderboard {
         Boolean addedNewScore = false;
 
         for (int i = 0; i < scores.length; i++) {
-            //Finds score stored on the leaderboard at place i and converts to integer.
-            int score = Integer.valueOf(scores[i].split(" ")[0]);
+            //Finds score stored on the leaderboard at place i, removes % and converts to integer.
+            String satisfactionPercentage = scores[i].split(" ")[0];
+            int score = Integer.valueOf(satisfactionPercentage.substring(0, satisfactionPercentage.length()-1));
 
             if (score < finalScore && !addedNewScore) {
                 addedNewScore = true;
-                updatedLeaderboardValue += Integer.toString(finalScore) + " " + Username + "\n";
+                updatedLeaderboardValue += Integer.toString(finalScore) + "% " + Username + "\n";
             }
             
             //Adds all except the previous 5th placed score to the leaderboard.
