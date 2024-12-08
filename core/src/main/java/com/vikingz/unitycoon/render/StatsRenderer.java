@@ -155,7 +155,7 @@ public class StatsRenderer {
         batch.begin();
 
         // Update the label contents each frame
-        balStr = "Balance: " + GameGlobals.BALANCE;
+        balStr = "Balance: " + GameGlobals.MONEY.getBalance();
         studentsStr = "Students: " + GameGlobals.STUDENTS;
         satisStr = "Satisfaction: " + GameGlobals.SATISFACTION.getSatisfaction() + "%";
         accomBuildingsStr = "Accomodation: " + GameGlobals.ACCOMODATION_BUILDINGS_COUNT;
