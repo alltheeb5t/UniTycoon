@@ -67,22 +67,22 @@ public class BuildingTest extends TestSuper {
         TextureRegion testBuilding2Texture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuilding2Type)[testBuilding2Index]);
 
         // Right
-        testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 480, 288);
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 480, 288, true).isEmpty());
         assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 608, 288, true).isEmpty(),
                                                                "Testing closest valid placement to right of reference building (McDonalds)");
 
         // Top
-        testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 896, 192);
-        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 896, 256, true).isEmpty(),
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 896, 192, true).isEmpty());
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 896, 288, true).isEmpty(),
                                                                "Testing closest valid placement above reference building (McDonalds)");
         
-        testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 1536, 352);
+        assertFalse(testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 1536, 352, true).isEmpty());
         assertFalse(testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 1530, 448, true).isEmpty(),
                                                                 "Testing closest valid placement above reference building (York Sport Village)");
 
         // Bottom
-        testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1088, 288);
-        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1088, 224, true).isEmpty(),
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1088, 288, true).isEmpty());
+        assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 1088, 192, true).isEmpty(),
                                                                "Testing closest valid placement below reference building (McDonalds)");
     }
 
