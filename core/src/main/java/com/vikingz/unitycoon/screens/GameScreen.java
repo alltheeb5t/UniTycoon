@@ -67,7 +67,7 @@ public class GameScreen extends SuperScreen implements Screen {
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer(), this);
         elapsedTime = 0;
         //5 minutes
-        GameGlobals.resetGlobals(300);
+        GameGlobals.resetGlobals(1);
         achievements = new AchievementsHandler();
     }
 
@@ -127,7 +127,8 @@ public class GameScreen extends SuperScreen implements Screen {
         achievements.checkAllAchievements();
         uiRenderer.displayAchievements();
 
-        if(GameGlobals.ELAPSED_TIME <= 0 && !endedAlready){
+        // End the game if satisfaction reaches 0
+        if(GameGlobals.ELAPSED_TIME <= 0 && !endedAlready || GameGlobals.SATISFACTION == 0){
             endedAlready = true;
             endGame();
         }
@@ -184,7 +185,24 @@ public class GameScreen extends SuperScreen implements Screen {
     private void endGame(){
         isPaused = true;
         GameGlobals.SATISFACTION += achievements.getBonus();
-        uiRenderer.endGame();
+        // Checks if player won the game
+        if (gameWon()) {
+            uiRenderer.endGame("You Win!");
+        }
+        else{
+            uiRenderer.endGame("You Lose!");
+        }
+    }
+
+    /**
+     * Determines if the player won the game.
+     * @return true if the player won
+     */
+    public static boolean gameWon(){
+        if (GameGlobals.SATISFACTION >= 70 && GameGlobals.BALANCE >= 0) {
+            return true;
+        }
+        return false;
     }
 
     @Override

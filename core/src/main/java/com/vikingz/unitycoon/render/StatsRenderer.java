@@ -3,14 +3,17 @@ package com.vikingz.unitycoon.render;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Align;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.util.TimeUtil;
 
@@ -32,30 +35,39 @@ public class StatsRenderer {
     float width;
     float height;
 
-    // Labels
+
+    // Labels and images
     String balStr;
     Label balance;
+    Image balImg;
 
     String studentsStr;
     Label students;
+    Image studentsImg;
 
     String satisStr;
     Label satisfaction;
+    Image satisImg;
 
     String accomBuildingsStr;
     Label accomBuildings;
+    Image accomImg;
 
     String academBuildingsStr;
     Label academBuildings;
+    Image academImg;
 
     String recBuildingsStr;
     Label recBuildings;
+    Image recImg;
 
     String foodBuildingsStr;
     Label foodBuildings;
+    Image foodImg;
 
     String timerStr;
     Label timer;
+    Image timerImg;
 
     String inGameTimerStr;
     Label inGameTimer;
@@ -76,14 +88,14 @@ public class StatsRenderer {
         labels = new ArrayList<>();
 
         // Label strings
-        balStr = "Balance";
-        studentsStr = "Students";
-        satisStr = "satisfaction";
-        accomBuildingsStr = "Accodomation";
-        academBuildingsStr = "Academic";
-        recBuildingsStr = "Recreational";
-        foodBuildingsStr = "Food";
-        timerStr = "Timer: ";
+        balStr = "";
+        studentsStr = "";
+        satisStr = "";
+        accomBuildingsStr = "";
+        academBuildingsStr = "";
+        recBuildingsStr = "";
+        foodBuildingsStr = "";
+        timerStr = "";
         inGameTimerStr = "";
 
         // Creating labels
@@ -109,11 +121,28 @@ public class StatsRenderer {
         labels.add(inGameTimer);
 
         for(Label lbl: labels){
-            lbl.setColor(Color.BLACK);
+            lbl.setColor(Color.WHITE);
             lbl.setFontScale(1.5f);
         }
 
+        //Texture atlas of building menu bar
+        Texture textureAtlas = new Texture(Gdx.files.internal("textureAtlases/buildMenuButtonsAtlas.png")); // Load your 64x64 PNG
+
+        //Sets the pixel size of tiles used for build menu bar
+        int atlasTileSize = 64;
+        //Sets all the images
+        academImg = new Image(new TextureRegion(textureAtlas, 0, 0, atlasTileSize, atlasTileSize));
+        accomImg = new Image(new TextureRegion(textureAtlas, atlasTileSize, 0, atlasTileSize, atlasTileSize));
+        recImg = new Image(new TextureRegion(textureAtlas, atlasTileSize * 2, 0, atlasTileSize, atlasTileSize));
+        foodImg = new Image(new TextureRegion(textureAtlas, atlasTileSize * 3, 0, atlasTileSize, atlasTileSize));
+        balImg = new Image(new Texture("png\\moneySymbol.png"));
+        satisImg = new Image(new Texture("png\\satisfactionSymbol.png"));
+        timerImg = new Image(new Texture("png\\timeSymbol.png"));
+        studentsImg = new Image(new Texture("png\\studentNumSymbol.png"));
+
         int padding = 3;
+        int groupSpacing = 50;
+        int spacing = 330;
 
         // Create layout table
         Table table = new Table();
@@ -123,26 +152,25 @@ public class StatsRenderer {
         table.left();
 
         // Adds the labels to the table
-        table.add(balance).pad(padding).align(Align.left);
-        table.row();
-        table.add(students).pad(padding).align(Align.left);
-        table.row();
-        table.add(satisfaction).pad(padding).align(Align.left);
-        table.row();
-        table.add(accomBuildings).pad(padding).align(Align.left);
-        table.row();
-        table.add(academBuildings).pad(padding).align(Align.left);
-        table.row();
-        table.add(recBuildings).pad(padding).align(Align.left);
-        table.row();
-        table.add(foodBuildings).pad(padding).align(Align.left);
-        table.row();
-        table.add(timer).pad(padding).align(Align.left);
-        table.row();
-        table.add(inGameTimer).pad(padding).align(Align.left);
+        table.add(balImg).pad(padding).size(30);
+        table.add(balance).pad(padding).spaceRight(groupSpacing);
+        table.add(studentsImg).pad(padding).size(30);
+        table.add(students).pad(padding).spaceRight(groupSpacing);
+        table.add(satisImg).pad(padding).size(30);
+        table.add(satisfaction).pad(padding).spaceRight(spacing);
+        table.add(accomImg).pad(padding).size(30);
+        table.add(accomBuildings).pad(padding).spaceRight(groupSpacing);
+        table.add(academImg).pad(padding).size(30);
+        table.add(academBuildings).pad(padding).spaceRight(groupSpacing);
+        table.add(recImg).pad(padding).size(30);
+        table.add(recBuildings).pad(padding).spaceRight(groupSpacing);
+        table.add(foodImg).pad(padding).size(30);
+        table.add(foodBuildings).pad(padding).spaceRight(spacing);
+        table.add(timerImg).pad(padding).size(30);
+        table.add(timer).pad(padding).spaceRight(groupSpacing);
+        table.add(inGameTimer).pad(padding);
 
         stage.addActor(table);
-
     }
 
 
@@ -155,16 +183,17 @@ public class StatsRenderer {
         batch.begin();
 
         // Update the label contents each frame
-        balStr = "Balance: " + GameGlobals.BALANCE;
-        studentsStr = "Students: " + GameGlobals.STUDENTS;
-        satisStr = "Satisfaction: " + GameGlobals.SATISFACTION;
-        accomBuildingsStr = "Accomodation: " + GameGlobals.ACCOMODATION_BUILDINGS_COUNT;
-        academBuildingsStr = "Academic: " + GameGlobals.ACADEMIC_BUILDINGS_COUNT;
-        recBuildingsStr = "Recreational: " + GameGlobals.RECREATIONAL_BUILDINGS_COUNT;
-        foodBuildingsStr = "Food: " + GameGlobals.FOOD_BUILDINGS_COUNT;
+        if (GameGlobals.BALANCE < 0) {balance.setColor(Color.RED);} //Sets the balance colour to red if in debt
+        balStr = "" + GameGlobals.BALANCE;
+        studentsStr = "" + GameGlobals.STUDENTS;
+        satisStr = "" + GameGlobals.SATISFACTION;
+        accomBuildingsStr = "" + GameGlobals.ACCOMODATION_BUILDINGS_COUNT;
+        academBuildingsStr = "" + GameGlobals.ACADEMIC_BUILDINGS_COUNT;
+        recBuildingsStr = "" + GameGlobals.RECREATIONAL_BUILDINGS_COUNT;
+        foodBuildingsStr = "" + GameGlobals.FOOD_BUILDINGS_COUNT;
 
         TimeUtil.Time timerAmount = TimeUtil.secondsToMinSecs(GameGlobals.ELAPSED_TIME);
-        timerStr = "Timer: " + timerAmount;
+        timerStr = "" + timerAmount;
 
         inGameTimerStr = TimeUtil.inGameTime(GameGlobals.ELAPSED_TIME);
 
