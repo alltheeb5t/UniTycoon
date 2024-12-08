@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.vikingz.unitycoon.achievements.AchievementsHandler;
+import com.vikingz.unitycoon.util.MoneyHandler;
 import com.vikingz.unitycoon.util.SatisfactionHandler;
 
 
@@ -27,6 +28,7 @@ public class GameGlobals {
     public static int FOOD_BUILDINGS_COUNT = 0;
     public static int ELAPSED_TIME = 0;
     public static AchievementsHandler ACHIEVEMENTS = new AchievementsHandler();
+    public static MoneyHandler MONEY = new MoneyHandler();
 
     //Size of the building SCREEN_BUILDING_SIZExSCREEN_BUILDING_SIZE
     public static final int SCREEN_BUILDING_SIZE = 128;
@@ -58,6 +60,7 @@ public class GameGlobals {
         SATISFACTION = new SatisfactionHandler();
         STUDENTS = 0;
         BALANCE = startingBALANCE;
+        MONEY = new MoneyHandler();
     }
 
 }
