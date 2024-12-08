@@ -30,7 +30,7 @@ public class RealisticAchievement extends Achievements {
      */
     @Override
     protected boolean isCompleted() {
-        if (GameGlobals.BALANCE < -24000) {
+        if (GameGlobals.MONEY.getBalance() < -24000) {
             return true;
         }
         return false;

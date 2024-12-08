@@ -18,8 +18,6 @@ import com.vikingz.unitycoon.util.SatisfactionHandler;
 public class GameGlobals {
 
     //Static stats of the current game
-    private static final int startingBALANCE = 500;
-    public static int BALANCE = startingBALANCE;
     public static SatisfactionHandler SATISFACTION = new SatisfactionHandler();
     public static int STUDENTS = 0;
     public static int ACADEMIC_BUILDINGS_COUNT = 0;
@@ -59,7 +57,6 @@ public class GameGlobals {
         FOOD_BUILDINGS_COUNT = 0;
         SATISFACTION = new SatisfactionHandler();
         STUDENTS = 0;
-        BALANCE = startingBALANCE;
         MONEY = new MoneyHandler();
     }
 

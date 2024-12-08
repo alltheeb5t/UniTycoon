@@ -216,8 +216,8 @@ public class StatsRenderer {
         batch.begin();
 
         // Update the label contents each frame
-        if (GameGlobals.BALANCE < 0) {balance.setColor(Color.RED);} //Sets the balance colour to red if in debt
-        balStr = "" + GameGlobals.BALANCE;
+        if (GameGlobals.MONEY.getBalance() < 0) {balance.setColor(Color.RED);} //Sets the balance colour to red if in debt
+        balStr = "" + GameGlobals.MONEY.getBalance();
         studentsStr = "" + GameGlobals.STUDENTS;
         satisStr = "" + GameGlobals.SATISFACTION.getSatisfaction() + "%";
         accomBuildingsStr = "" + GameGlobals.ACCOMODATION_BUILDINGS_COUNT;

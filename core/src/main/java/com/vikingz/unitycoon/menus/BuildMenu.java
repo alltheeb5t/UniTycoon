@@ -232,7 +232,7 @@ public class BuildMenu{
             public void clicked(InputEvent event, float x, float y) {
                 // Creates an going into debt pop-up if the user doesn't have enough money for the building.
                 // Only shows the first time
-                if(!inDebtBefore && (GameGlobals.BALANCE - Integer.valueOf(BuildingStats.BuildingPriceDict.get(buildingType)[index]) < 0)) {
+                if(!inDebtBefore && (GameGlobals.MONEY.getBalance() - Integer.valueOf(BuildingStats.BuildingPriceDict.get(buildingType)[index]) < 0)) {
                     inDebtBefore = true;
                     DebtMenu debtPopUp = new DebtMenu(skin);
                     debtPopUp.setPosition((stage.getWidth() - debtPopUp.getWidth()) / 2, (stage.getHeight() - debtPopUp.getHeight()) / 2);

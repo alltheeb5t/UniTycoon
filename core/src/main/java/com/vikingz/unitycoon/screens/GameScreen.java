@@ -4,10 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.vikingz.unitycoon.building.Building;
-import com.vikingz.unitycoon.building.BuildingStats;
-import com.vikingz.unitycoon.building.buildings.FoodBuilding;
-import com.vikingz.unitycoon.building.buildings.RecreationalBuilding;
 import com.vikingz.unitycoon.global.GameConfigManager;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.GameRenderer;
@@ -104,19 +100,7 @@ public class GameScreen extends SuperScreen implements Screen {
                 // Calculate Game Stats
                 GameGlobals.ELAPSED_TIME--;
 
-                for (Building building : gameRenderer.getBuildingRenderer().getBuildingsMap().getPlacedBuildings()){
-
-                    if(building.getBuildingType() == BuildingStats.BuildingType.FOOD){
-                        FoodBuilding foodBuilding = (FoodBuilding) building;
-                        GameGlobals.BALANCE += foodBuilding.calculateProfitMade();
-                    }
-
-                    if(building.getBuildingType() == BuildingStats.BuildingType.RECREATIONAL){
-                        RecreationalBuilding recreationBuilding = (RecreationalBuilding) building;
-                        GameGlobals.BALANCE += recreationBuilding.calculateProfitMade();
-                    }
-
-                }
+                GameGlobals.MONEY.earn(gameRenderer.getBuildingRenderer().getBuildingsMap().getPlacedBuildings());
                 elapsedTime = 0; // Reset elapsed time
 
                 // Calculates Satisfaction change from debt
@@ -158,7 +142,7 @@ public class GameScreen extends SuperScreen implements Screen {
      * satisfaction if not in debt
      */
     private void debtSatisfactionEffect() {
-        if (GameGlobals.BALANCE < 0) {
+        if (GameGlobals.MONEY.getBalance() < 0) {
             GameGlobals.SATISFACTION.applyPenalty(1); 
             debtSatisfactionLoss += 1;
         }
@@ -218,7 +202,7 @@ public class GameScreen extends SuperScreen implements Screen {
      * @return true if the player won
      */
     public static boolean gameWon(){
-        if (GameGlobals.SATISFACTION.getSatisfaction() >= 70 && GameGlobals.BALANCE >= 0) {
+        if (GameGlobals.SATISFACTION.getSatisfaction() >= 70 && GameGlobals.MONEY.getBalance() >= 0) {
             return true;
         }
         return false;

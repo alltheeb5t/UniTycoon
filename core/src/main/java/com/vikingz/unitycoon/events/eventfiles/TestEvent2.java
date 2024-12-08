@@ -16,10 +16,10 @@ public class TestEvent2 extends SuperEvent {
             @Override
             public void run() {
                 System.out.println("Close button pressed");
-                if (GameGlobals.BALANCE >= 200000) {
-                    GameGlobals.BALANCE -= 200000;
+                if (GameGlobals.MONEY.getBalance() >= 200000) {
+                    GameGlobals.MONEY.withdraw(200000);
                 } else {
-                    GameGlobals.BALANCE = 0;
+                    GameGlobals.MONEY.withdraw(GameGlobals.MONEY.getBalance());
                 }
             }
         };

@@ -33,12 +33,12 @@ public class TestSuper {
      * @param skipConstruction
      * @return
      */
-    protected List<Building> addGetBasicTestBuilding(BuildingsMap testMap, BuildingType testBuildingType, float x, float y, boolean skipConstruction) {
+    protected List<Building> addGetBasicTestBuilding(BuildingsMap testMap, BuildingType testBuildingType, float x, float y, boolean skipConstruction, boolean ignoreCost) {
         int testBuildingIndex = 0;  // Represents what variant we want. ACADEMIC 0 is a Ron Cooke Hub
         BuildingInfo testBuildingInfo = BuildingStats.getInfo(testBuildingType, testBuildingIndex);
         TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuildingType)[testBuildingIndex]);
 
-        List<Building> addedBuilding = testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, x, y, true);
+        List<Building> addedBuilding = testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, x, y, ignoreCost);
 
         // Immediately complete construction
         if (!addedBuilding.isEmpty() && skipConstruction) {
@@ -58,8 +58,13 @@ public class TestSuper {
      * @param skipConstruction
      * @return
      */
+    protected boolean addBasicTestBuilding(BuildingsMap testMap, BuildingType testBuildingType, float x, float y, boolean skipConstruction, boolean ignoreCost) {
+        return !addGetBasicTestBuilding(testMap, testBuildingType, x, y, skipConstruction, ignoreCost).isEmpty();
+    }
+
+    // ignoreCost defaults to false
     protected boolean addBasicTestBuilding(BuildingsMap testMap, BuildingType testBuildingType, float x, float y, boolean skipConstruction) {
-        return !addGetBasicTestBuilding(testMap, testBuildingType, x, y, skipConstruction).isEmpty();
+        return addBasicTestBuilding(testMap, testBuildingType, x, y, skipConstruction, true);
     }
 
     // skipConstruction defaults to false

@@ -15,9 +15,9 @@ public class MoneyTest extends TestSuper {
     public void testBuildingReducesBalance() {
         BuildingsMap testMap = getTestMap();
 
-        int initialBalance = GameGlobals.BALANCE;
+        float initialBalance = GameGlobals.MONEY.getBalance();
 
-        addBasicTestBuilding(testMap, BuildingType.ACADEMIC, 110, 10);
-        assertEquals(initialBalance-Integer.valueOf(BuildingStats.BuildingPriceDict.get(BuildingType.ACADEMIC)[0]), GameGlobals.BALANCE);
+        addBasicTestBuilding(testMap, BuildingType.ACADEMIC, 110, 10, true, false);
+        assertEquals(initialBalance-Integer.valueOf(BuildingStats.BuildingPriceDict.get(BuildingType.ACADEMIC)[0]), GameGlobals.MONEY.getBalance());
     }
 }

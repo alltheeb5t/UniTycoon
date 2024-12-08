@@ -25,7 +25,7 @@ public class TestEvent extends SuperEvent {
             @Override
             public void run() {
                 System.out.println("Right button pressed");
-                GameGlobals.BALANCE += 100000;
+                GameGlobals.MONEY.deposit(10000);
             }
         };
         super.rightText = "Right";
