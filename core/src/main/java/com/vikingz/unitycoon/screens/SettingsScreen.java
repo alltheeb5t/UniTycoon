@@ -82,14 +82,6 @@ public class SettingsScreen extends SuperScreen implements Screen {
             }
         });
 
-        TextButton quitButton = new TextButton("Quit", skin);
-        quitButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                Gdx.app.exit(); // Quit the application
-            }
-        });
-
         fullscreenButton = new TextButton("Fullscreen",skin);
         fullscreenButton.addListener(e -> {
             if (fullscreenButton.isPressed()){
@@ -147,15 +139,11 @@ public class SettingsScreen extends SuperScreen implements Screen {
         table.add(windowButton).fillX().uniformX().pad(10);
         table.row();
 
-
         table.add((Actor) null);
         table.add(backButton).fillX().uniformX().pad(10);
 
         table.row();
         table.add((Actor) null);
-
-        table.add(quitButton).fillX().pad(10);
-        table.row();
 
         table.row();
 

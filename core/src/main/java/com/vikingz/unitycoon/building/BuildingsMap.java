@@ -62,6 +62,7 @@ public class BuildingsMap {
             if (!ignoreCost) {
                float balanceAfterPurchase = GameGlobals.BALANCE - buildingInfo.getBuildingCost();
                 if (balanceAfterPurchase < 0) {
+                    
                     return addedBuildings;  // Added buildings will simply be empty at this point
                 } 
             }

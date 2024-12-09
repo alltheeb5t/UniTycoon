@@ -15,7 +15,6 @@ import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.BuildingRenderer;
 
 import static com.vikingz.unitycoon.building.BuildingStats.BuildingCoinDict;
-import static com.vikingz.unitycoon.building.BuildingStats.BuildingSatisfactionDict;
 import static com.vikingz.unitycoon.building.BuildingStats.BuildingType.*;
 
 
@@ -53,6 +52,9 @@ public class BuildMenu{
     //should be displayed currently
     private int index = 0;
 
+    // Determines if the user has ever been in debt
+    private boolean inDebtBefore;
+
     /**
      * Creates a new BuildMenu
      * @param skin SKin of the buttons on the menu
@@ -61,11 +63,11 @@ public class BuildMenu{
      */
     public BuildMenu(Skin skin, BuildingRenderer buildingRenderer, Stage stage) {
 
-
         this.stage = stage;
         this.buildingRenderer =  buildingRenderer;
         this.skin = skin;
 
+        inDebtBefore = false;
 
         //Texture atlas of building menu bar
         Texture textureAtlas = new Texture(Gdx.files.internal("textureAtlases/buildMenuButtonsAtlas.png")); // Load your 64x64 PNG
@@ -183,13 +185,6 @@ public class BuildMenu{
         window.add(buildingImage);
         window.row().padTop(20);
 
-        //satisfaction Label
-        window.add((Actor) null);
-
-        Label buildingSatisfaction = new Label("Satisfaction: " + BuildingSatisfactionDict.get(buildingType)[0],skin);
-        window.add(buildingSatisfaction).expandX();
-        window.row();
-
         //Student Label
         window.add((Actor) null);
         Label buildingStudent = new Label("Student Space: " + BuildingStats.BuildingStudentDict.get(buildingType)[0],skin);
@@ -219,11 +214,11 @@ public class BuildMenu{
             public void clicked(InputEvent event, float x, float y) {
                 try {
                     index--;
-                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingSatisfaction, buildingStudent, buildingCoins, buildingImage);
+                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingStudent, buildingCoins, buildingImage);
                 }
                 catch (ArrayIndexOutOfBoundsException e){
                     index = BuildingStats.BuildingNameDict.get(buildingType).length-1;
-                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingSatisfaction, buildingStudent, buildingCoins, buildingImage);
+                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingStudent, buildingCoins, buildingImage);
                 }
             }
         });
@@ -235,8 +230,19 @@ public class BuildMenu{
         buyButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                buildingRenderer.selectBuilding(buildingType,index);
-                window.remove();
+                // Creates an going into debt pop-up if the user doesn't have enough money for the building.
+                // Only shows the first time
+                if(!inDebtBefore && (GameGlobals.BALANCE - Integer.valueOf(BuildingStats.BuildingPriceDict.get(buildingType)[index]) < 0)) {
+                    inDebtBefore = true;
+                    DebtMenu debtPopUp = new DebtMenu(skin);
+                    debtPopUp.setPosition((stage.getWidth() - debtPopUp.getWidth()) / 2, (stage.getHeight() - debtPopUp.getHeight()) / 2);
+                    debtPopUp.setupButton(skin, buildingRenderer, window, buildingType, index);
+                    stage.addActor(debtPopUp);
+                }
+                else {
+                    buildingRenderer.selectBuilding(buildingType,index);
+                    window.remove();
+                }
             }
         });
         window.add(buyButton);
@@ -250,11 +256,11 @@ public class BuildMenu{
             public void clicked(InputEvent event, float x, float y) {
                 try {
                     index++;
-                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingSatisfaction, buildingStudent, buildingCoins, buildingImage);
+                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingStudent, buildingCoins, buildingImage);
                 }
                 catch (ArrayIndexOutOfBoundsException e){
                     index = 0;
-                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingSatisfaction, buildingStudent, buildingCoins, buildingImage);
+                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingStudent, buildingCoins, buildingImage);
                 }
             }
         });
@@ -301,10 +307,9 @@ public class BuildMenu{
      * @param buildingCoins coin generated per second by building
      * @param buildingImage Image of building being, used for preview
      */
-    private void SetLabelText(Label buildingNameLabel, BuildingStats.BuildingType buildingType, Label buildingPrice, Label buildingSatisfaction, Label buildingStudent, Label buildingCoins, Image buildingImage) {
+    private void SetLabelText(Label buildingNameLabel, BuildingStats.BuildingType buildingType, Label buildingPrice, Label buildingStudent, Label buildingCoins, Image buildingImage) {
         buildingNameLabel.setText(BuildingStats.BuildingNameDict.get(buildingType)[index]);
         buildingPrice.setText("Price: " + BuildingStats.BuildingPriceDict.get(buildingType)[index]);
-        buildingSatisfaction.setText("Satisfaction: " +BuildingSatisfactionDict.get(buildingType)[index]);
         buildingStudent.setText("Student Space: " + BuildingStats.BuildingStudentDict.get(buildingType)[index]);
         buildingCoins.setText("Coins Per Second: " + BuildingCoinDict.get(buildingType)[index]);
         buildingImage.setDrawable(BuildingStats.getTextureDrawableOfBuilding(BuildingStats.BuildingDict.get(buildingType)[index]));
