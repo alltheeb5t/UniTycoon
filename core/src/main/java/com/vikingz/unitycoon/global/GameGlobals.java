@@ -3,6 +3,9 @@ package com.vikingz.unitycoon.global;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.vikingz.unitycoon.achievements.AchievementsHandler;
+import com.vikingz.unitycoon.util.MoneyHandler;
+import com.vikingz.unitycoon.util.SatisfactionHandler;
 
 
 /**
@@ -17,13 +20,15 @@ public class GameGlobals {
     //Static stats of the current game
     private static final int startingBALANCE = 500;
     public static int BALANCE = startingBALANCE;
-    public static int SATISFACTION = 70;
+    public static SatisfactionHandler SATISFACTION = new SatisfactionHandler();
     public static int STUDENTS = 0;
     public static int ACADEMIC_BUILDINGS_COUNT = 0;
     public static int ACCOMODATION_BUILDINGS_COUNT = 0;
     public static int RECREATIONAL_BUILDINGS_COUNT = 0;
     public static int FOOD_BUILDINGS_COUNT = 0;
     public static int ELAPSED_TIME = 0;
+    public static AchievementsHandler ACHIEVEMENTS = new AchievementsHandler();
+    public static MoneyHandler MONEY = new MoneyHandler();
 
     //Size of the building SCREEN_BUILDING_SIZExSCREEN_BUILDING_SIZE
     public static final int SCREEN_BUILDING_SIZE = 128;
@@ -52,9 +57,10 @@ public class GameGlobals {
         ACCOMODATION_BUILDINGS_COUNT = 0;
         RECREATIONAL_BUILDINGS_COUNT = 0;
         FOOD_BUILDINGS_COUNT = 0;
-        SATISFACTION = 70;
+        SATISFACTION = new SatisfactionHandler();
         STUDENTS = 0;
         BALANCE = startingBALANCE;
+        MONEY = new MoneyHandler();
     }
 
 }

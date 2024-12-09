@@ -44,7 +44,7 @@ public class MasterOfChangeAchievement extends Achievements {
             return true;
         }
         
-        if (GameGlobals.ELAPSED_TIME >= 120 && GameGlobals.SATISFACTION >= 50) {
+        if (GameGlobals.ELAPSED_TIME >= 120 && GameGlobals.SATISFACTION.getSatisfaction() >= 50) {
             masterOfChangePossible = false;
         }
 

@@ -108,8 +108,8 @@ public class UIRenderer {
         endOfTimerPopup.setPosition((stage.getWidth() - endOfTimerPopup.getWidth()) / 2, (stage.getHeight() - endOfTimerPopup.getHeight()) / 2);
         stage.addActor(endOfTimerPopup);
 
-        if (Leaderboard.isLeaderboardScore(GameGlobals.SATISFACTION)) {
-            Leaderboard.addScoreToLeaderBoard(GameGlobals.SATISFACTION, UsernameMenu.getUsername());
+        if (Leaderboard.isLeaderboardScore(GameGlobals.SATISFACTION.getSatisfaction())) {
+            Leaderboard.addScoreToLeaderBoard(GameGlobals.SATISFACTION.getSatisfaction(), UsernameMenu.getUsername());
             Leaderboard.saveLeaderboard();
         }
 

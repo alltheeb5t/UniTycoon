@@ -52,6 +52,15 @@ public class MenuScreen extends SuperScreen implements Screen {
             };
         });
 
+        achievementsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                achievementsMenu.setPosition((stage.getWidth() - achievementsMenu.getWidth()) / 2, (stage.getHeight() - achievementsMenu.getHeight()) / 2);
+                achievementsMenu.update();
+                stage.addActor(achievementsMenu);
+                };
+         });
+      
         howToPlayButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

@@ -186,7 +186,7 @@ public class StatsRenderer {
         if (GameGlobals.BALANCE < 0) {balance.setColor(Color.RED);} //Sets the balance colour to red if in debt
         balStr = "" + GameGlobals.BALANCE;
         studentsStr = "" + GameGlobals.STUDENTS;
-        satisStr = "" + GameGlobals.SATISFACTION;
+        satisStr = "" + GameGlobals.SATISFACTION.getSatisfaction() + "%";
         accomBuildingsStr = "" + GameGlobals.ACCOMODATION_BUILDINGS_COUNT;
         academBuildingsStr = "" + GameGlobals.ACADEMIC_BUILDINGS_COUNT;
         recBuildingsStr = "" + GameGlobals.RECREATIONAL_BUILDINGS_COUNT;

@@ -43,12 +43,12 @@ public class MikeFreemanAwardAchievement extends Achievements {
             return true;
         }
 
-        if (GameGlobals.SATISFACTION < 80) {
+        if (GameGlobals.SATISFACTION.getSatisfaction() < 80) {
             mikeFreemanAwardStartTime = -1;
         }
         
         // Starts timer when satisfaction goes over 80%
-        if (GameGlobals.SATISFACTION >= 80 && mikeFreemanAwardStartTime == -1){
+        if (GameGlobals.SATISFACTION.getSatisfaction() >= 80 && mikeFreemanAwardStartTime == -1){
             mikeFreemanAwardStartTime = GameGlobals.ELAPSED_TIME;
         }
 
