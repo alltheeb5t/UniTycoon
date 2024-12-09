@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.vikingz.unitycoon.menus.AchievementsMenu;
+import com.vikingz.unitycoon.menus.TutorialMenu;
 import com.vikingz.unitycoon.menus.UsernameMenu;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -32,11 +33,16 @@ public class MenuScreen extends SuperScreen implements Screen {
 
         // Create buttons
         TextButton playButton = new TextButton("Play", skin);
+        TextButton howToPlayButton = new TextButton("How To Play", skin);
         TextButton achievementsButton = new TextButton("Achievements",skin);
         TextButton settingsButton = new TextButton("Settings", skin);
         TextButton quitButton = new TextButton("Quit", skin);
 
         AchievementsMenu achievementsMenu = new AchievementsMenu(skin);
+        
+        TutorialMenu tutorialMenu = new TutorialMenu(skin);
+        tutorialMenu.setPosition((stage.getWidth() - tutorialMenu.getWidth()) / 2, (stage.getHeight() - tutorialMenu.getHeight()) / 2);
+        tutorialMenu.setupButton(skin);
 
         // Add listeners to buttons
         playButton.addListener(new ClickListener() {
@@ -46,6 +52,12 @@ public class MenuScreen extends SuperScreen implements Screen {
             };
         });
 
+        howToPlayButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                stage.addActor(tutorialMenu);
+            };
+        });
 
         settingsButton.addListener(new ClickListener() {
             @Override
@@ -67,11 +79,13 @@ public class MenuScreen extends SuperScreen implements Screen {
         table.center();
 
         Image texture = new Image(new Texture(Gdx.files.internal("gameLogo.png")));
-        table.add(texture).pad(50);
+        table.add(texture).pad(50).width(800);
         table.row();
 
         // Add buttons to table
         table.add(playButton).width(425).pad(10);
+        table.row();
+        table.add(howToPlayButton).width(425).pad(10);
         table.row();
         table.add(achievementsButton).width(425).pad(10);
         table.row();

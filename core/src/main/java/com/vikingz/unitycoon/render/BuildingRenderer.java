@@ -122,6 +122,7 @@ public class BuildingRenderer{
 
         // Check for left mouse click to place the texture
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && selectedTexture != null) {
+
             if (!campusBuildingsMap.attemptAddBuilding(currentBuildingInfo, selectedTexture, previewX, previewY).isEmpty()) {
                 // Plays the sound of a building being places
                 GameSounds.playPlacedBuilding();

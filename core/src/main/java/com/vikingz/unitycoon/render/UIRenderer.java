@@ -90,7 +90,7 @@ public class UIRenderer {
             leaderboardPopUp.setPosition((stage.getWidth() - leaderboardPopUp.getWidth()) / 2, (stage.getHeight() - leaderboardPopUp.getHeight()) / 2);
             stage.addActor(leaderboardPopUp);};
 
-        endOfTimerPopup.setupButtons(leftBtn, "Leaderboard", rightBtn, "Quit");
+        endOfTimerPopup.setupButtons(leftBtn, "Leaderboard", rightBtn, "Menu");
         leaderboardPopUp.setupButton();
     }
 
