@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.vikingz.unitycoon.global.GameGlobals;
-import com.vikingz.unitycoon.util.TimeUtil;
+import com.vikingz.unitycoon.util.TimeHandler;
 
 /**
  * This class is used for drawing game stats to the screen.
@@ -163,10 +163,10 @@ public class StatsRenderer {
         recBuildingsStr = "Recreational: " + GameGlobals.RECREATIONAL_BUILDINGS_COUNT;
         foodBuildingsStr = "Food: " + GameGlobals.FOOD_BUILDINGS_COUNT;
 
-        TimeUtil.Time timerAmount = TimeUtil.secondsToMinSecs(GameGlobals.ELAPSED_TIME);
+        TimeHandler.Time timerAmount = TimeHandler.secondsToMinSecs(GameGlobals.ELAPSED_TIME);
         timerStr = "Timer: " + timerAmount;
 
-        inGameTimerStr = TimeUtil.inGameTime(GameGlobals.ELAPSED_TIME);
+        inGameTimerStr = TimeHandler.inGameTime(GameGlobals.ELAPSED_TIME);
 
         // Sets the new string to the corresponding label
         balance.setText(balStr);

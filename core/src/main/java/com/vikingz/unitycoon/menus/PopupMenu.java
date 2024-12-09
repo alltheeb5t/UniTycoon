@@ -10,7 +10,7 @@ import com.vikingz.unitycoon.screens.GameScreen;
  * This is a generic PopupMenu class that can create user defined
  * popups. This class is crucial for the implementation of random events
  * in the game during later development.
- *
+ * <p>
  * The user can assign everything in the popup, all the text displayed
  * as well as the runnable that run when the 2 buttons are pressed.
  */
@@ -19,15 +19,12 @@ public class PopupMenu extends Window {
     // Skin for the popup
     private final Skin skin;
 
-    GameScreen gameScreen;
-
-
     /**
      * Creates a new Popup menu
      * @param skin Skin for the menu
      * @param Message Message to be displayed in the popup
      */
-    public PopupMenu(Skin skin, String Message, GameScreen gameScreen) {
+    public PopupMenu(Skin skin, String Message) {
 
         super("", skin);
 
@@ -43,9 +40,7 @@ public class PopupMenu extends Window {
         Label message = new Label(Message, skin);
         this.add(message).padBottom(20).row();
 
-        this.gameScreen = gameScreen;
-
-        gameScreen.setPaused(true);
+        GameGlobals.TIME.setPaused(true);
 
     }
 
@@ -72,7 +67,7 @@ public class PopupMenu extends Window {
             public void clicked(InputEvent event, float x, float y) {
                 leftRun.run();
                 PopupMenu.this.remove();
-                gameScreen.setPaused(false);
+                GameGlobals.TIME.setPaused(false);
             }
         });
 
@@ -81,7 +76,7 @@ public class PopupMenu extends Window {
             public void clicked(InputEvent event, float x, float y) {
                 rightRun.run();
                 PopupMenu.this.remove();
-                gameScreen.setPaused(false);
+                GameGlobals.TIME.setPaused(false);
             }
         });
     }
@@ -103,7 +98,7 @@ public class PopupMenu extends Window {
             public void clicked(InputEvent event, float x, float y) {
                 runnable.run();
                 PopupMenu.this.remove();
-                gameScreen.setPaused(false);
+                GameGlobals.TIME.setPaused(false);
             }
         });
     }

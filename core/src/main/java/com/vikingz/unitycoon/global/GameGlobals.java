@@ -6,6 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.vikingz.unitycoon.achievements.AchievementsHandler;
 import com.vikingz.unitycoon.util.MoneyHandler;
 import com.vikingz.unitycoon.util.SatisfactionHandler;
+import com.vikingz.unitycoon.events.EventHandler;
+import com.vikingz.unitycoon.util.TimeHandler;
+
+import static com.badlogic.gdx.math.MathUtils.random;
 
 
 /**
@@ -29,6 +33,8 @@ public class GameGlobals {
     public static int ELAPSED_TIME = 0;
     public static AchievementsHandler ACHIEVEMENTS = new AchievementsHandler();
     public static MoneyHandler MONEY = new MoneyHandler();
+    public static EventHandler EVENT = new EventHandler();
+    public static TimeHandler TIME = new TimeHandler();
 
     //Size of the building SCREEN_BUILDING_SIZExSCREEN_BUILDING_SIZE
     public static final int SCREEN_BUILDING_SIZE = 128;
@@ -61,6 +67,7 @@ public class GameGlobals {
         STUDENTS = 0;
         BALANCE = startingBALANCE;
         MONEY = new MoneyHandler();
+        EVENT = new EventHandler();
     }
 
 }
