@@ -9,10 +9,6 @@ import com.vikingz.unitycoon.util.SatisfactionHandler;
 import com.vikingz.unitycoon.events.EventHandler;
 import com.vikingz.unitycoon.util.TimeHandler;
 
-import static com.badlogic.gdx.math.MathUtils.random;
-
-import static com.badlogic.gdx.math.MathUtils.random;
-
 
 /**
  * This class is used to store all the constants and global values
@@ -51,11 +47,6 @@ public class GameGlobals {
     public static final TextureRegionDrawable map2Draw = new TextureRegionDrawable(map2Texture);
     public static final TextureRegionDrawable map3Draw = new TextureRegionDrawable(map3Texture);
     public static final TextureRegionDrawable[] mapArray = new TextureRegionDrawable[]{map1Draw, map2Draw, map3Draw};
-
-    // Generates random events for the game
-    public static int firstSemEvent;
-    public static int secondSemEvent;
-    public static int thirdSemEvent;
 
 
     /**
