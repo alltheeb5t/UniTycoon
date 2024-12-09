@@ -88,18 +88,18 @@ public class MenuScreen extends SuperScreen implements Screen {
         table.center();
 
         Image texture = new Image(new Texture(Gdx.files.internal("gameLogo.png")));
-        table.add(texture).pad(50).width(800);
+        table.add(texture).pad(50);
         table.row();
 
-        // Add buttons to table
-        table.add(playButton).width(425).pad(10);
-        table.row();
-        table.add(howToPlayButton).width(425).pad(10);
-        table.row();
-        table.add(achievementsButton).width(425).pad(10);
-        table.row();
-        table.add(settingsButton).width(425).pad(10);
-        table.row();
+        // Add buttons to table with 2 rows of 2 buttons and quit at the bottom
+        Table buttonRows = new Table();
+        buttonRows.add(playButton).width(425).pad(10);
+        buttonRows.add(howToPlayButton).width(425).pad(10);
+        buttonRows.row();
+        buttonRows.add(achievementsButton).width(425).pad(10);
+        buttonRows.add(settingsButton).width(425).pad(10);
+        
+        table.add(buttonRows).pad(10).row();
         table.add(quitButton).width(425).pad(10);
 
         // Add the table to the stage
