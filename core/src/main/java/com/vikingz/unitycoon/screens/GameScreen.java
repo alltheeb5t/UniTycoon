@@ -88,9 +88,9 @@ public class GameScreen extends SuperScreen implements Screen {
         }
 
         // Testing events key
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SEMICOLON)){
-            event();
-        }
+        //if(Gdx.input.isKeyJustPressed(Input.Keys.SEMICOLON)){
+        //    event();
+        //}
 
         if(!isPaused){
 
@@ -101,6 +101,13 @@ public class GameScreen extends SuperScreen implements Screen {
                 GameGlobals.ELAPSED_TIME--;
 
                 GameGlobals.MONEY.earn(gameRenderer.getBuildingRenderer().getBuildingsMap().getPlacedBuildings());
+
+                if (GameGlobals.ELAPSED_TIME == GameGlobals.firstSemEvent
+                || GameGlobals.ELAPSED_TIME == GameGlobals.secondSemEvent
+                || GameGlobals.ELAPSED_TIME == GameGlobals.thirdSemEvent) {
+                    event();
+                }
+
                 elapsedTime = 0; // Reset elapsed time
 
                 // Calculates Satisfaction change from debt
