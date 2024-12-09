@@ -26,9 +26,6 @@ public class GameScreen extends SuperScreen implements Screen {
     //Determines if the game had been loaded from fullScreen
     public boolean fullScreen;
 
-    //determines if the game is paused
-    private boolean isPaused;
-
     // Counter variables
     private float elapsedTime;
 
@@ -56,11 +53,11 @@ public class GameScreen extends SuperScreen implements Screen {
     public GameScreen(String mapName){
         super();
 
-        this.isPaused = false;
+        GameGlobals.TIME.setPaused(false);
         endedAlready = false;
         debtSatisfactionLoss = 0;
         gameRenderer = new GameRenderer(mapName);
-        uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer(), this);
+        uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer());
         elapsedTime = 0;
         //5 minutes
         GameGlobals.resetGlobals(300);
@@ -92,7 +89,7 @@ public class GameScreen extends SuperScreen implements Screen {
         //    event();
         //}
 
-        if(!isPaused){
+        if(!GameGlobals.TIME.isPaused()){
 
             elapsedTime += delta; // delta is the time elapsed since the last frame
             if (elapsedTime >= 1) { // Increment counter every second
@@ -102,10 +99,10 @@ public class GameScreen extends SuperScreen implements Screen {
 
                 GameGlobals.MONEY.earn(gameRenderer.getBuildingRenderer().getBuildingsMap().getPlacedBuildings());
 
-                if (GameGlobals.ELAPSED_TIME == GameGlobals.firstSemEvent
-                || GameGlobals.ELAPSED_TIME == GameGlobals.secondSemEvent
-                || GameGlobals.ELAPSED_TIME == GameGlobals.thirdSemEvent) {
-                    event();
+                for (int time : GameGlobals.EVENT.getEventTimes()) {
+                    if (GameGlobals.ELAPSED_TIME == time) {
+                        event();
+                    }
                 }
 
                 elapsedTime = 0; // Reset elapsed time
@@ -177,7 +174,7 @@ public class GameScreen extends SuperScreen implements Screen {
      */
     @Override
     public void pause() {
-        uiRenderer.pause(isPaused);
+        uiRenderer.pause(GameGlobals.TIME.isPaused());
 
     }
 
@@ -192,8 +189,7 @@ public class GameScreen extends SuperScreen implements Screen {
      * This is called when the game finishes, ie when the timer runs out
      */
     private void endGame(){
-        isPaused = true;
-
+        GameGlobals.TIME.setPaused(true);
         GameGlobals.SATISFACTION.addBonus(GameGlobals.ACHIEVEMENTS.getBonus());
         // Checks if player won the game
         if (gameWon()) {
@@ -241,11 +237,4 @@ public class GameScreen extends SuperScreen implements Screen {
         uiRenderer.takeInput();
     }
 
-    /**
-     * Sets the game to be paused
-     * @param isPaused boolean of if the game is paused
-     */
-    public void setPaused(boolean isPaused){
-        this.isPaused = isPaused;
-    }
 }

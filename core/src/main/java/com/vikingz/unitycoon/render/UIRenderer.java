@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.vikingz.unitycoon.achievements.AchievementsHandler;
-import com.vikingz.unitycoon.events.EventManager;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.menus.*;
 import com.vikingz.unitycoon.screens.GameScreen;
@@ -41,7 +40,6 @@ public class UIRenderer {
     private final StatsRenderer statsRenderer;
 
     // Popup Menus
-    private final EventManager eventManager;
     private final PauseMenu pauseMenu;
     private final EndMenu endOfTimerPopup;
     private final LeaderboardMenu leaderboardPopUp;
@@ -57,11 +55,8 @@ public class UIRenderer {
      * Creates a new UIRenderer
      * @param skin Skin used to style content
      * @param buildingRenderer Building renderer
-     * @param gameScreen Game screen
      */
-    public UIRenderer(Skin skin, BuildingRenderer buildingRenderer, GameScreen gameScreen){
-
-        this.gameScreen = gameScreen;
+    public UIRenderer(Skin skin, BuildingRenderer buildingRenderer){
 
         //viewport = new FillViewport(1824, 1026);
         viewport = new FitViewport(1824, 1026);
@@ -73,7 +68,6 @@ public class UIRenderer {
         statsRenderer = new StatsRenderer(skin);
         buildMenu = new BuildMenu(skin, buildingRenderer, stage);
 
-        eventManager = new EventManager(gameScreen);
         pauseMenu = new PauseMenu(skin);
         endOfTimerPopup = new EndMenu(skin, "End of Game");
         leaderboardPopUp = new LeaderboardMenu(skin, "");
@@ -125,10 +119,10 @@ public class UIRenderer {
     public void createEvent() {
         System.out.println("Event made");
 
-        PopupMenu event = eventManager.randomEvent().getPopup();
+        PopupMenu event = GameGlobals.EVENT.randomEvent().getPopup();
         stage.addActor(event);
         event.setPosition((stage.getWidth() - pauseMenu.getWidth()) / 2, (stage.getHeight() - pauseMenu.getHeight()) / 2);
-        gameScreen.setPaused(true);
+        GameGlobals.TIME.setPaused(true);
     }
 
     /**
@@ -141,11 +135,11 @@ public class UIRenderer {
         if(!pauseMenu.hasParent()){
             stage.addActor(pauseMenu);
             pauseMenu.setPosition((stage.getWidth() - pauseMenu.getWidth()) / 2, (stage.getHeight() - pauseMenu.getHeight()) / 2);
-            gameScreen.setPaused(true);
+            GameGlobals.TIME.setPaused(true);
         }
         else{
             pauseMenu.remove();
-            gameScreen.setPaused(false);
+            GameGlobals.TIME.setPaused(false);
         }
 
     }
