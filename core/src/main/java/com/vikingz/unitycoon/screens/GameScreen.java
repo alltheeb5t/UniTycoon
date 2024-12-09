@@ -51,6 +51,9 @@ public class GameScreen extends SuperScreen implements Screen {
     //Determines if end game has been already called
     public boolean endedAlready;
 
+    //Stores the amount of satisfaction lost from being in debt
+    private int debtSatisfactionLoss;
+
     // Game Achievements
     AchievementsHandler achievements;
 
@@ -63,12 +66,14 @@ public class GameScreen extends SuperScreen implements Screen {
 
         this.isPaused = false;
         endedAlready = false;
+        debtSatisfactionLoss = 0;
         gameRenderer = new GameRenderer(mapName);
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer(), this);
         elapsedTime = 0;
         //5 minutes
-        GameGlobals.resetGlobals(30);
+        GameGlobals.resetGlobals(300);
         achievements = new AchievementsHandler();
+
     }
 
 
@@ -120,6 +125,9 @@ public class GameScreen extends SuperScreen implements Screen {
 
                 }
                 elapsedTime = 0; // Reset elapsed time
+
+                // Calculates Satisfaction change from debt
+                debtSatisfactionEffect();
             }
         }
 
@@ -149,6 +157,23 @@ public class GameScreen extends SuperScreen implements Screen {
                 Gdx.graphics.setWindowedMode(startWidth, startHeight);
             }
             FirstTick = false;
+        }
+    }
+
+    /**
+     * Takes off 1% satisfaction if the user is in debt or can regain lost
+     * satisfaction if not in debt
+     */
+    private void debtSatisfactionEffect() {
+        if (GameGlobals.BALANCE < 0) {
+            GameGlobals.SATISFACTION -= 1;
+            debtSatisfactionLoss += 1;
+        }
+        else {
+            if (debtSatisfactionLoss > 0) {
+                GameGlobals.SATISFACTION += 1;
+                debtSatisfactionLoss -= 1;
+            }
         }
     }
 
