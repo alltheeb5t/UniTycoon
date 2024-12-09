@@ -7,6 +7,8 @@ import com.vikingz.unitycoon.achievements.AchievementsHandler;
 import com.vikingz.unitycoon.util.MoneyHandler;
 import com.vikingz.unitycoon.util.SatisfactionHandler;
 
+import static com.badlogic.gdx.math.MathUtils.random;
+
 
 /**
  * This class is used to store all the constants and global values
@@ -44,6 +46,11 @@ public class GameGlobals {
     public static final TextureRegionDrawable map3Draw = new TextureRegionDrawable(map3Texture);
     public static final TextureRegionDrawable[] mapArray = new TextureRegionDrawable[]{map1Draw, map2Draw, map3Draw};
 
+    // Generates random events for the game
+    public static int firstSemEvent;
+    public static int secondSemEvent;
+    public static int thirdSemEvent;
+
 
     /**
      * Resets the game globals to the original values
@@ -58,6 +65,12 @@ public class GameGlobals {
         SATISFACTION = new SatisfactionHandler();
         STUDENTS = 0;
         MONEY = new MoneyHandler();
+        firstSemEvent = random.nextInt(201, 285);
+        secondSemEvent = random.nextInt(101, 199);
+        thirdSemEvent = random.nextInt(15, 99);
+        System.out.println(firstSemEvent);
+        System.out.println(secondSemEvent);
+        System.out.println(thirdSemEvent);
     }
 
 }
