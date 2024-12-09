@@ -46,7 +46,6 @@ public class BuildingStats {
     //Loaded from buildingInfo.json
     public static Dictionary<BuildingType, String[]> BuildingNameDict;
     public static Dictionary<BuildingStats.BuildingType, String[]> BuildingPriceDict;
-    public static Dictionary<BuildingStats.BuildingType, String[]> BuildingSatisfactionDict;
     public static Dictionary<BuildingStats.BuildingType, String[]> BuildingStudentDict;
     public static Dictionary<BuildingStats.BuildingType, String[]> BuildingCoinDict;
     public static Dictionary<BuildingStats.BuildingType, String[]> BuildingDict;
@@ -71,16 +70,10 @@ public class BuildingStats {
     public static BuildingInfo getInfo(BuildingStats.BuildingType buildingType, int index){
 
         int price, student,coins;
-        float satisfaction;
-
 
         //price
         try {price = Integer.parseInt(BuildingPriceDict.get(buildingType)[index]);}
         catch (Exception e){price = 100;}
-
-        //Satisfaction
-        try {satisfaction = Float.parseFloat(BuildingSatisfactionDict.get(buildingType)[index]);}
-        catch (Exception e){satisfaction = 0f;}
 
         //Student
         try {student = Integer.parseInt(BuildingStudentDict.get(buildingType)[index]);}
@@ -95,7 +88,6 @@ public class BuildingStats {
             return new BuildingInfo(BuildingDict.get(buildingType)[index],
                 buildingType,
                 price,
-                satisfaction,
                 student,
                 coins);
         }

@@ -52,7 +52,6 @@ public class FileHandlerTest {
                     currentBuilding = "Building "+buildingType+" Index "+1;
                     assertNotNull(BuildingStats.BuildingNameDict.get(buildingType)[i]);
                     assertNotNull(BuildingStats.BuildingPriceDict.get(buildingType)[i]);
-                    assertNotNull(BuildingStats.BuildingSatisfactionDict.get(buildingType)[i]);
                     assertNotNull(BuildingStats.BuildingCoinDict.get(buildingType)[i]);
                     assertNotNull(BuildingStats.BuildingStudentDict.get(buildingType)[i]);
                     

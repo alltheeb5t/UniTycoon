@@ -1,6 +1,5 @@
 {"FOOD":["McD", "BurgerK"],"RECREATIONAL":["YSV", "Cinema"],"ACCOMODATION":["David Kato","Anne Lister"],"ACADEMIC":["Ron Cooke","Piazza"],"NONE":["NONE"]}
 {"FOOD":["200", "200"],"RECREATIONAL":["200", "200"],"ACCOMODATION":["100","150"],"ACADEMIC":["100","150"],"NONE":["NONE"]}
 {"FOOD":["NONE", "None"],"RECREATIONAL":["NONE", "None"],"ACCOMODATION":["100","150"],"ACADEMIC":["NONE","NONE"],"NONE":["NONE"]}
-{"FOOD":["1.1", "1.1"],"RECREATIONAL":["1.5", "1.5"],"ACCOMODATION":["NONE","NONE"],"ACADEMIC":["1.0","1.5"],"NONE":["NONE"]}
 {"FOOD":["10", "10"],"RECREATIONAL":["10", "10"],"ACCOMODATION":["NONE","NONE"],"ACADEMIC":["NONE","NONE"],"NONE":["NONE"]}
 {"FOOD":["MCD", "BURGERK"],"RECREATIONAL":["YSV", "CINEMA"],"ACCOMODATION":["KATO","LISTER"],"ACADEMIC":["RCH","PZA"],"NONE":[null]}

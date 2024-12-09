@@ -49,10 +49,11 @@ public class MapSelectorScreen extends SuperScreen implements Screen {
         TextButton previousMap = new TextButton("<-",skin);
 
         //Go back Button
-        goBack.addListener(e -> {
-            if (!goBack.isPressed()) return false;
-            ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.MENU);
-            return true;
+        goBack.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.MENU);
+            };
         });
 
 

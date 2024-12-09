@@ -94,19 +94,8 @@ public class FileHandler {
                 put(NONE, studentParser.NONE);
             }};
 
-            //Satisfaction
-            BuildingParse satisfactionParser = gson.fromJson(arrayDict[3],BuildingParse.class);
-            BuildingStats.BuildingSatisfactionDict = new Hashtable<BuildingStats.BuildingType, String[]>(){{
-                put(ACADEMIC, satisfactionParser.ACADEMIC);
-                put(ACCOMODATION, satisfactionParser.ACCOMODATION);
-                put(RECREATIONAL, satisfactionParser.RECREATIONAL);
-                put(FOOD, satisfactionParser.FOOD);
-                put(NONE, satisfactionParser.NONE);
-            }};
-
             //Coins
-
-            BuildingParse coinParser = gson.fromJson(arrayDict[4],BuildingParse.class);
+            BuildingParse coinParser = gson.fromJson(arrayDict[3],BuildingParse.class);
             BuildingStats.BuildingCoinDict = new Hashtable<BuildingStats.BuildingType, String[]>(){{
                 put(ACADEMIC, coinParser.ACADEMIC);
                 put(ACCOMODATION, coinParser.ACCOMODATION);
@@ -115,10 +104,8 @@ public class FileHandler {
                 put(NONE, coinParser.NONE);
             }};
 
-
-
             //IDs
-            BuildingParse idParser = gson.fromJson(arrayDict[5],BuildingParse.class);
+            BuildingParse idParser = gson.fromJson(arrayDict[4],BuildingParse.class);
             BuildingStats.BuildingDict = new Hashtable<BuildingStats.BuildingType, String[]>(){{
                 put(ACADEMIC, idParser.ACADEMIC);
                 put(ACCOMODATION, idParser.ACCOMODATION);

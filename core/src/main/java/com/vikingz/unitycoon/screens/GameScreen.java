@@ -129,7 +129,7 @@ public class GameScreen extends SuperScreen implements Screen {
         uiRenderer.displayAchievements();
 
         // End the game if satisfaction reaches 0
-        if(GameGlobals.ELAPSED_TIME <= 0 && !endedAlready || GameGlobals.SATISFACTION == 0){
+        if(GameGlobals.ELAPSED_TIME <= 0 && !endedAlready || GameGlobals.SATISFACTION.getSatisfaction() == 0){
             endedAlready = true;
             endGame();
         }
@@ -159,12 +159,12 @@ public class GameScreen extends SuperScreen implements Screen {
      */
     private void debtSatisfactionEffect() {
         if (GameGlobals.BALANCE < 0) {
-            GameGlobals.SATISFACTION -= 1;
+            GameGlobals.SATISFACTION.applyPenalty(1); 
             debtSatisfactionLoss += 1;
         }
         else {
             if (debtSatisfactionLoss > 0) {
-                GameGlobals.SATISFACTION += 1;
+                GameGlobals.SATISFACTION.addBonus(1);
                 debtSatisfactionLoss -= 1;
             }
         }
@@ -218,7 +218,7 @@ public class GameScreen extends SuperScreen implements Screen {
      * @return true if the player won
      */
     public static boolean gameWon(){
-        if (GameGlobals.SATISFACTION >= 70 && GameGlobals.BALANCE >= 0) {
+        if (GameGlobals.SATISFACTION.getSatisfaction() >= 70 && GameGlobals.BALANCE >= 0) {
             return true;
         }
         return false;
