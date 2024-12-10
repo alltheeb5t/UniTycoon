@@ -12,7 +12,6 @@ import com.vikingz.unitycoon.building.buildings.FoodBuilding;
 import com.vikingz.unitycoon.building.buildings.RecreationalBuilding;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.BackgroundRenderer;
-import com.vikingz.unitycoon.util.Point;
 
 public class BuildingsMap {
     // List of all buildings placed and needs rendering
@@ -70,19 +69,19 @@ public class BuildingsMap {
             // to be drawn to the screen.
             switch (buildingInfo.getBuildingType()) {
                 case ACADEMIC:
-                    addedBuildings.add(addPlacedBuilding(new AcademicBuilding(buildingTexture, new Point(x, y), buildingInfo)));
+                    addedBuildings.add(addPlacedBuilding(new AcademicBuilding(buildingTexture, x, y, buildingInfo, buildingInfo.getCoinsPerSecond())));
                     break;
 
                 case ACCOMODATION:
-                    addedBuildings.add(addPlacedBuilding(new AccommodationBuilding(buildingTexture, new Point(x, y), buildingInfo, buildingInfo.getNumberOfStudents())));
+                    addedBuildings.add(addPlacedBuilding(new AccommodationBuilding(buildingTexture, x, y, buildingInfo, buildingInfo.getCoinsPerSecond())));
                     break;
 
                 case RECREATIONAL:
-                    addedBuildings.add(addPlacedBuilding(new RecreationalBuilding(buildingTexture, new Point(x, y), buildingInfo, buildingInfo.getCoinsPerSecond())));
+                    addedBuildings.add(addPlacedBuilding(new RecreationalBuilding(buildingTexture, x, y, buildingInfo, buildingInfo.getCoinsPerSecond())));
                     break;
 
                 case FOOD:
-                    addedBuildings.add(addPlacedBuilding(new FoodBuilding(buildingTexture, new Point(x, y),buildingInfo, buildingInfo.getCoinsPerSecond())));
+                    addedBuildings.add(addPlacedBuilding(new FoodBuilding(buildingTexture, x, y, buildingInfo, buildingInfo.getCoinsPerSecond())));
                     break;
 
                 case NONE:

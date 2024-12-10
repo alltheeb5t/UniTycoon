@@ -5,13 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingInfo;
 import com.vikingz.unitycoon.building.BuildingStats;
 import com.vikingz.unitycoon.building.BuildingsMap;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.util.GameSounds;
-import com.vikingz.unitycoon.util.Point;
 
 /**
  *  This class is in charge of drawing Buildings in the game.
@@ -75,10 +75,10 @@ public class BuildingRenderer{
         // Update preview position to follow the mouse cursor
         if (isPreviewing && selectedTexture != null) {
             // Makes sure that the mouse is in the center of the building texture
-            Point previewPoint = snapBuildingToGrid(Gdx.input.getX() - GameGlobals.SCREEN_BUILDING_SIZE / 2, Gdx.input.getY() + GameGlobals.SCREEN_BUILDING_SIZE / 2);
+            Vector3 previewPoint = snapBuildingToGrid(Gdx.input.getX() - GameGlobals.SCREEN_BUILDING_SIZE / 2, Gdx.input.getY() + GameGlobals.SCREEN_BUILDING_SIZE / 2);
 
-            previewX = previewPoint.getX();
-            previewY = previewPoint.getY();
+            previewX = previewPoint.x;
+            previewY = previewPoint.y;
         }
 
         batch.begin();
@@ -112,10 +112,9 @@ public class BuildingRenderer{
         // Removes the building the user right clicks on
         if(Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && selectedTexture == null){
             System.out.println("RightClick");
-            Point translatedPoint = gameRenderer.translateCoords(new Point(Gdx.input.getX(),
-                                                                           Gdx.input.getY()));
+            Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
 
-            if(campusBuildingsMap.attemptBuildingDeleteAt(translatedPoint.getX(), translatedPoint.getY()).isEmpty()) {
+            if(campusBuildingsMap.attemptBuildingDeleteAt(translatedPoint.x, translatedPoint.y).isEmpty()) {
                 System.out.println("building was null: " + null);
             }
         }
@@ -162,17 +161,17 @@ public class BuildingRenderer{
      * @param y Y
      * @return Point new coordinates that occur on an intersection of the tiles in the background
      */
-    private Point snapBuildingToGrid(float x, float y){
+    private Vector3 snapBuildingToGrid(float x, float y){
 
         // 30 rows
         // 56 cols
         int gridSize = 32;
-        Point translatedPoint = gameRenderer.translateCoords(new Point(x, y));
+        Vector3 translatedPoint = gameRenderer.translateCoords(x, y);
 
-        float newX = Math.round(translatedPoint.getX() / gridSize) * gridSize;
-        float newY = Math.round(translatedPoint.getY() / gridSize) * gridSize;
+        float newX = Math.round(translatedPoint.x / gridSize) * gridSize;
+        float newY = Math.round(translatedPoint.y / gridSize) * gridSize;
 
-        return new Point(newX, newY);
+        return new Vector3(newX, newY, 0);
     }
 
     /**
