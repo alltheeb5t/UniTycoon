@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.vikingz.unitycoon.achievements.AchievementsHandler;
@@ -38,7 +37,6 @@ public class UIRenderer {
     private final Viewport viewport;
     private final SpriteBatch spriteBatch;
 
-
     private final BuildMenu buildMenu;
     private final StatsRenderer statsRenderer;
 
@@ -50,6 +48,8 @@ public class UIRenderer {
 
     private boolean displayingAchievement = false;
     private TextButton achievementLabel;
+
+    private Texture statsBarTexture;
 
     GameScreen gameScreen;
 
@@ -77,6 +77,8 @@ public class UIRenderer {
         pauseMenu = new PauseMenu(skin);
         endOfTimerPopup = new EndMenu(skin, "End of Game");
         leaderboardPopUp = new LeaderboardMenu(skin, "");
+
+        statsBarTexture = new Texture("png\\statsBar.png");
 
         // Set up achievements popup
         achievementLabel = new TextButton("", skin);
@@ -154,17 +156,16 @@ public class UIRenderer {
      */
     public void render(float delta){
         viewport.apply();
-        
+
         // Draws stats bar
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
         //Uses values defined when viewport is created
-        spriteBatch.draw(new Texture("png\\statsBar.png"), 0, 983, 1824, 43);
+        spriteBatch.draw(statsBarTexture, 0, 983, 1824, 43);
         spriteBatch.end();
 
         statsRenderer.render(delta);
         buildMenu.render(delta);
-
     }
 
 
