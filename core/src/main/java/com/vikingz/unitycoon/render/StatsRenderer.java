@@ -141,11 +141,11 @@ public class StatsRenderer {
         timerImg = new Image(new Texture("png\\timeSymbol.png"));
         studentsImg = new Image(new Texture("png\\studentNumSymbol.png"));
 
-        formatStatsBar(skin);
+        addStatsBar();
     }
 
 
-    private void formatStatsBar(Skin skin) {
+    private void addStatsBar() {
 
         int padding = 5;
         int groupSpacing = 30;

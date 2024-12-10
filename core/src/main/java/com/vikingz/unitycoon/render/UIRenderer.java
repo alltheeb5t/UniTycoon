@@ -101,7 +101,7 @@ public class UIRenderer {
     public void endGame(String title) {
         Leaderboard.loadLeaderboard();
         
-        String message = "Final Satisfaction: " + GameGlobals.SATISFACTION + "\n\n";
+        String message = "Final Satisfaction: " + GameGlobals.SATISFACTION.getSatisfaction() + "\n\n";
         message += AchievementsHandler.allAchievementsCompleted();
         endOfTimerPopup.setTitle(title);
         endOfTimerPopup.setMessage(message);
