@@ -2,7 +2,6 @@ package com.vikingz.unitycoon.building;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.vikingz.unitycoon.global.GameGlobals;
-import com.vikingz.unitycoon.util.Point;
 
 
 /**
@@ -25,6 +24,9 @@ public abstract class Building {
     // Building functional properties
     private BuildingStats.BuildingType buildingType;
     private BuildingInfo buildingInfo;
+    private float earnAmount;
+
+    protected EarnSchedule earnSchedule = EarnSchedule.DAILY;
 
 
     /**
@@ -34,7 +36,7 @@ public abstract class Building {
      * @param y Y
      * @param buildingInfo Building Info
      */
-    public Building(TextureRegion texture, float x, float y, BuildingInfo buildingInfo){
+    public Building(TextureRegion texture, float x, float y, BuildingInfo buildingInfo, float earnAmount){
         this.x = x;
         this.y = y;
         this.width = GameGlobals.SCREEN_BUILDING_SIZE;
@@ -44,25 +46,7 @@ public abstract class Building {
         this.endConstructionTime = -1;
         this.buildingType = buildingInfo.getBuildingType();
         this.buildingInfo = buildingInfo;
-    }
-
-
-    /**
-     * Creates a new Building
-     * @param texture Texture
-     * @param p Point p
-     * @param buildingInfo Building Info
-     */
-    public Building(TextureRegion texture, Point p, BuildingInfo buildingInfo){
-        this.x = p.getX();
-        this.y = p.getY();
-        this.width = GameGlobals.SCREEN_BUILDING_SIZE;
-        this.height = GameGlobals.SCREEN_BUILDING_SIZE;
-        this.texture = texture;
-        this.constructing = true;
-        this.endConstructionTime = -1;
-        this.buildingType = buildingInfo.getBuildingType();
-        this.buildingInfo = buildingInfo;
+        this.earnAmount = earnAmount;
     }
 
 
@@ -200,5 +184,24 @@ public abstract class Building {
         str += " type: " + this.buildingType;
 
         return str;
+    }
+
+    /**
+     * Calculate the amount of earnings this building has made for the given period.
+     * Daily will actually be called roughly every 3.5 in-game days
+     * @param earnSchedule Will be set to either DAILY or SEMESTERLY depending on where the earn method is called from
+     * @return The building's defined earnAmount or 0 if not relevant to this building's EARN schedule
+     */
+    public float calculateProfitMade(EarnSchedule earnSchedule) {
+        if (getConstructing()) {
+            return 0;
+        }
+
+        if (earnSchedule == this.earnSchedule) {
+            return earnAmount;
+        } else {
+            return 0;
+        }
+        
     }
 }

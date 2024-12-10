@@ -8,6 +8,10 @@ package com.vikingz.unitycoon.util;
  */
 public class TimeHandler {
 
+    public static final int SECONDS_PER_YEAR = 100;
+    public static final int SECONDS_PER_SUMMER = 20;
+    public static final int SECONDS_PER_SEMESTER = 40;
+
     public boolean isPaused() {
         return isPaused;
     }
@@ -69,10 +73,6 @@ public class TimeHandler {
      * @return In game time as string written "Year #, Semester #"
      */
     public static String inGameTime(int secs) {
-        final int SECONDS_PER_YEAR = 100;
-        final int SECONDS_PER_SUMMER = 20;
-        final int SECONDS_PER_SEMESTER = 40;
-
         int timePassed = 300 - secs;
         int year = 0;
         String semester = "";

@@ -3,9 +3,7 @@ package com.vikingz.unitycoon.util;
 import java.util.List;
 
 import com.vikingz.unitycoon.building.Building;
-import com.vikingz.unitycoon.building.BuildingStats;
-import com.vikingz.unitycoon.building.buildings.FoodBuilding;
-import com.vikingz.unitycoon.building.buildings.RecreationalBuilding;
+import com.vikingz.unitycoon.building.EarnSchedule;
 
 public class MoneyHandler {
     private int balance;
@@ -53,27 +51,10 @@ public class MoneyHandler {
      * Called periodically by the timer. Calculates and adds revenue from
      * buildings that provide a continuous revenue stream (e.g. food outlets)
      */
-    public void earn(List<Building> buildings) {
+    public void earn(List<Building> buildings, EarnSchedule earnSchedule) {
         for (Building building : buildings){
-            if(building.getBuildingType() == BuildingStats.BuildingType.FOOD){
-                FoodBuilding foodBuilding = (FoodBuilding) building;
-                balance += foodBuilding.calculateProfitMade();
-            }
-
-            if(building.getBuildingType() == BuildingStats.BuildingType.RECREATIONAL){
-                RecreationalBuilding recreationalBuildingBuilding = (RecreationalBuilding) building;
-                balance += recreationalBuildingBuilding.calculateProfitMade();
-            }
-
+            balance += building.calculateProfitMade(earnSchedule);
         }
-    }
-
-    /**
-     * Called at the start of every semester. Adds revenue from buildings that
-     * provide revenue only at the end of semester (e.g. Accommodation)
-     */
-    public void earnSemesterly() {
-        
     }
 
     /**
