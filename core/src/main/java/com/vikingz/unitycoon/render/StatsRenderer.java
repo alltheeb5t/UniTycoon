@@ -35,6 +35,7 @@ public class StatsRenderer {
     float width;
     float height;
 
+    Table statsBarTbl;
 
     // Labels and images
     String balStr;
@@ -140,39 +141,71 @@ public class StatsRenderer {
         timerImg = new Image(new Texture("png\\timeSymbol.png"));
         studentsImg = new Image(new Texture("png\\studentNumSymbol.png"));
 
-        int padding = 3;
-        int groupSpacing = 50;
-        int spacing = 330;
-
-        // Create layout table
-        Table table = new Table();
-        table.setFillParent(true);
-
-        table.top();
-        table.left();
-
-        // Adds the labels to the table
-        table.add(balImg).pad(padding).size(30);
-        table.add(balance).pad(padding).spaceRight(groupSpacing);
-        table.add(studentsImg).pad(padding).size(30);
-        table.add(students).pad(padding).spaceRight(groupSpacing);
-        table.add(satisImg).pad(padding).size(30);
-        table.add(satisfaction).pad(padding).spaceRight(spacing);
-        table.add(accomImg).pad(padding).size(30);
-        table.add(accomBuildings).pad(padding).spaceRight(groupSpacing);
-        table.add(academImg).pad(padding).size(30);
-        table.add(academBuildings).pad(padding).spaceRight(groupSpacing);
-        table.add(recImg).pad(padding).size(30);
-        table.add(recBuildings).pad(padding).spaceRight(groupSpacing);
-        table.add(foodImg).pad(padding).size(30);
-        table.add(foodBuildings).pad(padding).spaceRight(spacing);
-        table.add(timerImg).pad(padding).size(30);
-        table.add(timer).pad(padding).spaceRight(groupSpacing);
-        table.add(inGameTimer).pad(padding);
-
-        stage.addActor(table);
+        formatStatsBar(skin);
     }
 
+
+    private void formatStatsBar(Skin skin) {
+
+        int padding = 5;
+        int groupSpacing = 30;
+        
+        // Create layout table
+        statsBarTbl = new Table();
+        statsBarTbl.setFillParent(true);
+
+        statsBarTbl.top();
+        statsBarTbl.left();
+
+        // Adds the labels and images to the stats bar(table)
+        // Groups together game stats
+        Table gameStatsTbl = new Table();
+        // Groups each stat to it's image
+        Table studentsTbl = new Table();     
+        studentsTbl.add(studentsImg).pad(padding).size(30);
+        studentsTbl.add(students).pad(padding);
+        gameStatsTbl.add(studentsTbl).spaceRight(groupSpacing).expandX().uniformX();
+        Table satisTbl = new Table();
+        satisTbl.add(satisImg).pad(padding).size(30);
+        satisTbl.add(satisfaction).pad(padding);
+        gameStatsTbl.add(satisTbl).spaceRight(groupSpacing).expandX().uniformX();
+        Table balanceTbl = new Table();
+        balanceTbl.add(balImg).pad(padding).size(30);
+        balanceTbl.add(balance).pad(padding);
+        gameStatsTbl.add(balanceTbl).expandX().uniformX();
+        statsBarTbl.add(gameStatsTbl).uniformX().expandX().left();
+
+        // Groups together bulding stats
+        Table buildingTbl = new Table();
+        Table accomTbl = new Table();
+        accomTbl.add(accomImg).pad(padding).size(30);
+        accomTbl.add(accomBuildings).pad(padding);
+        buildingTbl.add(accomTbl).spaceRight(groupSpacing).expandX().uniformX();
+        Table academTbl = new Table();     
+        academTbl.add(academImg).pad(padding).size(30);
+        academTbl.add(academBuildings).pad(padding);
+        buildingTbl.add(academTbl).spaceRight(groupSpacing).expandX().uniformX();
+        Table recTbl = new Table();
+        recTbl.add(recImg).pad(padding).size(30);
+        recTbl.add(recBuildings).pad(padding);
+        buildingTbl.add(recTbl).spaceRight(groupSpacing).expandX().uniformX();
+        Table foodTbl = new Table();
+        foodTbl.add(foodImg).pad(padding).size(30);
+        foodTbl.add(foodBuildings).pad(padding);
+        buildingTbl.add(foodTbl).expandX().uniformX();
+        statsBarTbl.add(buildingTbl).uniformX().expandX();
+
+        // Groups together timer stats
+        Table timerTbl = new Table();
+        Table timeCountdownTbl = new Table();
+        timeCountdownTbl.add(timerImg).pad(padding).size(30);
+        timeCountdownTbl.add(timer).pad(padding);
+        timerTbl.add(timeCountdownTbl).expandX().uniformX();  
+        timerTbl.add(inGameTimer).pad(padding).expandX().uniformX();
+        statsBarTbl.add(timerTbl).expandX().uniformX().right();
+
+        stage.addActor(statsBarTbl);
+    }
 
     /**
      * Draws the labels to the screen
@@ -194,7 +227,6 @@ public class StatsRenderer {
 
         TimeUtil.Time timerAmount = TimeUtil.secondsToMinSecs(GameGlobals.ELAPSED_TIME);
         timerStr = "" + timerAmount;
-
         inGameTimerStr = TimeUtil.inGameTime(GameGlobals.ELAPSED_TIME);
 
         // Sets the new string to the corresponding label
@@ -231,6 +263,4 @@ public class StatsRenderer {
         batch.dispose();
         font.dispose();
     }
-
-
 }

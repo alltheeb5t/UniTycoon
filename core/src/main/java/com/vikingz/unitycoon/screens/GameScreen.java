@@ -112,8 +112,8 @@ public class GameScreen extends SuperScreen implements Screen {
                     }
 
                     if(building.getBuildingType() == BuildingStats.BuildingType.RECREATIONAL){
-                        RecreationalBuilding foodBuilding = (RecreationalBuilding) building;
-                        GameGlobals.BALANCE += foodBuilding.calculateProfitMade();
+                        RecreationalBuilding recreationBuilding = (RecreationalBuilding) building;
+                        GameGlobals.BALANCE += recreationBuilding.calculateProfitMade();
                     }
 
                 }

@@ -59,7 +59,7 @@ public class FileHandler {
             String textureFileRead = textureFileHandle.readString();
             String[] arrayDict = fileRead.split("\n");
             Gson gson = new Gson();
-            if (arrayDict.length != 6){
+            if (arrayDict.length != 5){
                 System.out.println("FILE CORRUPTION DETECTED");
             }
 

@@ -69,7 +69,7 @@ public class BuildingStats {
      */
     public static BuildingInfo getInfo(BuildingStats.BuildingType buildingType, int index){
 
-        int price, student,coins;
+        int price, student, coins;
 
         //price
         try {price = Integer.parseInt(BuildingPriceDict.get(buildingType)[index]);}
