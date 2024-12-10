@@ -4,14 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.vikingz.unitycoon.building.Building;
-import com.vikingz.unitycoon.building.BuildingStats;
-import com.vikingz.unitycoon.building.buildings.FoodBuilding;
-import com.vikingz.unitycoon.building.buildings.RecreationalBuilding;
+import com.vikingz.unitycoon.building.EarnSchedule;
 import com.vikingz.unitycoon.global.GameConfigManager;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.GameRenderer;
 import com.vikingz.unitycoon.render.UIRenderer;
+import com.vikingz.unitycoon.util.TimeHandler;
 
 /**
  * This is the main game class from which the game is run.
@@ -97,25 +95,22 @@ public class GameScreen extends SuperScreen implements Screen {
                 // Calculate Game Stats
                 GameGlobals.ELAPSED_TIME--;
 
-                for (Building building : gameRenderer.getBuildingRenderer().getBuildingsMap().getPlacedBuildings()){
-
-                    if(building.getBuildingType() == BuildingStats.BuildingType.FOOD){
-                        FoodBuilding foodBuilding = (FoodBuilding) building;
-                        GameGlobals.BALANCE += foodBuilding.calculateProfitMade();
-                    }
-
-                    if(building.getBuildingType() == BuildingStats.BuildingType.RECREATIONAL){
-                        RecreationalBuilding foodBuilding = (RecreationalBuilding) building;
-                        GameGlobals.BALANCE += foodBuilding.calculateProfitMade();
-                    }
-
-                }
+                GameGlobals.MONEY.earn(gameRenderer.getBuildingRenderer().getBuildingsMap().getPlacedBuildings(),
+                                        EarnSchedule.DAILY);
 
                 for (int time : GameGlobals.EVENT.getEventTimes()) {
                     if (GameGlobals.ELAPSED_TIME == time) {
                         event();
                     }
                 }
+
+                // Run twice per year at the start of each semester.
+                if (((GameGlobals.ELAPSED_TIME % TimeHandler.SECONDS_PER_YEAR))
+                    % TimeHandler.SECONDS_PER_SEMESTER == 0) {
+                    GameGlobals.MONEY.earn(gameRenderer.getBuildingRenderer().getBuildingsMap().getPlacedBuildings(),
+                                            EarnSchedule.SEMESTERLY);
+                }
+
                 elapsedTime = 0; // Reset elapsed time
             }
         }

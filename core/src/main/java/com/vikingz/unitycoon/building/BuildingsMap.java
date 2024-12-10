@@ -12,7 +12,6 @@ import com.vikingz.unitycoon.building.buildings.FoodBuilding;
 import com.vikingz.unitycoon.building.buildings.RecreationalBuilding;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.BackgroundRenderer;
-import com.vikingz.unitycoon.util.Point;
 
 public class BuildingsMap {
     // List of all buildings placed and needs rendering
@@ -60,8 +59,8 @@ public class BuildingsMap {
         if (checkCollisions(x, y)) {
             // Check if the user has enough money to buy that building
             if (!ignoreCost) {
-               float balanceAfterPurchase = GameGlobals.BALANCE - buildingInfo.getBuildingCost();
-                if (balanceAfterPurchase < 0) {
+                // Check that user is able to withdraw funds to build building
+                if (!GameGlobals.MONEY.withdraw(buildingInfo.getBuildingCost())) {
                     return addedBuildings;  // Added buildings will simply be empty at this point
                 } 
             }
@@ -70,19 +69,19 @@ public class BuildingsMap {
             // to be drawn to the screen.
             switch (buildingInfo.getBuildingType()) {
                 case ACADEMIC:
-                    addedBuildings.add(addPlacedBuilding(new AcademicBuilding(buildingTexture, new Point(x, y), buildingInfo)));
+                    addedBuildings.add(addPlacedBuilding(new AcademicBuilding(buildingTexture, x, y, buildingInfo, buildingInfo.getCoinsPerSecond())));
                     break;
 
                 case ACCOMODATION:
-                    addedBuildings.add(addPlacedBuilding(new AccommodationBuilding(buildingTexture, new Point(x, y), buildingInfo, buildingInfo.getNumberOfStudents())));
+                    addedBuildings.add(addPlacedBuilding(new AccommodationBuilding(buildingTexture, x, y, buildingInfo, buildingInfo.getCoinsPerSecond())));
                     break;
 
                 case RECREATIONAL:
-                    addedBuildings.add(addPlacedBuilding(new RecreationalBuilding(buildingTexture, new Point(x, y), buildingInfo, buildingInfo.getCoinsPerSecond())));
+                    addedBuildings.add(addPlacedBuilding(new RecreationalBuilding(buildingTexture, x, y, buildingInfo, buildingInfo.getCoinsPerSecond())));
                     break;
 
                 case FOOD:
-                    addedBuildings.add(addPlacedBuilding(new FoodBuilding(buildingTexture, new Point(x, y),buildingInfo, buildingInfo.getCoinsPerSecond())));
+                    addedBuildings.add(addPlacedBuilding(new FoodBuilding(buildingTexture, x, y, buildingInfo, buildingInfo.getCoinsPerSecond())));
                     break;
 
                 case NONE:
@@ -91,9 +90,6 @@ public class BuildingsMap {
                 default:
                     break;
             }
-
-            //Updates stats
-            GameGlobals.BALANCE -= buildingInfo.getBuildingCost();
         }
 
         return addedBuildings;
@@ -132,14 +128,14 @@ public class BuildingsMap {
     /**
      * Attempt to remove a building from the list of placed buildings.
      * @param toRemove Building object to remove
-     * @return List<Building>. Empty if uncessful, otherwise contains the removed buidling
+     * @return List<Building>. Empty if unsuccessful, otherwise contains the removed building
      */
     public List<Building> attemptBuildingDelete(Building toRemove) {
         List<Building> removed = new LinkedList<>();
         if (toRemove != null) {
             BuildingInfo buildingInfo = toRemove.getBuildingInfo();
             placedBuildings.remove(toRemove);
-            GameGlobals.BALANCE += Math.round(buildingInfo.getBuildingCost()*0.75f);
+            GameGlobals.MONEY.deposit(Math.round(buildingInfo.getBuildingCost()*0.75f));
             if (!toRemove.getConstructing()) {
                 GameGlobals.STUDENTS -= buildingInfo.getNumberOfStudents();
                 decrementBuildingsCount(buildingInfo.getBuildingType());

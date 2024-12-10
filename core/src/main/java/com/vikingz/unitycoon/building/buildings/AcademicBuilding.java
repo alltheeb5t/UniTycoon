@@ -3,7 +3,7 @@ package com.vikingz.unitycoon.building.buildings;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingInfo;
-import com.vikingz.unitycoon.util.Point;
+import com.vikingz.unitycoon.building.EarnSchedule;
 
 
 /**
@@ -15,25 +15,8 @@ import com.vikingz.unitycoon.util.Point;
  */
 public class AcademicBuilding extends Building{
 
-    /**
-     * Creates a new Academic Building
-     * @param texture Texture
-     * @param x X
-     * @param y Y
-     * @param buildingInfo Info about the building
-     */
-    public AcademicBuilding(TextureRegion texture, float x, float y, BuildingInfo buildingInfo){
-        super(texture, x, y, buildingInfo);
+    public AcademicBuilding(TextureRegion texture, float x, float y, BuildingInfo buildingInfo, float earnAmount){
+        super(texture, x, y, buildingInfo, earnAmount);
+        earnSchedule = EarnSchedule.SEMESTERLY;
     }
-
-    /**
-     * Creates a new Academic Building
-     * @param texture Texture
-     * @param p Point p
-     * @param buildingInfo Info about the building
-     */
-    public AcademicBuilding(TextureRegion texture, Point p, BuildingInfo buildingInfo){
-        super(texture, p, buildingInfo);
-    }
-
 }

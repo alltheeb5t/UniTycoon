@@ -30,7 +30,7 @@ public class BankruptcyAchievement extends Achievements {
      */
     @Override
     protected boolean isCompleted() {
-        if (GameGlobals.BALANCE < 0) {
+        if (GameGlobals.MONEY.getBalance() < 0) {
             return true;
         }
         return false;

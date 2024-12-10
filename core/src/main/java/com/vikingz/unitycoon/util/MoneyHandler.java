@@ -1,6 +1,25 @@
 package com.vikingz.unitycoon.util;
 
+import java.util.List;
+
+import com.vikingz.unitycoon.building.Building;
+import com.vikingz.unitycoon.building.EarnSchedule;
+
 public class MoneyHandler {
+    private int balance;
+
+    // Support limiting the amount of debt that player is allowed to accumulate
+    public static final int MAX_DEBT = Integer.MAX_VALUE;
+
+    // Future support for variable starting balance
+    public static final int STARTING_BALANCE = 0;
+
+    /**
+     * Constructor called at the start of the game and on reset
+     */
+    public MoneyHandler() {
+        balance = STARTING_BALANCE;
+    }
 
     /**
      * Remove the specified amount from the current balance
@@ -8,7 +27,12 @@ public class MoneyHandler {
      * @return boolean: Was withdrawal successful?
      */
     public boolean withdraw(float amount) {
-        return true;
+        if (balance - amount > -MAX_DEBT) {
+            balance -= amount;
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -17,6 +41,8 @@ public class MoneyHandler {
      * @return boolean: Was the deposit successful?
      */
     public boolean deposit(float amount) {
+        balance += amount;
+
         return true;
     }
 
@@ -25,16 +51,10 @@ public class MoneyHandler {
      * Called periodically by the timer. Calculates and adds revenue from
      * buildings that provide a continuous revenue stream (e.g. food outlets)
      */
-    public void earn() {
-
-    }
-
-    /**
-     * Called at the start of every semester. Adds revenue from buildings that
-     * provide revenue only at the end of semester (e.g. Accommodation)
-     */
-    public void earnSemesterly() {
-        
+    public void earn(List<Building> buildings, EarnSchedule earnSchedule) {
+        for (Building building : buildings){
+            balance += building.calculateProfitMade(earnSchedule);
+        }
     }
 
     /**
@@ -42,6 +62,6 @@ public class MoneyHandler {
      * @return
      */
     public float getBalance() {
-        return 0;
+        return balance;
     }
 }

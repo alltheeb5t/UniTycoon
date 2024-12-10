@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.vikingz.unitycoon.global.GameConfig;
-import com.vikingz.unitycoon.util.Point;
 
 /**
  * This class contains all the renderers that render the game.
@@ -64,10 +63,10 @@ public class GameRenderer {
      * @param p Point on the screen
      * @return Point on the game canvas
      */
-    public Point translateCoords(Point p){
-        Vector3 vec3 = new Vector3(p.getX(), p.getY(), 0);
+    public Vector3 translateCoords(float x, float y){
+        Vector3 vec3 = new Vector3(x, y, 0);
         Vector3 vec3Translated = viewport.unproject(vec3);
-        return new Point(vec3Translated.x, vec3Translated.y);
+        return vec3Translated;
     }
 
     /**
