@@ -9,8 +9,6 @@ import com.vikingz.unitycoon.util.SatisfactionHandler;
 import com.vikingz.unitycoon.events.EventHandler;
 import com.vikingz.unitycoon.util.TimeHandler;
 
-import static com.badlogic.gdx.math.MathUtils.random;
-
 
 /**
  * This class is used to store all the constants and global values

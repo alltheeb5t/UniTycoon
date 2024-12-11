@@ -44,7 +44,10 @@ public class GameScreen extends SuperScreen implements Screen {
 
     //Determines if end game has been already called
     public boolean endedAlready;
-
+  
+    //Stores the amount of satisfaction lost from being in debt
+    private int debtSatisfactionLoss;
+  
     /**
      * Creates a new Game Screen
      * @param mapName The name of the map that will be used
@@ -54,6 +57,7 @@ public class GameScreen extends SuperScreen implements Screen {
 
         GameGlobals.TIME.setPaused(false);
         endedAlready = false;
+        debtSatisfactionLoss = 0;
         gameRenderer = new GameRenderer(mapName);
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer());
         elapsedTime = 0;
@@ -112,6 +116,9 @@ public class GameScreen extends SuperScreen implements Screen {
                 }
 
                 elapsedTime = 0; // Reset elapsed time
+
+                // Calculates Satisfaction change from debt
+                debtSatisfactionEffect();
             }
         }
 
@@ -119,7 +126,8 @@ public class GameScreen extends SuperScreen implements Screen {
         GameGlobals.ACHIEVEMENTS.checkAllAchievements();
         uiRenderer.displayAchievements();
 
-        if(GameGlobals.ELAPSED_TIME <= 0 && !endedAlready){
+        // End the game if satisfaction reaches 0
+        if(GameGlobals.ELAPSED_TIME <= 0 && !endedAlready || GameGlobals.SATISFACTION.getSatisfaction() == 0){
             endedAlready = true;
             endGame();
         }
@@ -140,6 +148,23 @@ public class GameScreen extends SuperScreen implements Screen {
                 Gdx.graphics.setWindowedMode(startWidth, startHeight);
             }
             FirstTick = false;
+        }
+    }
+
+    /**
+     * Takes off 1% satisfaction if the user is in debt or can regain lost
+     * satisfaction if not in debt
+     */
+    private void debtSatisfactionEffect() {
+        if (GameGlobals.MONEY.getBalance() < 0) {
+            GameGlobals.SATISFACTION.applyPenalty(1); 
+            debtSatisfactionLoss += 1;
+        }
+        else {
+            if (debtSatisfactionLoss > 0) {
+                GameGlobals.SATISFACTION.addBonus(1);
+                debtSatisfactionLoss -= 1;
+            }
         }
     }
 
@@ -176,7 +201,25 @@ public class GameScreen extends SuperScreen implements Screen {
     private void endGame(){
         GameGlobals.TIME.setPaused(true);
         GameGlobals.SATISFACTION.addBonus(GameGlobals.ACHIEVEMENTS.getBonus());
-        uiRenderer.endGame();
+        // Checks if player won the game
+        if (gameWon()) {
+            uiRenderer.endGame("You Win!");
+        }
+        else{
+            uiRenderer.endGame("You Lose!");
+        }
+    }
+
+    /**
+     * Determines if the player won the game.
+     * @return true if the player won
+     */
+    public static boolean gameWon(){
+        if (GameGlobals.SATISFACTION.getSatisfaction() >= 70 && GameGlobals.MONEY.getBalance() >= 0) {
+            return true;
+        }
+        return false;
+
     }
 
     @Override

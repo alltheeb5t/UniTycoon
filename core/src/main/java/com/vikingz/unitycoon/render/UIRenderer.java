@@ -6,14 +6,14 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.vikingz.unitycoon.achievements.AchievementsHandler;
-import com.vikingz.unitycoon.events.EventHandler;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.menus.*;
 import com.vikingz.unitycoon.screens.GameScreen;
@@ -34,7 +34,7 @@ public class UIRenderer {
 
     private final Stage stage;
     private final Viewport viewport;
-
+    private final SpriteBatch spriteBatch;
 
     private final BuildMenu buildMenu;
     private final StatsRenderer statsRenderer;
@@ -47,6 +47,8 @@ public class UIRenderer {
     private boolean displayingAchievement = false;
     private TextButton achievementLabel;
 
+    private Texture statsBarTexture;
+
     GameScreen gameScreen;
 
     /**
@@ -58,6 +60,7 @@ public class UIRenderer {
 
         //viewport = new FillViewport(1824, 1026);
         viewport = new FitViewport(1824, 1026);
+        spriteBatch = new SpriteBatch();
         //viewport = new ScreenViewport();
         stage = new Stage(viewport);
 
@@ -69,6 +72,8 @@ public class UIRenderer {
         endOfTimerPopup = new EndMenu(skin, "End of Game");
         leaderboardPopUp = new LeaderboardMenu(skin, "");
 
+        statsBarTexture = new Texture("png\\statsBar.png");
+
         // Set up achievements popup
         achievementLabel = new TextButton("", skin);
         achievementLabel.setWidth(1000);
@@ -76,12 +81,12 @@ public class UIRenderer {
         achievementLabel.getLabel().setFontScale((float)0.4,(float)0.4);
 
         // Sets what the buttons do on the end of timer window
-        Runnable leftBtn = ScreenMultiplexer::closeGame;
-        Runnable rightBtn = () -> {
+        Runnable rightBtn = ScreenMultiplexer::closeGame;
+        Runnable leftBtn = () -> {
             leaderboardPopUp.setPosition((stage.getWidth() - leaderboardPopUp.getWidth()) / 2, (stage.getHeight() - leaderboardPopUp.getHeight()) / 2);
             stage.addActor(leaderboardPopUp);};
 
-        endOfTimerPopup.setupButtons(leftBtn, "Quit", rightBtn, "Leaderboard");
+        endOfTimerPopup.setupButtons(leftBtn, "Leaderboard", rightBtn, "Menu");
         leaderboardPopUp.setupButton();
     }
 
@@ -89,10 +94,13 @@ public class UIRenderer {
      * When the game screen has decided the game has finished the game
      * will call this function which will show the end of game popup.
      */
-    public void endGame() {
+    public void endGame(String title) {
         Leaderboard.loadLeaderboard();
-
-        endOfTimerPopup.setMessage(AchievementsHandler.allAchievementsCompleted());
+        
+        String message = "Final Satisfaction: " + GameGlobals.SATISFACTION.getSatisfaction() + "\n\n";
+        message += AchievementsHandler.allAchievementsCompleted();
+        endOfTimerPopup.setTitle(title);
+        endOfTimerPopup.setMessage(message);
         endOfTimerPopup.setPosition((stage.getWidth() - endOfTimerPopup.getWidth()) / 2, (stage.getHeight() - endOfTimerPopup.getHeight()) / 2);
         stage.addActor(endOfTimerPopup);
 
@@ -142,9 +150,16 @@ public class UIRenderer {
      */
     public void render(float delta){
         viewport.apply();
+
+        // Draws stats bar
+        spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+        spriteBatch.begin();
+        //Uses values defined when viewport is created
+        spriteBatch.draw(statsBarTexture, 0, 983, 1824, 43);
+        spriteBatch.end();
+
         statsRenderer.render(delta);
         buildMenu.render(delta);
-
     }
 
 
