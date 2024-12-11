@@ -115,11 +115,6 @@ public class GameScreen extends SuperScreen implements Screen {
                                             EarnSchedule.SEMESTERLY);
                 }
 
-                for (int time : GameGlobals.EVENT.getEventTimes()) {
-                    if (GameGlobals.ELAPSED_TIME == time) {
-                        event();
-                    }
-                }
                 elapsedTime = 0; // Reset elapsed time
 
                 // Calculates Satisfaction change from debt
