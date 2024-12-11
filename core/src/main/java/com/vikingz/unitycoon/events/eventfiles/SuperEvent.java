@@ -24,7 +24,6 @@ public abstract class SuperEvent {
 
     /**
      * Defines the SuperEvent constructor, which other events use for the base cases.
-     * @param gameScreen Game screen
      */
     public SuperEvent() {
 

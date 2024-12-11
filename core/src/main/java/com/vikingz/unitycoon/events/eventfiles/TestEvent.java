@@ -6,7 +6,6 @@ public class TestEvent extends SuperEvent {
 
     /**
      * Test event with 2 button
-     * @param gameScreen Game screen
      */
     public TestEvent() {
 

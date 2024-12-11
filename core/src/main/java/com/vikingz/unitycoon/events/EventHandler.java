@@ -42,11 +42,11 @@ public class EventHandler {
         SuperEvent e;
         Random random = new Random();
 
-        int randomChoice = random.nextInt(2);
+        int randomChoice = random.nextInt(3);
         e = switch (randomChoice) {
-            case 0 -> new TestEvent();
-            case 1 -> new TestEvent2();
-            default -> new TestEvent3();
+            case 0 -> new Alumni();
+            case 1 -> new Award();
+            default -> new TestEvent();
         };
 
         if (e.noChoice) {

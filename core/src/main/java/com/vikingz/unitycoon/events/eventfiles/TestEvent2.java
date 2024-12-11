@@ -6,7 +6,6 @@ public class TestEvent2 extends SuperEvent {
 
     /**
      * Test event with one close button
-     * @param gameScreen Game screen
      */
     public TestEvent2() {
 
