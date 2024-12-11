@@ -41,9 +41,7 @@ jobs:
       if: always()
       with:
         files: |
-          test-results/**/*.xml
-          test-results/**/*.trx
-          test-results/**/*.json
+          headless/build/test-results/**/*.xml
 
   # If tests pass, make a .jar file available to download
   build:
