@@ -14,6 +14,12 @@ public class UnluckyAchievement extends Achievements {
         unluckyCounter = 0;
         achieved = false;
     }
+
+    @Override
+    public void reset() {
+        unluckyCounter = 0;
+        achieved = false;
+    }
     
     @Override
     public String getName() {

@@ -13,6 +13,11 @@ public class BusyCampusAchievement extends Achievements {
     public BusyCampusAchievement() {
         achieved = false;
     }
+
+    @Override
+    public void reset() {
+        achieved = false;
+    }
     
     @Override
     public String getName() {

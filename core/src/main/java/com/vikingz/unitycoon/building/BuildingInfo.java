@@ -14,13 +14,8 @@ public class BuildingInfo {
     BuildingType buildingType;
     float buildingCost;
 
-    float satisfactionMultiplier;
     int numberOfStudents;
     float coinsPerSecond;
-
-
-
-
 
     /**
      * Creates new Building Info
@@ -33,66 +28,12 @@ public class BuildingInfo {
      * @param numberOfStudents Number of students
      * @param coinsPerSecond Coins per second the building generates
      */
-    public BuildingInfo(String  buildingID, BuildingStats.BuildingType buildingType, float buildingCost, float satisfactionMultiplier, int numberOfStudents, float coinsPerSecond){
+    public BuildingInfo(String  buildingID,  BuildingStats.BuildingType buildingType, float buildingCost, int numberOfStudents, int coinsPerSecond){
         this.buildingID = buildingID;
         this.buildingType = buildingType;
         this.buildingCost = buildingCost;
-
-        this.satisfactionMultiplier = satisfactionMultiplier;
         this.numberOfStudents = numberOfStudents;
         this.coinsPerSecond = coinsPerSecond;
-
-
-    }
-
-
-    public BuildingInfo(String  buildingID,  BuildingStats.BuildingType buildingType, float buildingCost, int numberOfStudents){
-        this.buildingID = buildingID;
-        this.buildingType = buildingType;
-        this.buildingCost = buildingCost;
-
-        this.satisfactionMultiplier = 0;
-        this.numberOfStudents = numberOfStudents;
-        this.coinsPerSecond = 0;
-
-
-    }
-
-    public BuildingInfo(String  buildingID,  BuildingStats.BuildingType buildingType, float buildingCost, float satisfactionMultiplier, int numberOfStudents){
-        this.buildingID = buildingID;
-        this.buildingType = buildingType;
-        this.buildingCost = buildingCost;
-
-        this.satisfactionMultiplier = satisfactionMultiplier;
-        this.numberOfStudents = numberOfStudents;
-        this.coinsPerSecond = 0;
-
-
-    }
-
-    public BuildingInfo(String  buildingID,  BuildingStats.BuildingType buildingType, float buildingCost, float satisfactionMultiplier){
-
-        this.buildingID = buildingID;
-        this.buildingType = buildingType;
-        this.buildingCost = buildingCost;
-
-        this.satisfactionMultiplier = satisfactionMultiplier;
-        this.numberOfStudents = 0;
-        this.coinsPerSecond = 0;
-
-
-    }
-
-    public BuildingInfo(String  buildingID,  BuildingStats.BuildingType buildingType, float buildingCost, float satisfactionMultiplier, float coinsPerSecond){
-        this.buildingID = buildingID;
-        this.buildingType = buildingType;
-        this.buildingCost = buildingCost;
-
-        this.satisfactionMultiplier = satisfactionMultiplier;
-        this.numberOfStudents = 0;
-        this.coinsPerSecond = coinsPerSecond;
-
-
     }
 
 
@@ -137,15 +78,6 @@ public class BuildingInfo {
      */
     public float getBuildingCost() {
         return buildingCost;
-    }
-
-
-    /**
-     * Gets SatisfactionMultiplier float which is initialized by constructor
-     * @return satisfactionMultiplier float
-     */
-    public float getSatisfactionMultiplier() {
-        return satisfactionMultiplier;
     }
 
     /**

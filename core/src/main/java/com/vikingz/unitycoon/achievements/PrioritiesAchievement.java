@@ -13,6 +13,11 @@ public class PrioritiesAchievement extends Achievements {
     public PrioritiesAchievement() {
         achieved = false;
     }
+
+    @Override
+    public void reset() {
+        achieved = false;
+    }
     
     @Override
     public String getName() {

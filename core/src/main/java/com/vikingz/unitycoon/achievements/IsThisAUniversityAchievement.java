@@ -13,6 +13,11 @@ public class IsThisAUniversityAchievement extends Achievements {
     public IsThisAUniversityAchievement() {
         achieved = false;
     }
+
+    @Override
+    public void reset() {
+        achieved = false;
+    }
     
     @Override
     public String getName() {

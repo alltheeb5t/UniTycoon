@@ -16,7 +16,7 @@ import com.vikingz.unitycoon.menus.UsernameMenu;
 public class AchievementsHandler {
     
     // All Achievements
-    private static Achievements[] gameAchievements = {new BankruptcyAchievement(), new BankruptcyAchievement(),
+    private static Achievements[] gameAchievements = {new BareMinimumAchievement(), new RealisticAchievement(),
         new BusyCampusAchievement(), new CleanSlateAchievement(), new IndecisiveAchievement(),
         new IsThisAUniversityAchievement(), new LuckyAchievement(), new MasterOfChangeAchievement(),
         new MikeFreemanAwardAchievement(), new PrioritiesAchievement(), new SaviourAchievement(),
@@ -182,6 +182,15 @@ public class AchievementsHandler {
                 updateAchievements(i);
                 bonus += gameAchievements[i].getSatisfactionBonus();
             }
+        }
+    }
+
+    /**
+     * Resets all the achievements.
+     */
+    public void resetAllAchievements() {
+        for (int i = 0; i < gameAchievements.length; i++) {
+            gameAchievements[i].reset();
         }
     }
 }

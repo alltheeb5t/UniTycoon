@@ -21,6 +21,11 @@ public class Achievements {
     }
 
     /**
+     * Resets the achievement.
+     */
+    public void reset() {}
+
+    /**
      * Checks if the achievement has been completed
      * @return true if completed else false
      */
