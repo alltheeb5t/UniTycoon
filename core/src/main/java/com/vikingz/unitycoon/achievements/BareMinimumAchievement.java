@@ -18,6 +18,12 @@ public class BareMinimumAchievement extends Achievements {
     }
 
     @Override
+    public void reset() {
+        bareMinimumPossible = true;
+        achieved = false;
+    }
+
+    @Override
     public String getName() {
         return NAME;
     }

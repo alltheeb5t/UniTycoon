@@ -44,7 +44,7 @@ public class GameScreen extends SuperScreen implements Screen {
 
     //Determines if end game has been already called
     public boolean endedAlready;
-
+  
     /**
      * Creates a new Game Screen
      * @param mapName The name of the map that will be used
@@ -119,7 +119,8 @@ public class GameScreen extends SuperScreen implements Screen {
         GameGlobals.ACHIEVEMENTS.checkAllAchievements();
         uiRenderer.displayAchievements();
 
-        if(GameGlobals.ELAPSED_TIME <= 0 && !endedAlready){
+        // End the game if satisfaction reaches 0
+        if(GameGlobals.ELAPSED_TIME <= 0 && !endedAlready || GameGlobals.SATISFACTION.getSatisfaction() == 0){
             endedAlready = true;
             endGame();
         }
@@ -142,7 +143,6 @@ public class GameScreen extends SuperScreen implements Screen {
             FirstTick = false;
         }
     }
-
 
     /**
      * Checks if window has been resized
@@ -176,7 +176,25 @@ public class GameScreen extends SuperScreen implements Screen {
     private void endGame(){
         GameGlobals.TIME.setPaused(true);
         GameGlobals.SATISFACTION.addBonus(GameGlobals.ACHIEVEMENTS.getBonus());
-        uiRenderer.endGame();
+        // Checks if player won the game
+        if (gameWon()) {
+            uiRenderer.endGame("You Win!");
+        }
+        else{
+            uiRenderer.endGame("You Lose!");
+        }
+    }
+
+    /**
+     * Determines if the player won the game.
+     * @return true if the player won
+     */
+    public static boolean gameWon(){
+        if (GameGlobals.SATISFACTION.getSatisfaction() >= 70 && GameGlobals.MONEY.getBalance() >= 0) {
+            return true;
+        }
+        return false;
+
     }
 
     @Override

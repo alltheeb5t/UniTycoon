@@ -8,17 +8,21 @@ import com.vikingz.unitycoon.building.EarnSchedule;
 public class MoneyHandler {
     private int balance;
 
+    // Determines if the user has ever been in debt
+    private boolean inDebtBefore;
+
     // Support limiting the amount of debt that player is allowed to accumulate
     public static final int MAX_DEBT = Integer.MAX_VALUE;
 
     // Future support for variable starting balance
-    public static final int STARTING_BALANCE = 0;
+    public static final int STARTING_BALANCE = 1000;
 
     /**
      * Constructor called at the start of the game and on reset
      */
     public MoneyHandler() {
         balance = STARTING_BALANCE;
+        inDebtBefore = false;
     }
 
     /**
@@ -49,11 +53,17 @@ public class MoneyHandler {
 
     /**
      * Called periodically by the timer. Calculates and adds revenue from
-     * buildings that provide a continuous revenue stream (e.g. food outlets)
+     * buildings that provide a continuous revenue stream (e.g. food outlets).
+     * Earns only half the normal amount of money if in debt.
      */
     public void earn(List<Building> buildings, EarnSchedule earnSchedule) {
         for (Building building : buildings){
-            balance += building.calculateProfitMade(earnSchedule);
+            if (balance >= 0) {
+                balance += building.calculateProfitMade(earnSchedule);
+            }
+            else {
+                balance += 0.5 * building.calculateProfitMade(earnSchedule);
+            }
         }
     }
 
@@ -63,5 +73,13 @@ public class MoneyHandler {
      */
     public float getBalance() {
         return balance;
+    }
+
+    public boolean getInDebtBefore() {
+        return inDebtBefore;
+    }
+
+    public void setInDebtBefore(boolean inDebtBefore) {
+        this.inDebtBefore = inDebtBefore;
     }
 }

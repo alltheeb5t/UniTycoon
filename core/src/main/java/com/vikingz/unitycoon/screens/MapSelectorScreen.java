@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.vikingz.unitycoon.global.GameGlobals;
 
@@ -47,11 +48,12 @@ public class MapSelectorScreen extends SuperScreen implements Screen {
         TextButton nextMap = new TextButton("->",skin);
         TextButton previousMap = new TextButton("<-",skin);
 
-        //Gp back Button
-        goBack.addListener(e -> {
-            if (!goBack.isPressed()) return false;
-            ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.MENU);
-            return true;
+        //Go back Button
+        goBack.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenMultiplexer.switchScreens(ScreenMultiplexer.Screens.MENU);
+            };
         });
 
 
@@ -87,12 +89,13 @@ public class MapSelectorScreen extends SuperScreen implements Screen {
 
         mapText = new TextField("map".concat(Integer.toString(mapSelection)),skin);
 
-        startGame.addListener(e -> {
-            if (!startGame.isPressed()) return false;
+        //Starts the game
+        startGame.addListener(new ClickListener() {
 
-            ScreenMultiplexer.runGame(mapText.getText().toLowerCase());
-
-            return true;
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenMultiplexer.runGame(mapText.getText().toLowerCase());
+            };
         });
 
         // Create table for layout
@@ -125,6 +128,7 @@ public class MapSelectorScreen extends SuperScreen implements Screen {
     public void show() {
         // This method is called when the screen is shown
     }
+
     /**
      * Renders the stage to the screen
      * @param delta Time since last frame

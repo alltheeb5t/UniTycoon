@@ -13,6 +13,7 @@ import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingInfo;
 import com.vikingz.unitycoon.building.BuildingStats;
 import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
+import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.building.BuildingsMap;
 import com.vikingz.unitycoon.render.BackgroundRenderer;
 import com.vikingz.unitycoon.util.FileHandler;
@@ -22,6 +23,7 @@ public class TestSuper {
     public void setup() {
         Gdx.gl = Gdx.gl20 = mock(GL20.class);
         HeadlessLauncher.main(new String[0]);
+        GameGlobals.resetGlobals(0);
     }
 
     /**

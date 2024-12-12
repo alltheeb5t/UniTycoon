@@ -9,8 +9,6 @@ import com.vikingz.unitycoon.util.SatisfactionHandler;
 import com.vikingz.unitycoon.events.EventHandler;
 import com.vikingz.unitycoon.util.TimeHandler;
 
-import static com.badlogic.gdx.math.MathUtils.random;
-
 
 /**
  * This class is used to store all the constants and global values
@@ -33,6 +31,8 @@ public class GameGlobals {
     public static MoneyHandler MONEY = new MoneyHandler();
     public static EventHandler EVENT = new EventHandler();
     public static TimeHandler TIME = new TimeHandler();
+    public static boolean gameWon = false;
+    public static boolean currentlyBuilding = true; //Stops buildings from being built when false.
 
     //Size of the building SCREEN_BUILDING_SIZExSCREEN_BUILDING_SIZE
     public static final int SCREEN_BUILDING_SIZE = 128;
@@ -65,6 +65,9 @@ public class GameGlobals {
         STUDENTS = 0;
         MONEY = new MoneyHandler();
         EVENT = new EventHandler();
+        gameWon = false;
+        ACHIEVEMENTS.resetAllAchievements();
+        currentlyBuilding = true;
     }
 
 }

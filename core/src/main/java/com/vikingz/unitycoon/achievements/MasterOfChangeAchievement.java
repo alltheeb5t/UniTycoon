@@ -17,6 +17,12 @@ public class MasterOfChangeAchievement extends Achievements {
         masterOfChangePossible = true;
         achieved = false;
     }
+
+    @Override
+    public void reset() {
+        masterOfChangePossible = true;
+        achieved = false;
+    }
     
     @Override
     public String getName() {
@@ -39,7 +45,7 @@ public class MasterOfChangeAchievement extends Achievements {
      */
     @Override
     protected boolean isCompleted() {
-        if (GameGlobals.ELAPSED_TIME <= 0 && masterOfChangePossible) { //&& gameWon) {
+        if (GameGlobals.ELAPSED_TIME <= 0 && masterOfChangePossible && GameGlobals.gameWon) {
             return true;
         }
         

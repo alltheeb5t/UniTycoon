@@ -14,6 +14,12 @@ public class LuckyAchievement extends Achievements {
         luckyCounter = 0;
         achieved = false;
     }
+
+    @Override
+    public void reset() {
+        luckyCounter = 0;
+        achieved = false;
+    }
     
     @Override
     public String getName() {

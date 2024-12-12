@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Dictionary;
 
 /**
@@ -46,7 +47,6 @@ public class BuildingStats {
     //Loaded from buildingInfo.json
     public static Dictionary<BuildingType, String[]> BuildingNameDict;
     public static Dictionary<BuildingStats.BuildingType, String[]> BuildingPriceDict;
-    public static Dictionary<BuildingStats.BuildingType, String[]> BuildingSatisfactionDict;
     public static Dictionary<BuildingStats.BuildingType, String[]> BuildingStudentDict;
     public static Dictionary<BuildingStats.BuildingType, String[]> BuildingCoinDict;
     public static Dictionary<BuildingStats.BuildingType, String[]> BuildingDict;
@@ -59,6 +59,8 @@ public class BuildingStats {
     public static String textureAtlasLocation;
     public static int atlasBuildingSize = 128;
 
+    //Allows 1 building to be built for free
+    public static boolean nextBuildingFree = false;
 
     /**
      * Uses the params to lookup and convert values
@@ -70,17 +72,11 @@ public class BuildingStats {
      */
     public static BuildingInfo getInfo(BuildingStats.BuildingType buildingType, int index){
 
-        int price, student,coins;
-        float satisfaction;
-
+        int price, student, coins;
 
         //price
         try {price = Integer.parseInt(BuildingPriceDict.get(buildingType)[index]);}
         catch (Exception e){price = 100;}
-
-        //Satisfaction
-        try {satisfaction = Float.parseFloat(BuildingSatisfactionDict.get(buildingType)[index]);}
-        catch (Exception e){satisfaction = 0f;}
 
         //Student
         try {student = Integer.parseInt(BuildingStudentDict.get(buildingType)[index]);}
@@ -95,13 +91,31 @@ public class BuildingStats {
             return new BuildingInfo(BuildingDict.get(buildingType)[index],
                 buildingType,
                 price,
-                satisfaction,
                 student,
                 coins);
         }
         catch (Exception e){
             return null;
         }
+    }
+
+    /**
+     * Change the prices of the buildings.
+     * @param newPrices the new prices in an integer list ordered as buildings are in json
+     * @return true if the prices are sucessfully changed
+     */
+    public static boolean setBuildingPrices(String[] newPrices) {
+        int StartI = 0;
+        int EndI = 0;
+        for (BuildingType type : BuildingType.values()) {
+            EndI = StartI + BuildingPriceDict.get(type).length;
+            if (EndI >= newPrices.length) {return false;}
+            String[] newBuildingPrices = Arrays.copyOfRange(newPrices, StartI, EndI);
+            BuildingPriceDict.put(type, newBuildingPrices);
+            StartI = EndI;
+        }
+
+        return true;
     }
 
     /**

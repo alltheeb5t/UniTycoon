@@ -2,11 +2,13 @@ package com.vikingz.unitycoon.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.vikingz.unitycoon.menus.AchievementsMenu;
+import com.vikingz.unitycoon.menus.TutorialMenu;
 import com.vikingz.unitycoon.menus.UsernameMenu;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -32,11 +34,16 @@ public class MenuScreen extends SuperScreen implements Screen {
 
         // Create buttons
         TextButton playButton = new TextButton("Play", skin);
+        TextButton howToPlayButton = new TextButton("How To Play", skin);
         TextButton achievementsButton = new TextButton("Achievements",skin);
         TextButton settingsButton = new TextButton("Settings", skin);
         TextButton quitButton = new TextButton("Quit", skin);
 
         AchievementsMenu achievementsMenu = new AchievementsMenu(skin);
+        
+        TutorialMenu tutorialMenu = new TutorialMenu(skin);
+        tutorialMenu.setPosition((stage.getWidth() - tutorialMenu.getWidth()) / 2, (stage.getHeight() - tutorialMenu.getHeight()) / 2);
+        tutorialMenu.setupButton(skin);
 
         // Add listeners to buttons
         playButton.addListener(new ClickListener() {
@@ -52,6 +59,13 @@ public class MenuScreen extends SuperScreen implements Screen {
                 achievementsMenu.setPosition((stage.getWidth() - achievementsMenu.getWidth()) / 2, (stage.getHeight() - achievementsMenu.getHeight()) / 2);
                 achievementsMenu.update();
                 stage.addActor(achievementsMenu);
+                };
+         });
+      
+        howToPlayButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                stage.addActor(tutorialMenu);
             };
         });
 
@@ -78,13 +92,15 @@ public class MenuScreen extends SuperScreen implements Screen {
         table.add(texture).pad(50);
         table.row();
 
-        // Add buttons to table
-        table.add(playButton).width(425).pad(10);
-        table.row();
-        table.add(achievementsButton).width(425).pad(10);
-        table.row();
-        table.add(settingsButton).width(425).pad(10);
-        table.row();
+        // Add buttons to table with 2 rows of 2 buttons and quit at the bottom
+        Table buttonRows = new Table();
+        buttonRows.add(playButton).width(425).pad(10);
+        buttonRows.add(howToPlayButton).width(425).pad(10);
+        buttonRows.row();
+        buttonRows.add(achievementsButton).width(425).pad(10);
+        buttonRows.add(settingsButton).width(425).pad(10);
+        
+        table.add(buttonRows).pad(10).row();
         table.add(quitButton).width(425).pad(10);
 
         // Add the table to the stage
@@ -108,7 +124,7 @@ public class MenuScreen extends SuperScreen implements Screen {
     public void render(float delta) {
         // Clear the screen
         Gdx.gl.glClearColor(25/255f, 25/255f, 25/255f, 1);
-        Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear the screen
 
         // Draw the stage
         stage.act(delta);

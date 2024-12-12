@@ -3,6 +3,7 @@ package com.vikingz.unitycoon.menus;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
@@ -13,6 +14,7 @@ import com.vikingz.unitycoon.global.GameGlobals;
  */
 public class EndMenu extends Window {
 
+    private Label titleLabel;
     private Label messageLabel;
 
     //skin used for window
@@ -35,9 +37,12 @@ public class EndMenu extends Window {
         this.skin = skin;
         this.setBackground(GameGlobals.backGroundDrawable);
 
+        titleLabel = new Label("", skin);
+        titleLabel.setFontScale(3);
+        this.add(titleLabel).row();
 
         messageLabel = new Label(Message, skin);
-        this.add(messageLabel).padLeft(-35).row();
+        this.add(messageLabel).align(Align.left).row();
     }
 
     /**
@@ -50,11 +55,13 @@ public class EndMenu extends Window {
      */
     public void setupButtons(Runnable leftRun, String leftText, Runnable rightRun, String rightText){
 
-
         TextButton leftBtn = new TextButton(leftText, skin);
         TextButton rightBtn = new TextButton(rightText, skin);
-        this.add(leftBtn).pad(10);
-        this.add(rightBtn).pad(10);
+        Table table = new Table();
+
+        table.add(leftBtn).pad(10);
+        table.add(rightBtn).pad(10);
+        this.add(table);
 
         // Created for yes - no game events
         // The Popup needs to call back to parent object in someway
@@ -76,5 +83,9 @@ public class EndMenu extends Window {
 
     public void setMessage(String message) {
         messageLabel.setText(message);
+    }
+
+    public void setTitle(String title) {
+        titleLabel.setText(title);
     }
 }

@@ -2,7 +2,6 @@ package com.vikingz.unitycoon.screens;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -82,14 +81,6 @@ public class SettingsScreen extends SuperScreen implements Screen {
             }
         });
 
-        TextButton quitButton = new TextButton("Quit", skin);
-        quitButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                Gdx.app.exit(); // Quit the application
-            }
-        });
-
         fullscreenButton = new TextButton("Fullscreen",skin);
         fullscreenButton.addListener(e -> {
             if (fullscreenButton.isPressed()){
@@ -121,44 +112,29 @@ public class SettingsScreen extends SuperScreen implements Screen {
         table.setFillParent(true);
         table.center();
 
-        table.add((Actor) null);
         table.add(resolutionLabel);
         table.row();
 
         // Add elements to the table
-        table.add((Actor) null);
         table.add(SoundVolumeLabel).uniformX().pad(10);
         table.row();
 
-        table.add((Actor) null);
         table.add(SoundVolumeSlider).fillX().uniformX().pad(10);
         table.row();
 
-        table.add((Actor) null);
         table.add(MusicVolumeLabel).uniformX().pad(10);
         table.row();
 
-        table.add((Actor) null);
         table.add(MusicVolumeSlider).fillX().uniformX().pad(10);
         table.row();
 
-        table.add(fullscreenButton).fillX().uniformX().pad(10);
-        table.add(saveGameConfigButton).fillX().pad(10);
-        table.add(windowButton).fillX().uniformX().pad(10);
-        table.row();
-
-
-        table.add((Actor) null);
-        table.add(backButton).fillX().uniformX().pad(10);
-
-        table.row();
-        table.add((Actor) null);
-
-        table.add(quitButton).fillX().pad(10);
-        table.row();
-
-        table.row();
-
+        Table buttonsRows = new Table();
+        buttonsRows.add(fullscreenButton).width(425).pad(10);
+        buttonsRows.add(windowButton).width(425).pad(10);
+        buttonsRows.row();
+        buttonsRows.add(saveGameConfigButton).width(425).pad(10);
+        buttonsRows.add(backButton).width(425).pad(10);
+        table.add(buttonsRows).pad(10).row();
 
         // Add table to stage
         stage.addActor(table);
