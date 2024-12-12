@@ -18,7 +18,7 @@ public class TutorialMenu extends Window  {
     
     private String message = "Build the campus of your dreams and keep your students happy "
         + "by buying and placing a range \nof facilities from the menu.\n\nControls: "
-        + "\nPause Game - esc key \nRemove Building - right click"
+        + "\nPause Game - esc key \nRemove Building/Stop Placing Building - right click"
         + "\n\nTry to reach 100% satisfaction without ending up in debt before the end of semester" 
         + " 2 in year 3. \nSatisfaction is influenced by building amounts and proximities."
         + "\n\nPlease use the built in full screen method in the settings page.\n\nGood luck!";
