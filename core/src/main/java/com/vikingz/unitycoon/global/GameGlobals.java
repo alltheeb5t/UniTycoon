@@ -32,6 +32,7 @@ public class GameGlobals {
     public static EventHandler EVENT = new EventHandler();
     public static TimeHandler TIME = new TimeHandler();
     public static boolean gameWon = false;
+    public static boolean currentlyBuilding = true; //Stops buildings from being built when false.
 
     //Size of the building SCREEN_BUILDING_SIZExSCREEN_BUILDING_SIZE
     public static final int SCREEN_BUILDING_SIZE = 128;
@@ -66,6 +67,7 @@ public class GameGlobals {
         EVENT = new EventHandler();
         gameWon = false;
         ACHIEVEMENTS.resetAllAchievements();
+        currentlyBuilding = true;
     }
 
 }

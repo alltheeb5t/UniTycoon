@@ -32,8 +32,11 @@ public class BuildingRenderer{
     //If building is being placed by user
     private boolean isPreviewing;
 
-    //Texture of Building to be placed
+    //Textures of Building, fire and construction
     private TextureRegion selectedTexture;
+    private Texture constructingTexture = new Texture("png\\UnderConstruction.png");
+    private Texture fireTexture = new Texture("png\\fire.png");
+
 
     //Current Building being placed information
     private BuildingInfo currentBuildingInfo = null;
@@ -88,17 +91,27 @@ public class BuildingRenderer{
             batch.draw(building.getTexture(), building.getX(), building.getY());
             // Checks if building is under construction
             if (building.getConstructing()) {
-                batch.draw(new Texture("png\\UnderConstruction.png"), building.getX(), 
+                batch.draw(constructingTexture, building.getX(), 
                     building.getY(), GameGlobals.SCREEN_BUILDING_SIZE, (int) (GameGlobals.SCREEN_BUILDING_SIZE * 0.75));
                 
-                // Starts or stops timer if needed
+                // Starts or stops timer if needed, doesn't place building if not currently building buildings.
                 if (building.getEndConstructionTime() == -1) {
                     building.setEndConstructionTime(GameGlobals.ELAPSED_TIME - 10);
                 }
-                else if(building.getEndConstructionTime() == GameGlobals.ELAPSED_TIME) {
+                else if(building.getEndConstructionTime() >= GameGlobals.ELAPSED_TIME && GameGlobals.currentlyBuilding) {
                     building.setConstructing(false);
                     campusBuildingsMap.builtBuilding(building);
                 }
+    
+                // Adds the passed time to the end construction time if not currently building buildings.
+                if (!GameGlobals.currentlyBuilding) {
+                    building.updateEndConstructionTime(delta);
+                }
+            }
+            // Draws fire texture on building if on fire
+            if(building.getOnFire()) {
+                batch.draw(fireTexture, building.getX(), 
+                    building.getY(), GameGlobals.SCREEN_BUILDING_SIZE, GameGlobals.SCREEN_BUILDING_SIZE);
             }
         }
 
@@ -116,6 +129,15 @@ public class BuildingRenderer{
 
             if(campusBuildingsMap.attemptBuildingDeleteAt(translatedPoint.x, translatedPoint.y).isEmpty()) {
                 System.out.println("building was null: " + null);
+            }
+        }
+
+        // Stops fire if the building is on fire
+        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && selectedTexture == null){
+            Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
+            Building currentBuilding = campusBuildingsMap.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
+            if(currentBuilding != null) {
+                currentBuilding.setOnFire(false);
             }
         }
 

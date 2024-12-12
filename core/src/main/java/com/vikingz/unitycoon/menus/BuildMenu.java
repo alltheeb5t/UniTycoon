@@ -202,7 +202,13 @@ public class BuildMenu{
 
         //Price Label
         window.add((Actor) null);
-        Label buildingPrice = new Label("Price: " + BuildingStats.BuildingPriceDict.get(buildingType)[0],skin);
+        Label buildingPrice;
+        if (BuildingStats.nextBuildingFree) {
+            buildingPrice = new Label("Price: FREE", skin);
+        }
+        else {
+            buildingPrice= new Label("Price: " + BuildingStats.BuildingPriceDict.get(buildingType)[0],skin);
+        }
         window.add(buildingPrice);
 
         window.row().padTop(20);
@@ -312,7 +318,12 @@ public class BuildMenu{
      */
     private void SetLabelText(Label buildingNameLabel, BuildingStats.BuildingType buildingType, Label buildingPrice, Label buildingStudent, Label buildingCoins, Image buildingImage) {
         buildingNameLabel.setText(BuildingStats.BuildingNameDict.get(buildingType)[index]);
-        buildingPrice.setText("Price: " + BuildingStats.BuildingPriceDict.get(buildingType)[index]);
+        if (BuildingStats.nextBuildingFree) {
+            buildingPrice.setText("Price: FREE");
+        }
+        else {
+            buildingPrice.setText("Price: " + BuildingStats.BuildingPriceDict.get(buildingType)[index]);
+        }
         buildingStudent.setText("Student Space: " + BuildingStats.BuildingStudentDict.get(buildingType)[index]);
         if (buildingType == BuildingType.ACADEMIC || buildingType == BuildingType.ACCOMODATION) {
             buildingCoins.setText("Coins Per Semester: " + BuildingCoinDict.get(buildingType)[index]);
