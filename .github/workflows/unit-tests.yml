@@ -76,4 +76,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: UniSim.jar
-        path: lwjgl3/build/libs/*
+        path: lwjgl3/build/libs/UniTycoon-1.0.0.jar
