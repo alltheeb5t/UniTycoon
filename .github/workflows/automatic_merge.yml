@@ -1,0 +1,45 @@
+name: 'Automatic Merge'
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  merge-branches:
+    name: Merge main into develop
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branch: ["dev1", "dev2"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Merge main -> develop
+        id: execute_merge
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: main
+          target_branch: ${{matrix.branch}}
+          message: 'CI: Merge latest changes from main'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      # If unable to merge automatically, create a pull request to attract manual attention
+      - uses: actions/checkout@v4
+        if: always() && steps.execute_merge.outcome == 'failure'  # Outcome gives the real result (before continue-on-error)
+        with:
+          ref: ${{matrix.branch}}
+      - name: Reset staging branch
+        if: always() && steps.execute_merge.outcome == 'failure'
+        run: |
+          git fetch origin main:main
+          git reset --hard main
+      - name: Create Pull Request
+        if: always() && steps.execute_merge.outcome == 'failure'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          title: 'CI: Merge latest changes from main'
+          reviewers: Lime-Parallelogram
+          branch: stageing
+          labels: 'ci-automated'
