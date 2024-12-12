@@ -45,9 +45,6 @@ public class GameScreen extends SuperScreen implements Screen {
     //Determines if end game has been already called
     public boolean endedAlready;
   
-    //Stores the amount of satisfaction lost from being in debt
-    private int debtSatisfactionLoss;
-  
     /**
      * Creates a new Game Screen
      * @param mapName The name of the map that will be used
@@ -57,7 +54,6 @@ public class GameScreen extends SuperScreen implements Screen {
 
         GameGlobals.TIME.setPaused(false);
         endedAlready = false;
-        debtSatisfactionLoss = 0;
         gameRenderer = new GameRenderer(mapName);
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer());
         elapsedTime = 0;
@@ -116,9 +112,6 @@ public class GameScreen extends SuperScreen implements Screen {
                 }
 
                 elapsedTime = 0; // Reset elapsed time
-
-                // Calculates Satisfaction change from debt
-                debtSatisfactionEffect();
             }
         }
 
@@ -150,24 +143,6 @@ public class GameScreen extends SuperScreen implements Screen {
             FirstTick = false;
         }
     }
-
-    /**
-     * Takes off 1% satisfaction if the user is in debt or can regain lost
-     * satisfaction if not in debt
-     */
-    private void debtSatisfactionEffect() {
-        if (GameGlobals.MONEY.getBalance() < 0) {
-            GameGlobals.SATISFACTION.applyPenalty(1); 
-            debtSatisfactionLoss += 1;
-        }
-        else {
-            if (debtSatisfactionLoss > 0) {
-                GameGlobals.SATISFACTION.addBonus(1);
-                debtSatisfactionLoss -= 1;
-            }
-        }
-    }
-
 
     /**
      * Checks if window has been resized

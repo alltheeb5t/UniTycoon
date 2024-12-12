@@ -17,6 +17,12 @@ public class MikeFreemanAwardAchievement extends Achievements {
         mikeFreemanAwardStartTime = 0;
         achieved = false;
     }
+
+    @Override
+    public void reset() {
+        mikeFreemanAwardStartTime = 0;
+        achieved = false;
+    }
     
     @Override
     public String getName() {

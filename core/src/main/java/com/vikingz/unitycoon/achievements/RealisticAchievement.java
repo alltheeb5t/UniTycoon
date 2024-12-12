@@ -15,6 +15,11 @@ public class RealisticAchievement extends Achievements {
     }
 
     @Override
+    public void reset() {
+        achieved = false;
+    }
+
+    @Override
     public String getName() {
         return NAME;
     }

@@ -11,6 +11,11 @@ public class SaviourAchievement extends Achievements {
     public SaviourAchievement() {
         achieved = false;
     }
+
+    @Override
+    public void reset() {
+        achieved = false;
+    }
     
     @Override
     public String getName() {

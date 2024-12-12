@@ -31,6 +31,7 @@ public class GameGlobals {
     public static MoneyHandler MONEY = new MoneyHandler();
     public static EventHandler EVENT = new EventHandler();
     public static TimeHandler TIME = new TimeHandler();
+    public static boolean gameWon = false;
 
     //Size of the building SCREEN_BUILDING_SIZExSCREEN_BUILDING_SIZE
     public static final int SCREEN_BUILDING_SIZE = 128;
@@ -63,6 +64,8 @@ public class GameGlobals {
         STUDENTS = 0;
         MONEY = new MoneyHandler();
         EVENT = new EventHandler();
+        gameWon = false;
+        ACHIEVEMENTS.resetAllAchievements();
     }
 
 }

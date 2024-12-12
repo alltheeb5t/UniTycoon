@@ -1,7 +1,6 @@
 package com.vikingz.unitycoon.achievements;
 
 import com.vikingz.unitycoon.global.GameGlobals;
-import com.vikingz.unitycoon.screens.GameScreen;
 
 /**
  * This class creates a master of change achievement object.
@@ -15,6 +14,12 @@ public class MasterOfChangeAchievement extends Achievements {
     private final boolean HIDDEN = true;
 
     public MasterOfChangeAchievement() {
+        masterOfChangePossible = true;
+        achieved = false;
+    }
+
+    @Override
+    public void reset() {
         masterOfChangePossible = true;
         achieved = false;
     }
@@ -40,7 +45,7 @@ public class MasterOfChangeAchievement extends Achievements {
      */
     @Override
     protected boolean isCompleted() {
-        if (GameGlobals.ELAPSED_TIME <= 0 && masterOfChangePossible && GameScreen.gameWon()) {
+        if (GameGlobals.ELAPSED_TIME <= 0 && masterOfChangePossible && GameGlobals.gameWon) {
             return true;
         }
         

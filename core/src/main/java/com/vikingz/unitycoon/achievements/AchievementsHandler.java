@@ -184,4 +184,13 @@ public class AchievementsHandler {
             }
         }
     }
+
+    /**
+     * Resets all the achievements.
+     */
+    public void resetAllAchievements() {
+        for (int i = 0; i < gameAchievements.length; i++) {
+            gameAchievements[i].reset();
+        }
+    }
 }

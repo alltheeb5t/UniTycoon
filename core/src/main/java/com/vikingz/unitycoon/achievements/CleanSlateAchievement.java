@@ -16,6 +16,12 @@ public class CleanSlateAchievement extends Achievements {
         cleanSlateMinReached = false;
         achieved = false;
     }
+
+    @Override
+    public void reset() {
+        cleanSlateMinReached = false;
+        achieved = false;
+    }
     
     @Override
     public String getName() {

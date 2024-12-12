@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.vikingz.unitycoon.building.BuildingStats;
+import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.global.GameConfig;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.BuildingRenderer;
@@ -52,9 +53,6 @@ public class BuildMenu{
     //should be displayed currently
     private int index = 0;
 
-    // Determines if the user has ever been in debt
-    private boolean inDebtBefore;
-
     /**
      * Creates a new BuildMenu
      * @param skin SKin of the buttons on the menu
@@ -66,8 +64,6 @@ public class BuildMenu{
         this.stage = stage;
         this.buildingRenderer =  buildingRenderer;
         this.skin = skin;
-
-        inDebtBefore = false;
 
         //Texture atlas of building menu bar
         Texture textureAtlas = new Texture(Gdx.files.internal("textureAtlases/buildMenuButtonsAtlas.png")); // Load your 64x64 PNG
@@ -193,7 +189,14 @@ public class BuildMenu{
 
         //Coins Label
         window.add((Actor) null);
-        Label buildingCoins = new Label("Coins Per Second: " + BuildingCoinDict.get(buildingType)[0],skin);
+        Label buildingCoins;
+        // Sets label to semester if the building changes money every semester and second otherwise
+        if (buildingType == BuildingType.ACADEMIC || buildingType == BuildingType.ACCOMODATION) {
+            buildingCoins = new Label("Coins Per Semester: " + BuildingCoinDict.get(buildingType)[0],skin);
+        }
+        else {
+            buildingCoins = new Label("Coins Per Second: " + BuildingCoinDict.get(buildingType)[0],skin);
+        }
         window.add(buildingCoins).expandX();
         window.row();
 
@@ -232,8 +235,8 @@ public class BuildMenu{
             public void clicked(InputEvent event, float x, float y) {
                 // Creates an going into debt pop-up if the user doesn't have enough money for the building.
                 // Only shows the first time
-                if(!inDebtBefore && (GameGlobals.MONEY.getBalance() - Integer.valueOf(BuildingStats.BuildingPriceDict.get(buildingType)[index]) < 0)) {
-                    inDebtBefore = true;
+                if(!GameGlobals.MONEY.getInDebtBefore() && (GameGlobals.MONEY.getBalance() - Integer.valueOf(BuildingStats.BuildingPriceDict.get(buildingType)[index]) < 0)) {
+                    GameGlobals.MONEY.setInDebtBefore(true);
                     DebtMenu debtPopUp = new DebtMenu(skin);
                     debtPopUp.setPosition((stage.getWidth() - debtPopUp.getWidth()) / 2, (stage.getHeight() - debtPopUp.getHeight()) / 2);
                     debtPopUp.setupButton(skin, buildingRenderer, window, buildingType, index);
@@ -311,7 +314,12 @@ public class BuildMenu{
         buildingNameLabel.setText(BuildingStats.BuildingNameDict.get(buildingType)[index]);
         buildingPrice.setText("Price: " + BuildingStats.BuildingPriceDict.get(buildingType)[index]);
         buildingStudent.setText("Student Space: " + BuildingStats.BuildingStudentDict.get(buildingType)[index]);
-        buildingCoins.setText("Coins Per Second: " + BuildingCoinDict.get(buildingType)[index]);
+        if (buildingType == BuildingType.ACADEMIC || buildingType == BuildingType.ACCOMODATION) {
+            buildingCoins.setText("Coins Per Semester: " + BuildingCoinDict.get(buildingType)[index]);
+        }
+        else {
+            buildingCoins.setText("Coins Per Second: " + BuildingCoinDict.get(buildingType)[index]);
+        }
         buildingImage.setDrawable(BuildingStats.getTextureDrawableOfBuilding(BuildingStats.BuildingDict.get(buildingType)[index]));
     }
 

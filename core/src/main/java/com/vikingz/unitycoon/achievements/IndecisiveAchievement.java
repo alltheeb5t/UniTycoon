@@ -14,6 +14,12 @@ public class IndecisiveAchievement extends Achievements {
         removedBuildings = 0;
         achieved = false;
     }
+
+    @Override
+    public void reset() {
+        removedBuildings = 0;
+        achieved = false;
+    }
     
     @Override
     public String getName() {
