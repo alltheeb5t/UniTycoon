@@ -96,6 +96,21 @@ public class BuildingStats {
         }
     }
 
+     /**
+     * Change the incomes from the buildings.
+     * @param multiplier the multiplier to modify the income from each building
+     */
+    public static void setBuildingIncomes(float multiplier) {
+        for (BuildingType type : BuildingType.values()) {
+            if(type == BuildingType.NONE) {continue; }
+            String[] newBuildingIncomes = new String[BuildingCoinDict.get(type).length];
+            for (int i = 0; i < newBuildingIncomes.length; i++) {
+                newBuildingIncomes[i] = String.valueOf((int) (multiplier * (Integer.valueOf(BuildingCoinDict.get(type)[i]))));
+            }
+            BuildingCoinDict.put(type, newBuildingIncomes);
+        }
+    }
+
     /**
      * This class Creates the Texture Image for the Building
      * to be drawn with, this uses a lookup Dictionary created from json file.
