@@ -75,8 +75,19 @@ public class BuildingRenderer{
      * @param delta Time since last frame
      */
     private void checkBuildings(float delta){
+        //Stops previewing building and background building being removed at once
+        Boolean removedPreviewing = false;
+
         // Update preview position to follow the mouse cursor
         if (isPreviewing && selectedTexture != null) {
+            // Stops previewing building if user right clicks
+            if(Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)){
+                System.out.println("RightClick");
+                isPreviewing = false;
+                selectedTexture = null;
+                removedPreviewing = true;
+            }
+
             // Makes sure that the mouse is in the center of the building texture
             Vector3 previewPoint = snapBuildingToGrid(Gdx.input.getX() - GameGlobals.SCREEN_BUILDING_SIZE / 2, Gdx.input.getY() + GameGlobals.SCREEN_BUILDING_SIZE / 2);
 
@@ -123,7 +134,7 @@ public class BuildingRenderer{
         batch.end();
 
         // Removes the building the user right clicks on
-        if(Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && selectedTexture == null){
+        if(Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && !removedPreviewing){
             System.out.println("RightClick");
             Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
 

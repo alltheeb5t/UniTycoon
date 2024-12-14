@@ -99,6 +99,21 @@ public class BuildingStats {
         }
     }
 
+     /**
+     * Change the incomes from the buildings.
+     * @param multiplier the multiplier to modify the income from each building
+     */
+    public static void setBuildingIncomes(float multiplier) {
+        for (BuildingType type : BuildingType.values()) {
+            if(type == BuildingType.NONE) {continue; }
+            String[] newBuildingIncomes = new String[BuildingCoinDict.get(type).length];
+            for (int i = 0; i < newBuildingIncomes.length; i++) {
+                newBuildingIncomes[i] = String.valueOf((int) (multiplier * (Integer.valueOf(BuildingCoinDict.get(type)[i]))));
+            }
+            BuildingCoinDict.put(type, newBuildingIncomes);
+        }
+    }
+
     /**
      * Change the prices of the buildings.
      * @param newPrices the new prices in an integer list ordered as buildings are in json
