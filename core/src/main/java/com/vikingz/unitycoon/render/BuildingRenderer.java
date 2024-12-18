@@ -1,13 +1,20 @@
 package com.vikingz.unitycoon.render;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingInfo;
 import com.vikingz.unitycoon.building.BuildingStats;
@@ -59,6 +66,9 @@ public class BuildingRenderer{
     // Image to be placed on top of constructing buildings
     private Texture underConstructionTexture;
 
+    // Pop Up when a player tries to place a building on a colliding square
+    private TextButton collisionPopUp;
+
     /**
      * Creates a new Building Renderer
      * @param gameRenderer Parent renderer {@code GameRenderer}
@@ -76,6 +86,13 @@ public class BuildingRenderer{
         campusBuildingsMap = new BuildingsMap(gameRenderer.getBackgroundRenderer());
         underConstructionTexture = new Texture("png\\UnderConstruction.png");
         removeBuildingPopUp = new RemoveBuildingMenu(skin);
+
+        // Set collision popup
+        collisionPopUp = new TextButton("COLLISION", skin);
+        collisionPopUp.setColor(Color.RED);
+        collisionPopUp.setWidth(200);
+        collisionPopUp.setPosition((stage.getWidth() - collisionPopUp.getWidth()) / 2, (stage.getHeight() - 100));
+        collisionPopUp.getLabel().setFontScale((float)0.4,(float)0.4);
     }
 
     /**
@@ -167,6 +184,19 @@ public class BuildingRenderer{
             }
             else {
                 // If building is colliding with something
+                
+                //Creates a task to remove the event from the screen after 8s.
+                Timer timer = new Timer(3000, new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent arg0) {
+                        collisionPopUp.remove();
+                    }
+                }); 
+                timer.setRepeats(false);
+
+                stage.addActor(collisionPopUp);
+                timer.start();
+
                 System.err.println("Player Trying to place on a collision piece");
                 GameSounds.playPlaceError();
             }
