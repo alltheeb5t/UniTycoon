@@ -26,7 +26,7 @@ public class LeaderboardMenu extends Window{
 
         super("", skin);
 
-        this.setSize(600, 400);
+        this.setSize(700, 500);
         this.setModal(true);
         this.setMovable(false);
         this.setResizable(false);
@@ -39,6 +39,7 @@ public class LeaderboardMenu extends Window{
         this.add(title).padTop(1).row();
 
         messageLabel = new Label(message, skin);
+        messageLabel.setFontScale(2);
         this.add(messageLabel).padBottom(10).row();
         
     }
@@ -59,7 +60,22 @@ public class LeaderboardMenu extends Window{
         });
     }
     
-    public void setMessage(String message) {
-        messageLabel.setText(message);
+    /**
+     * Formats and sets the leaderboard.
+     * @param message the leaderboard
+     * @param pos the position of the player
+     */
+    public void setMessage(String message, int pos) {
+        String output = "";
+        for (int i = 1; i <= message.split("\n").length; i++) {
+            if(message.split("\n")[i-1] != "") {
+                output +=  i + ". " + message.split("\n")[i-1];
+            }
+            if(i == pos) {
+                output +=  "(this game)";
+            }
+            output += "\n";
+        }
+        messageLabel.setText(output);
     }
 }

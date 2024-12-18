@@ -168,7 +168,7 @@ public class BuildingsMap {
      * @param mouseY Mouse Y
      * @return Building that was at the coords
      */
-    private Building getBuildingAtPoint(float x, float y){
+    public Building getBuildingAtPoint(float x, float y){
 
         for (Building building: this.placedBuildings) {
 

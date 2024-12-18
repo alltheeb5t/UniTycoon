@@ -8,9 +8,6 @@ import com.vikingz.unitycoon.building.EarnSchedule;
 public class MoneyHandler {
     private int balance;
 
-    // Determines if the user has ever been in debt
-    private boolean inDebtBefore;
-
     // Support limiting the amount of debt that player is allowed to accumulate
     public static final int MAX_DEBT = Integer.MAX_VALUE;
 
@@ -22,7 +19,6 @@ public class MoneyHandler {
      */
     public MoneyHandler() {
         balance = STARTING_BALANCE;
-        inDebtBefore = false;
     }
 
     /**
@@ -73,13 +69,5 @@ public class MoneyHandler {
      */
     public float getBalance() {
         return balance;
-    }
-
-    public boolean getInDebtBefore() {
-        return inDebtBefore;
-    }
-
-    public void setInDebtBefore(boolean inDebtBefore) {
-        this.inDebtBefore = inDebtBefore;
     }
 }

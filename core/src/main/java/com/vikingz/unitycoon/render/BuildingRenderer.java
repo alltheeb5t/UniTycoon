@@ -6,11 +6,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingInfo;
 import com.vikingz.unitycoon.building.BuildingStats;
 import com.vikingz.unitycoon.building.BuildingsMap;
 import com.vikingz.unitycoon.global.GameGlobals;
+import com.vikingz.unitycoon.menus.RemoveBuildingMenu;
 import com.vikingz.unitycoon.util.GameSounds;
 
 /**
@@ -26,11 +29,17 @@ public class BuildingRenderer{
     //Used to draw buildings textures
     private final SpriteBatch batch;
 
+    // Used to display removeBuildingMenu
+    private Stage stage;
+
     //X and Y values used to place buildings
     private float previewX, previewY;
 
     //If building is being placed by user
     private boolean isPreviewing;
+
+    //Prevents building being placed and menu opening in the same click
+    private boolean openMenu;
 
     //Texture of Building to be placed
     private TextureRegion selectedTexture;
@@ -44,19 +53,29 @@ public class BuildingRenderer{
     // Moved building placement handler to external helper class to aid testing
     private final BuildingsMap campusBuildingsMap;
 
+    //Checks if the user wants to delete a building
+    private RemoveBuildingMenu removeBuildingPopUp;
+
+    // Image to be placed on top of constructing buildings
+    private Texture underConstructionTexture;
+
     /**
      * Creates a new Building Renderer
      * @param gameRenderer Parent renderer {@code GameRenderer}
      */
-    public BuildingRenderer(GameRenderer gameRenderer) {
+    public BuildingRenderer(GameRenderer gameRenderer, Skin skin) {
 
         this.gameRenderer = gameRenderer;
-
+        
+        stage = new Stage();
         batch = new SpriteBatch();
         isPreviewing = false;
         selectedTexture = null;
+        openMenu = true;
 
         campusBuildingsMap = new BuildingsMap(gameRenderer.getBackgroundRenderer());
+        underConstructionTexture = new Texture("png\\UnderConstruction.png");
+        removeBuildingPopUp = new RemoveBuildingMenu(skin);
     }
 
     /**
@@ -99,7 +118,7 @@ public class BuildingRenderer{
             batch.draw(building.getTexture(), building.getX(), building.getY());
             // Checks if building is under construction
             if (building.getConstructing()) {
-                batch.draw(new Texture("png\\UnderConstruction.png"), building.getX(), 
+                batch.draw(underConstructionTexture, building.getX(), 
                     building.getY(), GameGlobals.SCREEN_BUILDING_SIZE, (int) (GameGlobals.SCREEN_BUILDING_SIZE * 0.75));
                 
                 // Starts or stops timer if needed
@@ -125,8 +144,12 @@ public class BuildingRenderer{
             System.out.println("RightClick");
             Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
 
-            if(campusBuildingsMap.attemptBuildingDeleteAt(translatedPoint.x, translatedPoint.y).isEmpty()) {
-                System.out.println("building was null: " + null);
+            Building buildingToRemove = campusBuildingsMap.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
+            //If building exsista brings up pop-up
+            if(buildingToRemove != null) {
+                removeBuildingPopUp.setPosition((stage.getWidth() - removeBuildingPopUp.getWidth()) / 2, (stage.getHeight() - removeBuildingPopUp.getHeight()) / 2);
+                removeBuildingPopUp.setupPopUp(campusBuildingsMap, buildingToRemove);
+                stage.addActor(removeBuildingPopUp);
             }
         }
 
@@ -146,6 +169,12 @@ public class BuildingRenderer{
                 // If building is colliding with something
                 System.err.println("Player Trying to place on a collision piece");
                 GameSounds.playPlaceError();
+            }
+
+            //Stops menu from opening when placing buildings below buttons
+            Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
+            if (translatedPoint.x >= 616 && translatedPoint.x < 1176 && translatedPoint.y < 136){
+                openMenu = false;
             }
         }
 
@@ -186,6 +215,14 @@ public class BuildingRenderer{
         return new Vector3(newX, newY, 0);
     }
 
+    public boolean getOpenMenu() {
+        return openMenu;
+    }
+
+    public void setOpenMenu(boolean openMenu) {
+        this.openMenu = openMenu;
+    }
+
     /**
      * Updates the width and height when the window
      * is resized
@@ -210,5 +247,7 @@ public class BuildingRenderer{
         return campusBuildingsMap;
     }
 
-
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 }

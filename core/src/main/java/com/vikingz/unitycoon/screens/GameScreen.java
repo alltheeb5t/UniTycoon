@@ -54,7 +54,7 @@ public class GameScreen extends SuperScreen implements Screen {
 
         GameGlobals.TIME.setPaused(false);
         endedAlready = false;
-        gameRenderer = new GameRenderer(mapName);
+        gameRenderer = new GameRenderer(mapName, skin);
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer());
         elapsedTime = 0;
         //5 minutes

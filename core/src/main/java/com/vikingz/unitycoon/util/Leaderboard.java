@@ -13,6 +13,7 @@ public class Leaderboard {
     
     private static String leaderboardValue;
     private static File leaderboardFile = new File("leaderboard.txt");
+    private static int leaderboardPos = 0;
 
     /**
      * Saves leaderboard to text file.
@@ -64,6 +65,9 @@ public class Leaderboard {
      * @return True if needs to be added to leaderboard. Else false.
      */
     public static Boolean isLeaderboardScore(int finalScore) {
+
+        leaderboardPos = 0; //Resets position on leaderboard
+
         String[] scores = leaderboardValue.split("\n");
         //Finds the 5th placed score stored on the leaderboard, removes % and converts to integer.  
         String lowestSavedPercentage = scores[4].split(" ")[0];
@@ -94,6 +98,7 @@ public class Leaderboard {
             if (score < finalScore && !addedNewScore) {
                 addedNewScore = true;
                 updatedLeaderboardValue += Integer.toString(finalScore) + "% " + Username + "\n";
+                leaderboardPos = i + 1;
             }
             
             //Adds all except the previous 5th placed score to the leaderboard.
@@ -108,5 +113,9 @@ public class Leaderboard {
 
     public static String getLeaderboardValue() {
         return leaderboardValue;
+    }
+
+    public static int getLeaderboardPos() {
+        return leaderboardPos;
     }
 }

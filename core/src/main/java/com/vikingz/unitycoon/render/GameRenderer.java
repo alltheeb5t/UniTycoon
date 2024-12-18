@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.vikingz.unitycoon.global.GameConfig;
@@ -31,7 +32,7 @@ public class GameRenderer {
      * Creates and new Game Renderer
      * @param mapName Name of the map to be drawn as the background
      */
-    public GameRenderer(String mapName){
+    public GameRenderer(String mapName, Skin skin){
 
         // Creates and camera and set up the viewport
         camera = new OrthographicCamera();
@@ -40,7 +41,7 @@ public class GameRenderer {
 
         stage = new Stage(viewport);
         backgroundRenderer = new BackgroundRenderer(mapName);
-        buildingRenderer = new BuildingRenderer(this);
+        buildingRenderer = new BuildingRenderer(this, skin);
 
     }
 
