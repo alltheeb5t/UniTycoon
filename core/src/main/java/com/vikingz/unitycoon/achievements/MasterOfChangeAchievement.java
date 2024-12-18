@@ -10,7 +10,7 @@ public class MasterOfChangeAchievement extends Achievements {
     private boolean masterOfChangePossible;
 
     private final String NAME = "Master Of Change";
-    private final String DESCRIPTION = "Remain under 50% satisfaction for the first 3 minutes and then win the game.";
+    private final String DESCRIPTION = "Remain under 30% satisfaction for the first 3 minutes and then win the game.";
     private final boolean HIDDEN = true;
 
     public MasterOfChangeAchievement() {
@@ -49,7 +49,7 @@ public class MasterOfChangeAchievement extends Achievements {
             return true;
         }
         
-        if (GameGlobals.ELAPSED_TIME >= 120 && GameGlobals.SATISFACTION.getSatisfaction() >= 50) {
+        if (GameGlobals.ELAPSED_TIME >= 120 && GameGlobals.SATISFACTION.getSatisfaction() >= 30) {
             masterOfChangePossible = false;
         }
 

@@ -8,7 +8,7 @@ import com.vikingz.unitycoon.global.GameGlobals;
 public class RealisticAchievement extends Achievements {
 
     private final String NAME = "Realistic";
-    private final String DESCRIPTION = "Balance drops below £24m.";
+    private final String DESCRIPTION = "Balance drops below £24000 in debt.";
 
     public RealisticAchievement() {
         achieved = false;
