@@ -12,6 +12,12 @@ jobs:
     strategy:
       matrix:
         branch: ["dev1", "dev2"]
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      checks: write
+      
     steps:
       - uses: actions/checkout@v4
       - name: Merge main -> develop
