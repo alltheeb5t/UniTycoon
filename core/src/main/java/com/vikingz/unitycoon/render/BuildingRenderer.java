@@ -36,8 +36,9 @@ public class BuildingRenderer{
     //Used to draw buildings textures
     private final SpriteBatch batch;
 
-    // Used to display removeBuildingMenu
-    private Stage stage;
+    // Used to display removeBuildingMenu on the UIRenderer stage
+    // This allows the user to interact with buttons on the menu
+    private Stage UIStage;
 
     //X and Y values used to place buildings
     private float previewX, previewY;
@@ -77,7 +78,8 @@ public class BuildingRenderer{
 
         this.gameRenderer = gameRenderer;
         
-        stage = new Stage();
+        // Initialised as a blank stage initially as UIRenderer is initialised later
+        UIStage = new Stage();
         batch = new SpriteBatch();
         isPreviewing = false;
         selectedTexture = null;
@@ -91,7 +93,7 @@ public class BuildingRenderer{
         collisionPopUp = new TextButton("Unable to place building here", skin);
         collisionPopUp.setColor(Color.RED);
         collisionPopUp.setWidth(350);
-        collisionPopUp.setPosition((stage.getWidth() - collisionPopUp.getWidth()) / 2, (stage.getHeight() - 100));
+        collisionPopUp.setPosition((UIStage.getWidth() - collisionPopUp.getWidth()) / 2, (UIStage.getHeight() - 100));
         collisionPopUp.getLabel().setFontScale((float)0.4,(float)0.4);
     }
 
@@ -162,11 +164,11 @@ public class BuildingRenderer{
             Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
 
             Building buildingToRemove = campusBuildingsMap.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
-            //If building exsista brings up pop-up
+            //If building exists brings up pop-up
             if(buildingToRemove != null) {
-                removeBuildingPopUp.setPosition((stage.getWidth() - removeBuildingPopUp.getWidth()) / 2, (stage.getHeight() - removeBuildingPopUp.getHeight()) / 2);
+                removeBuildingPopUp.setPosition((UIStage.getWidth() - removeBuildingPopUp.getWidth()) / 2, (UIStage.getHeight() - removeBuildingPopUp.getHeight()) / 2);
                 removeBuildingPopUp.setupPopUp(campusBuildingsMap, buildingToRemove);
-                stage.addActor(removeBuildingPopUp);
+                UIStage.addActor(removeBuildingPopUp);
             }
         }
 
@@ -194,7 +196,7 @@ public class BuildingRenderer{
                 }); 
                 timer.setRepeats(false);
 
-                stage.addActor(collisionPopUp);
+                UIStage.addActor(collisionPopUp);
                 timer.start();
 
                 System.err.println("Player Trying to place on a collision piece");
@@ -277,7 +279,7 @@ public class BuildingRenderer{
         return campusBuildingsMap;
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    public void setUIStage(Stage stage) {
+        this.UIStage = stage;
     }
 }

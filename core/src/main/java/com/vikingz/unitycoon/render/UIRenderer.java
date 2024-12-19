@@ -114,7 +114,7 @@ public class UIRenderer {
         leaderboardPopUp.setupButton();
         
         //Allows building pop-ups to be added to the ui stage
-        buildingRenderer.setStage(stage);
+        buildingRenderer.setUIStage(stage);
     }
 
     /**
