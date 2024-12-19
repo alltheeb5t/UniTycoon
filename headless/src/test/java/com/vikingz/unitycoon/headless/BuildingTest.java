@@ -198,10 +198,10 @@ public class BuildingTest extends TestSuper {
 
         testMap = getTestMap(); // Reset map to ensure enough space at the top
         
-        assertFalse(testMap.attemptAddBuilding(testBuilding3Info, testBuilding3Texture, 1536, 928, true).isEmpty(),
+        assertFalse(testMap.attemptAddBuilding(testBuilding3Info, testBuilding3Texture, 1536, 864, true).isEmpty(),
                                                                "Test placing RCH Very near top of map");
                                                                
-        assertFalse(testMap.attemptAddBuilding(testBuilding4Info, testBuilding4Texture, 1664, 928, true).isEmpty(),
+        assertFalse(testMap.attemptAddBuilding(testBuilding4Info, testBuilding4Texture, 1664, 864, true).isEmpty(),
                                                                "Test placing PZA Very near top of map");
 
         assertTrue(testMap.attemptAddBuilding(testBuilding5Info, testBuilding5Texture, 1088, -64, true).isEmpty(),
