@@ -45,7 +45,7 @@ public class PauseMenu extends Window {
         TextButton achievementsBtn = new TextButton("Achievements", skin);
         TextButton continueBtn = new TextButton("Continue", skin);
         TextButton settingsBtn = new TextButton("Settings", skin);
-        TextButton quitBtn = new TextButton("Quit", skin);
+        TextButton quitBtn = new TextButton("Main Menu", skin);
         buttons.add(continueBtn).width(425).pad(10);
         buttons.add(achievementsBtn).width(425).pad(10);
         buttons.row();

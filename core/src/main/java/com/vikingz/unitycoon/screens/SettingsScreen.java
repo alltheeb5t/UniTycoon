@@ -46,6 +46,8 @@ public class SettingsScreen extends SuperScreen implements Screen {
 
     private GameScreen gameScreen;
 
+    private boolean changedAudioSliders;
+
 
     /**
      * Creates a new settings screen
@@ -68,6 +70,8 @@ public class SettingsScreen extends SuperScreen implements Screen {
         MusicVolumeSlider.setValue(GameMusic.getVolume());
         MusicVolumeLabel = new Label(soundVolume, skin);
         this.musicVolume = "Music Volume: " + MusicVolumeSlider.getValue();
+
+        changedAudioSliders = false;
 
         // Adds event listeners to buttons
 
@@ -164,7 +168,7 @@ public class SettingsScreen extends SuperScreen implements Screen {
 
         soundVolume = "Sound Volume: " + Math.round(SoundVolumeSlider.getValue() * 10);
         musicVolume = "Music Volume: " + Math.round(MusicVolumeSlider.getValue() * 10);
-        GameConfigManager.saveGameConfig();
+        audioChanged();
 
         GameSounds.setVolume(SoundVolumeSlider.getValue());
         GameMusic.setVolume(MusicVolumeSlider.getValue());
@@ -175,6 +179,19 @@ public class SettingsScreen extends SuperScreen implements Screen {
 
         stage.act(delta);
         stage.draw();
+    }
+
+    /**
+     * Determines if either audio slider has been moved and saves if it has.
+     */
+    private void audioChanged() {
+        if (SoundVolumeSlider.isDragging() || MusicVolumeSlider.isDragging()) {
+            changedAudioSliders = true;
+        }
+        else if (changedAudioSliders) {
+            GameConfigManager.saveGameConfig();
+            changedAudioSliders = false;
+        }
     }
 
     /**

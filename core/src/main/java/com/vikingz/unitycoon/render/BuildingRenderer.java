@@ -88,9 +88,9 @@ public class BuildingRenderer{
         removeBuildingPopUp = new RemoveBuildingMenu(skin);
 
         // Set collision popup
-        collisionPopUp = new TextButton("COLLISION", skin);
+        collisionPopUp = new TextButton("Unable to place building here", skin);
         collisionPopUp.setColor(Color.RED);
-        collisionPopUp.setWidth(200);
+        collisionPopUp.setWidth(350);
         collisionPopUp.setPosition((stage.getWidth() - collisionPopUp.getWidth()) / 2, (stage.getHeight() - 100));
         collisionPopUp.getLabel().setFontScale((float)0.4,(float)0.4);
     }
