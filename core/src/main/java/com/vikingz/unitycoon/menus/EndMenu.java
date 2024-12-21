@@ -29,7 +29,7 @@ public class EndMenu extends Window {
 
         super("", skin);
 
-        this.setSize(1000, 400);
+        this.setSize(1000, 600);
         this.setModal(true);
         this.setMovable(false);
         this.setResizable(false);
@@ -42,6 +42,7 @@ public class EndMenu extends Window {
         this.add(titleLabel).row();
 
         messageLabel = new Label(Message, skin);
+        messageLabel.setFontScale(2);
         this.add(messageLabel).align(Align.left).row();
     }
 
