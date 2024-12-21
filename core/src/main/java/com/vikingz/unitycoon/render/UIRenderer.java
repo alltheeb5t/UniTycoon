@@ -8,9 +8,15 @@ import javax.swing.Timer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.vikingz.unitycoon.achievements.AchievementsHandler;
@@ -48,6 +54,7 @@ public class UIRenderer {
     private TextButton achievementLabel;
 
     private Texture statsBarTexture;
+    private ImageButton pauseBtn;
 
     GameScreen gameScreen;
 
@@ -64,11 +71,28 @@ public class UIRenderer {
         //viewport = new ScreenViewport();
         stage = new Stage(viewport);
 
+        //Set pause button
+        Table table = new Table();
+        table.setFillParent(true);
+        table.right().top();
+        Texture pauseTexture = new Texture("png\\pause.png");
+        Texture pauseHoverTexture = new Texture("png\\pauseHover.png");
+        pauseBtn = new ImageButton(new ImageButton.ImageButtonStyle());
+        pauseBtn.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(pauseTexture));
+        pauseBtn.getStyle().imageOver = new TextureRegionDrawable(new TextureRegion(pauseHoverTexture));
+        table.add(pauseBtn).size(43).padRight(5);
+        stage.addActor(table);
+        pauseBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                pause(GameGlobals.TIME.isPaused());
+            }
+        });
 
         statsRenderer = new StatsRenderer(skin);
         buildMenu = new BuildMenu(skin, buildingRenderer, stage);
 
-        pauseMenu = new PauseMenu(skin);
+        pauseMenu = new PauseMenu(skin, stage);
         endOfTimerPopup = new EndMenu(skin, "End of Game");
         leaderboardPopUp = new LeaderboardMenu(skin, "");
 
@@ -88,6 +112,9 @@ public class UIRenderer {
 
         endOfTimerPopup.setupButtons(leftBtn, "Leaderboard", rightBtn, "Menu");
         leaderboardPopUp.setupButton();
+        
+        //Allows building pop-ups to be added to the ui stage
+        buildingRenderer.setUIStage(stage);
     }
 
     /**
@@ -109,7 +136,7 @@ public class UIRenderer {
             Leaderboard.saveLeaderboard();
         }
 
-        leaderboardPopUp.setMessage(Leaderboard.getLeaderboardValue());
+        leaderboardPopUp.setMessage(Leaderboard.getLeaderboardValue(), Leaderboard.getLeaderboardPos());
         AchievementsHandler.saveAchievements();
     }
 
@@ -121,7 +148,7 @@ public class UIRenderer {
 
         PopupMenu event = GameGlobals.EVENT.randomEvent().getPopup();
         stage.addActor(event);
-        event.setPosition((stage.getWidth() - pauseMenu.getWidth()) / 2, (stage.getHeight() - pauseMenu.getHeight()) / 2);
+        event.setPosition((stage.getWidth() - event.getWidth()) / 2, (stage.getHeight() - event.getHeight()) / 2);
         GameGlobals.TIME.setPaused(true);
     }
 
@@ -149,14 +176,14 @@ public class UIRenderer {
      * @param delta
      */
     public void render(float delta){
-        viewport.apply();
-
         // Draws stats bar
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
         //Uses values defined when viewport is created
         spriteBatch.draw(statsBarTexture, 0, 983, 1824, 43);
         spriteBatch.end();
+
+        viewport.apply();
 
         statsRenderer.render(delta);
         buildMenu.render(delta);

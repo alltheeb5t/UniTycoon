@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.vikingz.unitycoon.global.GameConfigManager;
+import com.vikingz.unitycoon.screens.ScreenMultiplexer.Screens;
 import com.vikingz.unitycoon.util.GameMusic;
 import com.vikingz.unitycoon.util.GameSounds;
 
@@ -42,10 +43,10 @@ public class SettingsScreen extends SuperScreen implements Screen {
     private final TextButton fullscreenButton;
     //Button that makes the game window
     private final TextButton windowButton;
-    //Saves the configuration of GameConfig
-    private final TextButton saveGameConfigButton;
 
     private GameScreen gameScreen;
+
+    private boolean changedAudioSliders;
 
 
     /**
@@ -69,6 +70,8 @@ public class SettingsScreen extends SuperScreen implements Screen {
         MusicVolumeSlider.setValue(GameMusic.getVolume());
         MusicVolumeLabel = new Label(soundVolume, skin);
         this.musicVolume = "Music Volume: " + MusicVolumeSlider.getValue();
+
+        changedAudioSliders = false;
 
         // Adds event listeners to buttons
 
@@ -99,14 +102,6 @@ public class SettingsScreen extends SuperScreen implements Screen {
             return true;
         });
 
-        saveGameConfigButton = new TextButton("Save",skin);
-        saveGameConfigButton.addListener(e -> {
-            if (saveGameConfigButton.isPressed()){
-                GameConfigManager.saveGameConfig();
-            }
-            return true;
-        });
-
         // Create layout table
         Table table = new Table();
         table.setFillParent(true);
@@ -131,10 +126,9 @@ public class SettingsScreen extends SuperScreen implements Screen {
         Table buttonsRows = new Table();
         buttonsRows.add(fullscreenButton).width(425).pad(10);
         buttonsRows.add(windowButton).width(425).pad(10);
-        buttonsRows.row();
-        buttonsRows.add(saveGameConfigButton).width(425).pad(10);
-        buttonsRows.add(backButton).width(425).pad(10);
-        table.add(buttonsRows).pad(10).row();
+        table.add(buttonsRows).pad(10).row(); //Centers buttons on same row
+
+        table.add(backButton).width(425).pad(10);
 
         // Add table to stage
         stage.addActor(table);
@@ -147,6 +141,7 @@ public class SettingsScreen extends SuperScreen implements Screen {
         System.out.println(previousScreen.name());
         if (previousScreen.name().equals("GAME")) {
             ScreenMultiplexer.switchScreens(previousScreen);
+            setPrevScreen(Screens.MENU); 
         }
         else {
             ScreenMultiplexer.openMenu();
@@ -173,6 +168,7 @@ public class SettingsScreen extends SuperScreen implements Screen {
 
         soundVolume = "Sound Volume: " + Math.round(SoundVolumeSlider.getValue() * 10);
         musicVolume = "Music Volume: " + Math.round(MusicVolumeSlider.getValue() * 10);
+        audioChanged();
 
         GameSounds.setVolume(SoundVolumeSlider.getValue());
         GameMusic.setVolume(MusicVolumeSlider.getValue());
@@ -183,6 +179,19 @@ public class SettingsScreen extends SuperScreen implements Screen {
 
         stage.act(delta);
         stage.draw();
+    }
+
+    /**
+     * Determines if either audio slider has been moved and saves if it has.
+     */
+    private void audioChanged() {
+        if (SoundVolumeSlider.isDragging() || MusicVolumeSlider.isDragging()) {
+            changedAudioSliders = true;
+        }
+        else if (changedAudioSliders) {
+            GameConfigManager.saveGameConfig();
+            changedAudioSliders = false;
+        }
     }
 
     /**
