@@ -49,16 +49,17 @@ public class EventHandler {
         Event e;
         Random random = new Random();
 
-        int randomChoice = random.nextInt(8);
+        int randomChoice = random.nextInt(9);
         e = switch (randomChoice) {
-            case 0 -> new StrikesEvent();
+            case 0 -> new AlumniEvent();
             case 1 -> new AwardEvent();
-            case 2 -> new AlumniEvent();
-            case 3 -> new BusChangeEvent();
-            case 4 -> new FeeIncreaseEvent();
-            case 5 -> new FireEvent();
-            case 6 -> new FloodEvent();
-            default -> new SponsorEvent();
+            case 2 -> new BusChangeEvent();
+            case 3 -> new FeeIncreaseEvent();
+            case 4 -> new FireEvent();
+            case 5 -> new FloodEvent();
+            case 6 -> new RosesEvent();
+            case 7 -> new SponsorEvent();
+            default -> new StrikesEvent();
         };
 
         if (e.noChoice) {
@@ -77,8 +78,6 @@ public class EventHandler {
         Event e;
 
         e = switch (eventName) {
-            case "FireEvent" -> new FireEvent();
-            case "AwardEvent" -> new AwardEvent();
             case "StrikesEvent" -> new StrikesEvent();
             case "StrikesResolvedEvent" -> new StrikesResolvedEvent();
             case "RosesWinEvent" -> new RosesWinEvent();
