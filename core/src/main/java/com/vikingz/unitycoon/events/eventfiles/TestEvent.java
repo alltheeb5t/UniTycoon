@@ -2,7 +2,7 @@ package com.vikingz.unitycoon.events.eventfiles;
 
 import com.vikingz.unitycoon.global.GameGlobals;
 
-public class TestEvent extends SuperEvent {
+public class TestEvent extends Event {
 
     /**
      * Test event with 2 button

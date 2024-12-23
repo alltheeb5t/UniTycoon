@@ -24,7 +24,6 @@ public class BuildingInfo {
      * @param buildingID Building ID
      * @param buildingType Building Type
      * @param buildingCost Building Cost
-     * @param satisfactionMultiplier Satisfaction Multiplier
      * @param numberOfStudents Number of students
      * @param coinsPerSecond Coins per second the building generates
      */

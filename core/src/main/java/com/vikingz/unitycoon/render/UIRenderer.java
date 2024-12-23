@@ -96,7 +96,7 @@ public class UIRenderer {
      */
     public void endGame(String title) {
         Leaderboard.loadLeaderboard();
-        
+
         String message = "Final Satisfaction: " + GameGlobals.SATISFACTION.getSatisfaction() + "\n\n";
         message += AchievementsHandler.allAchievementsCompleted();
         endOfTimerPopup.setTitle(title);
@@ -120,6 +120,18 @@ public class UIRenderer {
         System.out.println("Event made");
 
         PopupMenu event = GameGlobals.EVENT.randomEvent().getPopup();
+        stage.addActor(event);
+        event.setPosition((stage.getWidth() - pauseMenu.getWidth()) / 2, (stage.getHeight() - pauseMenu.getHeight()) / 2);
+        GameGlobals.TIME.setPaused(true);
+    }
+
+    /**
+     * Creates a specific event and displays it
+     */
+    public void createEvent(String eventName) {
+        System.out.println("Event made");
+
+        PopupMenu event = GameGlobals.EVENT.setEvent(eventName).getPopup();
         stage.addActor(event);
         event.setPosition((stage.getWidth() - pauseMenu.getWidth()) / 2, (stage.getHeight() - pauseMenu.getHeight()) / 2);
         GameGlobals.TIME.setPaused(true);

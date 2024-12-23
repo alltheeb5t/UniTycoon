@@ -31,6 +31,10 @@ public class GameScreen extends SuperScreen implements Screen {
     // Counter variables
     private float elapsedTime;
 
+    public GameRenderer getGameRenderer() {
+        return gameRenderer;
+    }
+
     // Renderers
     GameRenderer gameRenderer;
     UIRenderer uiRenderer;
@@ -44,7 +48,7 @@ public class GameScreen extends SuperScreen implements Screen {
 
     //Determines if end game has been already called
     public boolean endedAlready;
-  
+
     /**
      * Creates a new Game Screen
      * @param mapName The name of the map that will be used
@@ -102,6 +106,11 @@ public class GameScreen extends SuperScreen implements Screen {
                     if (GameGlobals.ELAPSED_TIME == time) {
                         event();
                     }
+                }
+
+                if (GameGlobals.EVENT.getEventQueue().get(GameGlobals.ELAPSED_TIME) != null) {
+                    GameGlobals.EVENT.getEventQueue().get(GameGlobals.ELAPSED_TIME).run();
+                    GameGlobals.EVENT.reduceEventQueue(GameGlobals.ELAPSED_TIME);
                 }
 
                 // Run twice per year at the start of each semester.
@@ -168,6 +177,13 @@ public class GameScreen extends SuperScreen implements Screen {
      */
     public void event() {
         uiRenderer.createEvent();
+    }
+
+    /**
+     * Creates an event and calls the UI renderer to display it
+     */
+    public void event(String eventName) {
+        uiRenderer.createEvent(eventName);
     }
 
     /**

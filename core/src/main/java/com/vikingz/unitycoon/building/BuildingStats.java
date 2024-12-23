@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
 
+import static java.lang.Math.abs;
+
 /**
  * This class contains all the static data,
  * or data loaded from a file.
@@ -115,9 +117,21 @@ public class BuildingStats {
     }
 
     /**
+     * Change the incomes from the accommodation.
+     * @param multiplier the multiplier to modify the income from each building of the inputted type
+     */
+    public static void setTypeIncomes(BuildingType type, float multiplier) {
+        String[] newBuildingIncomes = new String[BuildingCoinDict.get(type).length];
+        for (int i = 0; i < newBuildingIncomes.length; i++) {
+            newBuildingIncomes[i] = String.valueOf((int) (multiplier * (Integer.valueOf(BuildingCoinDict.get(type)[i]))));
+        }
+        BuildingCoinDict.put(type, newBuildingIncomes);
+    }
+
+    /**
      * Change the prices of the buildings.
      * @param newPrices the new prices in an integer list ordered as buildings are in json
-     * @return true if the prices are sucessfully changed
+     * @return true if the prices are successfully changed
      */
     public static boolean setBuildingPrices(String[] newPrices) {
         int StartI = 0;
