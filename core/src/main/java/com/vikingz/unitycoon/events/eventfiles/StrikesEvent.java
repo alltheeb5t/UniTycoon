@@ -47,6 +47,8 @@ public class StrikesEvent extends Event{
             GameGlobals.currentlyBuilding = true;
         });
 
+        GameGlobals.EVENT.incrementNegativeEvent();
+
         setNoChoice(false);
     }
 }

@@ -23,6 +23,8 @@ public class EventHandler {
 
     int positiveEvent;
 
+    int negativeEvent;
+
     /**
      * Manages the in game events, adds functionality for creating events
      */
@@ -104,5 +106,9 @@ public class EventHandler {
 
     public void incrementPositiveEvent() {
         positiveEvent++;
+    }
+
+    public void incrementNegativeEvent() {
+        negativeEvent++;
     }
 }

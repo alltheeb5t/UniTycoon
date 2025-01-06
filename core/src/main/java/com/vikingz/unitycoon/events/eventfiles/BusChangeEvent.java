@@ -9,5 +9,7 @@ public class BusChangeEvent extends Event {
         setMessage("The bus routes have changed!\n\nPeople are confused, and are pretty upset...");
 
         setLeftRun(() -> GameGlobals.SATISFACTION.applyPenalty(10));
+
+        GameGlobals.EVENT.incrementNegativeEvent();
     }
 }

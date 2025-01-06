@@ -11,6 +11,8 @@ public class RosesEvent extends Event {
 
         setMessage("Roses is about to start!\n\nSports teams eagerly await the event, and would like facilities to train in.\n\nBuilding these facilities will provide additional\nbenefits, including an increased chance to win!");
 
+        GameGlobals.EVENT.incrementPositiveEvent();
+
         setLeftRun(new Runnable() {
             @Override
             public void run() {
@@ -25,24 +27,19 @@ public class RosesEvent extends Event {
                 }
                 System.out.println(eventTime);
                 Runnable eventRun = () -> {
-                    System.out.println("FUCK IM WORKING WOOOO");
                     if (GameGlobals.RECREATIONAL_BUILDINGS_COUNT < 6) {
                         int chance = random.nextInt(3);
-                        switch (chance) {
-                            case 0:
-                                gameScreen.event("RosesWinEvent");
-                                break;
-                            default:
-                                gameScreen.event("RosesLoseEvent");
+                        if (chance == 0) {
+                            gameScreen.event("RosesWinEvent");
+                        } else {
+                            gameScreen.event("RosesLoseEvent");
                         }
                     } else {
                         int chance = random.nextInt(2);
-                        switch (chance) {
-                            case 0:
-                                gameScreen.event("RosesLoseEvent");
-                                break;
-                            default:
-                                gameScreen.event("RosesWinEvent");
+                        if (chance == 0) {
+                            gameScreen.event("RosesLoseEvent");
+                        } else {
+                            gameScreen.event("RosesWinEvent");
                         }
                     }
                 };
