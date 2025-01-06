@@ -1,4 +1,5 @@
 apply plugin: 'application'
+apply plugin: 'jacoco'
 
 
 java.sourceCompatibility = 17
@@ -45,4 +46,10 @@ test {
   project.ext.assetsDir = new File("../assets")
   workingDir = project.ext.assetsDir
   useJUnitPlatform()
+  finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    sourceSets project(":core").sourceSets.main
 }
