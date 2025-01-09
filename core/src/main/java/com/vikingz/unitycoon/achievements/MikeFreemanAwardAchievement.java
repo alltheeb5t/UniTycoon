@@ -5,7 +5,7 @@ import com.vikingz.unitycoon.global.GameGlobals;
 /**
  * This class creates a mike freeman award achievement object.
  */
-public class MikeFreemanAwardAchievement extends Achievements {
+public class MikeFreemanAwardAchievement extends Achievement {
 
     private int mikeFreemanAwardStartTime;
     
@@ -44,7 +44,7 @@ public class MikeFreemanAwardAchievement extends Achievements {
      * @return true if achievement has been completed
      */
     @Override
-    protected boolean isCompleted() {
+    public boolean isCompleted() {
         if (mikeFreemanAwardStartTime - GameGlobals.ELAPSED_TIME > 180) {
             return true;
         }
@@ -62,7 +62,7 @@ public class MikeFreemanAwardAchievement extends Achievements {
     }
 
     @Override
-    protected int getSatisfactionBonus() {
+    public int getSatisfactionBonus() {
         return 5;
     }
 }

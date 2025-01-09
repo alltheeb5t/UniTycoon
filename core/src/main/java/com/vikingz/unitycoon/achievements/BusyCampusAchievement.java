@@ -5,7 +5,7 @@ import com.vikingz.unitycoon.global.GameGlobals;
 /**
  * This class creates a busy campus achievement object.
  */
-public class BusyCampusAchievement extends Achievements {
+public class BusyCampusAchievement extends Achievement {
 
     private final String NAME = "Busy Campus";
     private final String DESCRIPTION = "Place more than 40 buildings.";
@@ -34,7 +34,7 @@ public class BusyCampusAchievement extends Achievements {
      * @return true if achievement has been completed
      */
     @Override
-    protected boolean isCompleted() {
+    public boolean isCompleted() {
         if (GameGlobals.ACADEMIC_BUILDINGS_COUNT + GameGlobals.ACCOMODATION_BUILDINGS_COUNT
                 + GameGlobals.FOOD_BUILDINGS_COUNT + GameGlobals.RECREATIONAL_BUILDINGS_COUNT > 40) {
             return true;

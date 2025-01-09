@@ -3,7 +3,7 @@ package com.vikingz.unitycoon.global;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.vikingz.unitycoon.achievements.AchievementsHandler;
+import com.vikingz.unitycoon.util.AchievementsHandler;
 import com.vikingz.unitycoon.util.MoneyHandler;
 import com.vikingz.unitycoon.util.SatisfactionHandler;
 import com.vikingz.unitycoon.events.EventHandler;

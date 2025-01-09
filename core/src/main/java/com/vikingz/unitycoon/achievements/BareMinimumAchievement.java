@@ -5,7 +5,7 @@ import com.vikingz.unitycoon.global.GameGlobals;
 /**
  * This class creates a bare minimum achievement object.
  */
-public class BareMinimumAchievement extends Achievements {
+public class BareMinimumAchievement extends Achievement {
     
     private boolean bareMinimumPossible;
     
@@ -38,7 +38,7 @@ public class BareMinimumAchievement extends Achievements {
      * @return true if achievement has been completed
      */
     @Override
-    protected boolean isCompleted() {
+    public boolean isCompleted() {
         if (GameGlobals.ELAPSED_TIME <= 0 && bareMinimumPossible) {
             if (GameGlobals.ACADEMIC_BUILDINGS_COUNT == 1 && GameGlobals.ACCOMODATION_BUILDINGS_COUNT == 1
                 && GameGlobals.FOOD_BUILDINGS_COUNT == 1 && GameGlobals.RECREATIONAL_BUILDINGS_COUNT == 1) {
