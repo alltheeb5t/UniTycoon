@@ -5,7 +5,7 @@ import com.vikingz.unitycoon.global.GameGlobals;
 /**
  * This class creates a master of change achievement object.
  */
-public class MasterOfChangeAchievement extends Achievements {
+public class MasterOfChangeAchievement extends Achievement {
     
     private boolean masterOfChangePossible;
 
@@ -44,7 +44,7 @@ public class MasterOfChangeAchievement extends Achievements {
      * @return true if achievement has been completed
      */
     @Override
-    protected boolean isCompleted() {
+    public boolean isCompleted() {
         if (GameGlobals.ELAPSED_TIME <= 0 && masterOfChangePossible && GameGlobals.gameWon) {
             return true;
         }

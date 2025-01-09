@@ -3,7 +3,7 @@ package com.vikingz.unitycoon.achievements;
 /**
  * This class creates an indecisive achievement object.
  */
-public class IndecisiveAchievement extends Achievements {
+public class IndecisiveAchievement extends Achievement {
 
     private static int removedBuildings;
     
@@ -43,7 +43,7 @@ public class IndecisiveAchievement extends Achievements {
      * @return true if achievement has been completed
      */
     @Override
-    protected boolean isCompleted() {
+    public boolean isCompleted() {
         if (removedBuildings > 20) {
             return true;
         }

@@ -1,4 +1,4 @@
-package com.vikingz.unitycoon.achievements;
+package com.vikingz.unitycoon.util;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,6 +8,19 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
+import com.vikingz.unitycoon.achievements.Achievement;
+import com.vikingz.unitycoon.achievements.BareMinimumAchievement;
+import com.vikingz.unitycoon.achievements.BusyCampusAchievement;
+import com.vikingz.unitycoon.achievements.CleanSlateAchievement;
+import com.vikingz.unitycoon.achievements.IndecisiveAchievement;
+import com.vikingz.unitycoon.achievements.IsThisAUniversityAchievement;
+import com.vikingz.unitycoon.achievements.LuckyAchievement;
+import com.vikingz.unitycoon.achievements.MasterOfChangeAchievement;
+import com.vikingz.unitycoon.achievements.MikeFreemanAwardAchievement;
+import com.vikingz.unitycoon.achievements.PrioritiesAchievement;
+import com.vikingz.unitycoon.achievements.RealisticAchievement;
+import com.vikingz.unitycoon.achievements.SaviourAchievement;
+import com.vikingz.unitycoon.achievements.UnluckyAchievement;
 import com.vikingz.unitycoon.menus.UsernameMenu;
 
 /**
@@ -16,7 +29,7 @@ import com.vikingz.unitycoon.menus.UsernameMenu;
 public class AchievementsHandler {
     
     // All Achievements
-    private Achievements[] gameAchievements = {new BareMinimumAchievement(), new RealisticAchievement(),
+    private Achievement[] gameAchievements = {new BareMinimumAchievement(), new RealisticAchievement(),
         new BusyCampusAchievement(), new CleanSlateAchievement(), new IndecisiveAchievement(),
         new IsThisAUniversityAchievement(), new LuckyAchievement(), new MasterOfChangeAchievement(),
         new MikeFreemanAwardAchievement(), new PrioritiesAchievement(), new SaviourAchievement(),
@@ -40,7 +53,7 @@ public class AchievementsHandler {
         return bonus;
     }
 
-    public Achievements[] getAchievements() {
+    public Achievement[] getAchievements() {
         return gameAchievements;
     }
 
