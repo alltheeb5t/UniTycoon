@@ -4,11 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.vikingz.unitycoon.building.BuildingsMap;
 import com.vikingz.unitycoon.building.EarnSchedule;
 import com.vikingz.unitycoon.global.GameConfigManager;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.GameRenderer;
 import com.vikingz.unitycoon.render.UIRenderer;
+import com.vikingz.unitycoon.util.FileHandler;
 import com.vikingz.unitycoon.util.TimeHandler;
 
 /**
@@ -31,6 +33,10 @@ public class GameScreen extends SuperScreen implements Screen {
     // Counter variables
     private float elapsedTime;
 
+    public GameRenderer getGameRenderer() {
+        return gameRenderer;
+    }
+
     // Renderers
     GameRenderer gameRenderer;
     UIRenderer uiRenderer;
@@ -44,7 +50,7 @@ public class GameScreen extends SuperScreen implements Screen {
 
     //Determines if end game has been already called
     public boolean endedAlready;
-  
+
     /**
      * Creates a new Game Screen
      * @param mapName The name of the map that will be used
@@ -52,13 +58,17 @@ public class GameScreen extends SuperScreen implements Screen {
     public GameScreen(String mapName){
         super();
 
+        // Moved from Main so that buildingCoinDict is reset each game
+        FileHandler.loadBuildings("buildingInfo","TextureAtlasMap");
         GameGlobals.TIME.setPaused(false);
         endedAlready = false;
         gameRenderer = new GameRenderer(mapName, skin);
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer());
         elapsedTime = 0;
+
         //5 minutes
         GameGlobals.resetGlobals(300);
+        GameGlobals.BUILDINGS_MAP = new BuildingsMap(gameRenderer.getBackgroundRenderer());
     }
 
 
@@ -93,21 +103,26 @@ public class GameScreen extends SuperScreen implements Screen {
             if (elapsedTime >= 1) { // Increment counter every second
 
                 // Calculate Game Stats
-                GameGlobals.ELAPSED_TIME--;
+                GameGlobals.TIME_REMAINING--;
 
-                GameGlobals.MONEY.earn(gameRenderer.getBuildingRenderer().getBuildingsMap().getPlacedBuildings(),
+                GameGlobals.MONEY.earn(GameGlobals.BUILDINGS_MAP.getPlacedBuildings(),
                                         EarnSchedule.DAILY);
 
                 for (int time : GameGlobals.EVENT.getEventTimes()) {
-                    if (GameGlobals.ELAPSED_TIME == time) {
+                    if (GameGlobals.TIME_REMAINING == time) {
                         event();
                     }
                 }
 
+                if (GameGlobals.EVENT.getEventQueue().get(GameGlobals.TIME_REMAINING) != null) {
+                    GameGlobals.EVENT.getEventQueue().get(GameGlobals.TIME_REMAINING).run();
+                    GameGlobals.EVENT.reduceEventQueue(GameGlobals.TIME_REMAINING);
+                }
+
                 // Run twice per year at the start of each semester.
-                if (((GameGlobals.ELAPSED_TIME % TimeHandler.SECONDS_PER_YEAR))
+                if (((GameGlobals.TIME_REMAINING % TimeHandler.SECONDS_PER_YEAR))
                     % TimeHandler.SECONDS_PER_SEMESTER == 0) {
-                    GameGlobals.MONEY.earn(gameRenderer.getBuildingRenderer().getBuildingsMap().getPlacedBuildings(),
+                    GameGlobals.MONEY.earn(GameGlobals.BUILDINGS_MAP.getPlacedBuildings(),
                                             EarnSchedule.SEMESTERLY);
                 }
 
@@ -120,7 +135,7 @@ public class GameScreen extends SuperScreen implements Screen {
         uiRenderer.displayAchievements();
 
         // End the game if satisfaction reaches 0
-        if(GameGlobals.ELAPSED_TIME <= 0 && !endedAlready || GameGlobals.SATISFACTION.getSatisfaction() == 0){
+        if(GameGlobals.TIME_REMAINING <= 0 && !endedAlready || GameGlobals.SATISFACTION.getSatisfaction() == 0){
             endedAlready = true;
             endGame();
         }
@@ -168,6 +183,13 @@ public class GameScreen extends SuperScreen implements Screen {
      */
     public void event() {
         uiRenderer.createEvent();
+    }
+
+    /**
+     * Creates an event and calls the UI renderer to display it
+     */
+    public void event(String eventName) {
+        uiRenderer.createEvent(eventName);
     }
 
     /**

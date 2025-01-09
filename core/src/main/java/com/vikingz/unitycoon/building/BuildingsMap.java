@@ -3,6 +3,7 @@ package com.vikingz.unitycoon.building;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.vikingz.unitycoon.achievements.IndecisiveAchievement;
@@ -32,8 +33,18 @@ public class BuildingsMap {
     }
 
     /**
+     * Returns a random building from the list of placed buildings
+     * @return Building chosen
+     */
+    public Building chooseRandomBuilding() {
+        Random rand = new Random();
+        int buildingIndex = rand.nextInt(0,placedBuildings.size());
+        return placedBuildings.get(buildingIndex);
+    }
+
+    /**
      * Attempt to add a new building to the map. This method handles checking collision information and funds
-     * 
+     *
      * @param buildingInfo
      * @param buildingTexture
      * @param x
@@ -46,7 +57,7 @@ public class BuildingsMap {
 
     /**
      * Attempt to add a new building to the map. This method handles checking collision information and funds
-     * 
+     *
      * @param buildingInfo
      * @param buildingTexture
      * @param x
@@ -58,13 +69,16 @@ public class BuildingsMap {
         List<Building> addedBuildings = new LinkedList<>();
         if (checkCollisions(x, y)) {
             // Check if the user has enough money to buy that building
-            if (!ignoreCost) {
+            if (!ignoreCost && !BuildingStats.nextBuildingFree) {
                 // Check that user is able to withdraw funds to build building
                 if (!GameGlobals.MONEY.withdraw(buildingInfo.getBuildingCost())) {
                     return addedBuildings;  // Added buildings will simply be empty at this point
-                } 
+                }
             }
-            
+
+            //Ensures next building is not free.
+            BuildingStats.nextBuildingFree = false;
+
             // Adds a building of the correct type to the list of buildings that are
             // to be drawn to the screen.
             switch (buildingInfo.getBuildingType()) {
@@ -140,7 +154,7 @@ public class BuildingsMap {
                 GameGlobals.STUDENTS -= buildingInfo.getNumberOfStudents();
                 decrementBuildingsCount(buildingInfo.getBuildingType());
             }
-            removed.add(toRemove);     
+            removed.add(toRemove);
             GameGlobals.SATISFACTION.recalculateSatisfaction(getPlacedBuildings());
         }
 
@@ -164,8 +178,8 @@ public class BuildingsMap {
 
     /**
      * Gets the building at the point paused in
-     * @param mouseX Mouse X
-     * @param mouseY Mouse Y
+     * @param x Mouse X
+     * @param y Mouse Y
      * @return Building that was at the coords
      */
     public Building getBuildingAtPoint(float x, float y){
@@ -174,7 +188,7 @@ public class BuildingsMap {
 
             float bx = building.getX();
             float by = building.getY();
-            
+
             if(  (x > bx && x < (bx + building.getWidth())) &&
                  (y > by && y < (by + building.getHeight())) ){
                     return building;
@@ -196,7 +210,7 @@ public class BuildingsMap {
         float RoundedY = Math.round(y);
 
         System.out.println(x + ":X | Y:" + y);
-        
+
         if (!checkCollisionBuildings(RoundedX, RoundedY)) { return false; }
 
         if (!checkCollisionBackground(RoundedX, RoundedY)) { return false; }

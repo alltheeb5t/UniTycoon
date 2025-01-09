@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Dictionary;
 
 /**
@@ -58,6 +59,8 @@ public class BuildingStats {
     public static String textureAtlasLocation;
     public static int atlasBuildingSize = 128;
 
+    //Allows 1 building to be built for free
+    public static boolean nextBuildingFree = false;
 
     /**
      * Uses the params to lookup and convert values
@@ -94,6 +97,52 @@ public class BuildingStats {
         catch (Exception e){
             return null;
         }
+    }
+
+     /**
+     * Change the incomes from the buildings.
+     * @param multiplier the multiplier to modify the income from each building
+     */
+    public static void setBuildingIncomes(float multiplier) {
+        for (BuildingType type : BuildingType.values()) {
+            if(type == BuildingType.NONE) {continue; }
+            String[] newBuildingIncomes = new String[BuildingCoinDict.get(type).length];
+            for (int i = 0; i < newBuildingIncomes.length; i++) {
+                newBuildingIncomes[i] = String.valueOf((int) (multiplier * (Integer.valueOf(BuildingCoinDict.get(type)[i]))));
+            }
+            BuildingCoinDict.put(type, newBuildingIncomes);
+        }
+    }
+
+    /**
+     * Change the incomes from the inputted type.
+     * @param multiplier the multiplier to modify the income from each building of the inputted type
+     */
+    public static void setTypeIncomes(BuildingType type, float multiplier) {
+        String[] newBuildingIncomes = new String[BuildingCoinDict.get(type).length];
+        for (int i = 0; i < newBuildingIncomes.length; i++) {
+            newBuildingIncomes[i] = String.valueOf((int) (multiplier * (Integer.valueOf(BuildingCoinDict.get(type)[i]))));
+        }
+        BuildingCoinDict.put(type, newBuildingIncomes);
+    }
+
+    /**
+     * Change the prices of the buildings.
+     * @param newPrices the new prices in an integer list ordered as buildings are in json
+     * @return true if the prices are successfully changed
+     */
+    public static boolean setBuildingPrices(String[] newPrices) {
+        int StartI = 0;
+        int EndI = 0;
+        for (BuildingType type : BuildingType.values()) {
+            EndI = StartI + BuildingPriceDict.get(type).length;
+            if (EndI >= newPrices.length) {return false;}
+            String[] newBuildingPrices = Arrays.copyOfRange(newPrices, StartI, EndI);
+            BuildingPriceDict.put(type, newBuildingPrices);
+            StartI = EndI;
+        }
+
+        return true;
     }
 
     /**

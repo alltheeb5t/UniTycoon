@@ -20,7 +20,6 @@ public class EventPopup {
      */
     public EventPopup(Skin skin, String message, Runnable runnable) {
 
-
         popup = new PopupMenu(skin, message);
         popup.setupClose(runnable);
     }

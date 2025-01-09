@@ -45,7 +45,7 @@ public class MikeFreemanAwardAchievement extends Achievement {
      */
     @Override
     public boolean isCompleted() {
-        if (mikeFreemanAwardStartTime - GameGlobals.ELAPSED_TIME > 180) {
+        if (mikeFreemanAwardStartTime - GameGlobals.TIME_REMAINING > 180) {
             return true;
         }
 
@@ -55,7 +55,7 @@ public class MikeFreemanAwardAchievement extends Achievement {
         
         // Starts timer when satisfaction goes over 80%
         if (GameGlobals.SATISFACTION.getSatisfaction() >= 80 && mikeFreemanAwardStartTime == -1){
-            mikeFreemanAwardStartTime = GameGlobals.ELAPSED_TIME;
+            mikeFreemanAwardStartTime = GameGlobals.TIME_REMAINING;
         }
 
         return false;
