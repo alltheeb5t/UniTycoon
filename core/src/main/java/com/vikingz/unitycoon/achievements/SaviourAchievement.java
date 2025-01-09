@@ -4,16 +4,20 @@ package com.vikingz.unitycoon.achievements;
  * This class creates a saviour achievement object.
  */
 public class SaviourAchievement extends Achievement {
+
+    boolean savedBurningBuilding;
     
     private final String NAME = "Saviour";
     private final String DESCRIPTION = "Save a burning building.";
 
     public SaviourAchievement() {
+        savedBurningBuilding = false;
         achieved = false;
     }
 
     @Override
     public void reset() {
+        savedBurningBuilding = false;
         achieved = false;
     }
     
@@ -27,15 +31,19 @@ public class SaviourAchievement extends Achievement {
         return DESCRIPTION;
     }
 
+    public void burningBuildingSaved() {
+        savedBurningBuilding = true;
+    }
+
     /**
      * Checks if achievement has been completed.
      * @return true if achievement has been completed
      */
     @Override
     public boolean isCompleted() {
-        //if(savedBurningBuilding) {
-        //    return true;
-        //}
+        if(savedBurningBuilding) {
+            return true;
+        }
         return false;
     }
 
