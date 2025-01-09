@@ -1,23 +1,21 @@
 package com.vikingz.unitycoon.achievements;
 
+import com.vikingz.unitycoon.global.GameGlobals;
+
 /**
  * This class creates a lucky achievement object.
  */
 public class LuckyAchievement extends Achievement {
 
-    private int luckyCounter;
-
     private final String NAME = "Lucky";
     private final String DESCRIPTION = "Get 3 positive events in one game.";
 
     public LuckyAchievement() {
-        luckyCounter = 0;
         achieved = false;
     }
 
     @Override
     public void reset() {
-        luckyCounter = 0;
         achieved = false;
     }
     
@@ -37,13 +35,10 @@ public class LuckyAchievement extends Achievement {
      */
     @Override
     public boolean isCompleted() {
-        if (luckyCounter == 3) {
+        if (GameGlobals.EVENT.getPositiveEvent() == 3) {
             return true;
         }
 
-        //if(positiveEventOccurred) {
-        //    unluckyCounter++;
-        //}
         return false;
     }
 }

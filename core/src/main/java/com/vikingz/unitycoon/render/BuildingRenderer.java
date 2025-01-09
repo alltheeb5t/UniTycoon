@@ -15,10 +15,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.vikingz.unitycoon.achievements.SaviourAchievement;
 import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingInfo;
 import com.vikingz.unitycoon.building.BuildingStats;
-import com.vikingz.unitycoon.building.BuildingsMap;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.menus.RemoveBuildingMenu;
 import com.vikingz.unitycoon.util.GameSounds;
@@ -51,7 +51,7 @@ public class BuildingRenderer{
 
     //Textures of Building, fire and construction
     private TextureRegion selectedTexture;
-    private Texture constructingTexture = new Texture("png\\UnderConstruction.png");
+    private Texture underConstructionTexture = new Texture("png\\UnderConstruction.png");
     private Texture fireTexture = new Texture("png\\fire.png");
 
 
@@ -63,9 +63,6 @@ public class BuildingRenderer{
 
     //Checks if the user wants to delete a building
     private RemoveBuildingMenu removeBuildingPopUp;
-
-    // Image to be placed on top of constructing buildings
-    private Texture underConstructionTexture;
 
     // Pop Up when a player tries to place a building on a colliding square
     private TextButton collisionPopUp;
@@ -85,7 +82,6 @@ public class BuildingRenderer{
         selectedTexture = null;
         openMenu = true;
 
-        underConstructionTexture = new Texture("png\\UnderConstruction.png");
         removeBuildingPopUp = new RemoveBuildingMenu(skin);
 
         // Set collision popup
@@ -187,6 +183,8 @@ public class BuildingRenderer{
             Building currentBuilding = GameGlobals.BUILDINGS_MAP.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
             if(currentBuilding != null) {
                 currentBuilding.setOnFire(false);
+                SaviourAchievement saviourAchievement = (SaviourAchievement) GameGlobals.ACHIEVEMENTS.getAchievement("Saviour");
+                saviourAchievement.burningBuildingSaved();
             }
         }
 
