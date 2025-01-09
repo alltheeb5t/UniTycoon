@@ -5,7 +5,7 @@ import com.vikingz.unitycoon.global.GameGlobals;
 /**
  * This class creates a priorities achievement object.
  */
-public class PrioritiesAchievement extends Achievements {
+public class PrioritiesAchievement extends Achievement {
     
     private final String NAME = "Priorities";
     private final String DESCRIPTION = "Have twice as many study as recreation buildings after 20 buildings.";
@@ -34,7 +34,7 @@ public class PrioritiesAchievement extends Achievements {
      * @return true if achievement has been completed
      */
     @Override
-    protected boolean isCompleted() {
+    public boolean isCompleted() {
         if (GameGlobals.ACADEMIC_BUILDINGS_COUNT + GameGlobals.ACCOMODATION_BUILDINGS_COUNT
                 + GameGlobals.FOOD_BUILDINGS_COUNT + GameGlobals.RECREATIONAL_BUILDINGS_COUNT >= 20) {
             if (GameGlobals.ACADEMIC_BUILDINGS_COUNT > 2 * GameGlobals.RECREATIONAL_BUILDINGS_COUNT) {

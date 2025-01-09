@@ -3,7 +3,7 @@ package com.vikingz.unitycoon.achievements;
 /**
  * This class creates a unlucky achievement object.
  */
-public class UnluckyAchievement extends Achievements {
+public class UnluckyAchievement extends Achievement {
 
     private int unluckyCounter;
     
@@ -36,7 +36,7 @@ public class UnluckyAchievement extends Achievements {
      * @return true if achievement has been completed
      */
     @Override
-    protected boolean isCompleted() {
+    public boolean isCompleted() {
         if (unluckyCounter == 3) {
             return true;
         }
