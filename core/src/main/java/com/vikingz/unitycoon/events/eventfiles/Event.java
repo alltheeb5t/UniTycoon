@@ -60,7 +60,7 @@ public abstract class Event {
     public Event() {
 
         gameScreen = ScreenMultiplexer.gameScreen;
-        buildingsMap = gameScreen.getGameRenderer().getBuildingRenderer().getBuildingsMap();
+        buildingsMap = GameGlobals.BUILDINGSMAP;
 
         GameSkins skinLoader = new GameSkins();
         skin = skinLoader.getDefaultSkin();

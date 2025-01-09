@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.vikingz.unitycoon.building.BuildingsMap;
 import com.vikingz.unitycoon.building.EarnSchedule;
 import com.vikingz.unitycoon.global.GameConfigManager;
 import com.vikingz.unitycoon.global.GameGlobals;
@@ -64,8 +65,10 @@ public class GameScreen extends SuperScreen implements Screen {
         gameRenderer = new GameRenderer(mapName);
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer());
         elapsedTime = 0;
+
         //5 minutes
         GameGlobals.resetGlobals(300);
+        GameGlobals.BUILDINGSMAP = new BuildingsMap(gameRenderer.getBackgroundRenderer());
     }
 
 
@@ -102,7 +105,7 @@ public class GameScreen extends SuperScreen implements Screen {
                 // Calculate Game Stats
                 GameGlobals.TIME_REMAINING--;
 
-                GameGlobals.MONEY.earn(gameRenderer.getBuildingRenderer().getBuildingsMap().getPlacedBuildings(),
+                GameGlobals.MONEY.earn(GameGlobals.BUILDINGSMAP.getPlacedBuildings(),
                                         EarnSchedule.DAILY);
 
                 for (int time : GameGlobals.EVENT.getEventTimes()) {
@@ -119,7 +122,7 @@ public class GameScreen extends SuperScreen implements Screen {
                 // Run twice per year at the start of each semester.
                 if (((GameGlobals.TIME_REMAINING % TimeHandler.SECONDS_PER_YEAR))
                     % TimeHandler.SECONDS_PER_SEMESTER == 0) {
-                    GameGlobals.MONEY.earn(gameRenderer.getBuildingRenderer().getBuildingsMap().getPlacedBuildings(),
+                    GameGlobals.MONEY.earn(GameGlobals.BUILDINGSMAP.getPlacedBuildings(),
                                             EarnSchedule.SEMESTERLY);
                 }
 

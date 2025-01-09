@@ -19,10 +19,13 @@ public class EventHandler {
         return eventQueue;
     }
 
+    //Used to add scheduled events to run at specific times
     Map<Integer, Runnable> eventQueue;
 
+    //Used to track how many positive events have run for achievements
     int positiveEvent;
 
+    //Used to track how many negative events have run for achievements
     int negativeEvent;
 
     /**
@@ -52,7 +55,7 @@ public class EventHandler {
         Random random = new Random();
 
         int randomChoice = random.nextInt(9);
-        e = switch (8) {
+        e = switch (randomChoice) {
             case 0 -> new AlumniEvent();
             case 1 -> new AwardEvent();
             case 2 -> new BusChangeEvent();

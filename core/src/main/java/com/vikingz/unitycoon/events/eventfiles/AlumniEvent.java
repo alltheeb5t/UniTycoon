@@ -8,7 +8,7 @@ public class AlumniEvent extends Event {
 
         setMessage("Alumni have decided to donate to the university!\n\nYou have received 1,000,000!");
 
-        setLeftRun(() -> GameGlobals.MONEY.deposit(10000));
+        setLeftRun(() -> GameGlobals.MONEY.deposit(1000));
 
         GameGlobals.EVENT.incrementPositiveEvent();
     }

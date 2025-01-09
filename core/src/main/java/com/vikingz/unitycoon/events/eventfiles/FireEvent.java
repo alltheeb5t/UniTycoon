@@ -20,5 +20,7 @@ public class FireEvent extends Event {
         };
 
         GameGlobals.EVENT.extendEventQueue(eventTime, eventRun);
+
+        GameGlobals.EVENT.incrementNegativeEvent();
     }
 }

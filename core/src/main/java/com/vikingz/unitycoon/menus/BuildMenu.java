@@ -311,7 +311,6 @@ public class BuildMenu{
      * @param buildingNameLabel Name Of building
      * @param buildingType Type of Building used, for dictionary lookup
      * @param buildingPrice Price of building
-     * @param buildingSatisfaction Satisfaction rating of building
      * @param buildingStudent Student space of building
      * @param buildingCoins coin generated per second by building
      * @param buildingImage Image of building being, used for preview

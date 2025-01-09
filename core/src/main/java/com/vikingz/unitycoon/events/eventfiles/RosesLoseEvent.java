@@ -10,7 +10,7 @@ public class RosesLoseEvent extends Event {
         setMessage("Your University has lost Roses!\n\nPeople are upset.\nMaybe next time...");
 
         setLeftRun(() -> {
-            BuildingStats.setTypeIncomes(BuildingStats.BuildingType.RECREATIONAL, (float) 2 /3);
+            BuildingStats.setTypeIncomes(BuildingStats.BuildingType.RECREATIONAL, (float) 1/2);
             GameGlobals.SATISFACTION.applyPenalty(10);
         });
     }

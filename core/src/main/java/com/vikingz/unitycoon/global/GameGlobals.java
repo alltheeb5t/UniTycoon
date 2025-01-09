@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.vikingz.unitycoon.achievements.AchievementsHandler;
+import com.vikingz.unitycoon.building.BuildingsMap;
+import com.vikingz.unitycoon.screens.GameScreen;
+import com.vikingz.unitycoon.screens.ScreenMultiplexer;
 import com.vikingz.unitycoon.util.MoneyHandler;
 import com.vikingz.unitycoon.util.SatisfactionHandler;
 import com.vikingz.unitycoon.events.EventHandler;
@@ -27,12 +30,13 @@ public class GameGlobals {
     public static int RECREATIONAL_BUILDINGS_COUNT = 0;
     public static int FOOD_BUILDINGS_COUNT = 0;
     public static int TIME_REMAINING = 0;
+    public static BuildingsMap BUILDINGSMAP; // Instantiated within GameScreen when it is instantiated
     public static AchievementsHandler ACHIEVEMENTS = new AchievementsHandler();
     public static MoneyHandler MONEY = new MoneyHandler();
     public static EventHandler EVENT = new EventHandler();
     public static TimeHandler TIME = new TimeHandler();
     public static boolean gameWon = false;
-    public static boolean currentlyBuilding = true; //Stops buildings from being built when false.
+    public static boolean buildingAllowed = true; //Stops buildings from being built when false.
 
     //Size of the building SCREEN_BUILDING_SIZExSCREEN_BUILDING_SIZE
     public static final int SCREEN_BUILDING_SIZE = 128;
@@ -67,7 +71,7 @@ public class GameGlobals {
         EVENT = new EventHandler();
         gameWon = false;
         ACHIEVEMENTS.resetAllAchievements();
-        currentlyBuilding = true;
+        buildingAllowed = true;
     }
 
 }

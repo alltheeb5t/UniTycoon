@@ -115,7 +115,7 @@ public class BuildingStats {
     }
 
     /**
-     * Change the incomes from the accommodation.
+     * Change the incomes from the inputted type.
      * @param multiplier the multiplier to modify the income from each building of the inputted type
      */
     public static void setTypeIncomes(BuildingType type, float multiplier) {

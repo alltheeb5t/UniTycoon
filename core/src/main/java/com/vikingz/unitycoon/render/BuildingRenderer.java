@@ -44,9 +44,6 @@ public class BuildingRenderer{
     //GameRender used to get mouse position and background tiles
     private final GameRenderer gameRenderer;
 
-    // Moved building placement handler to external helper class to aid testing
-    private final BuildingsMap campusBuildingsMap;
-
     /**
      * Creates a new Building Renderer
      * @param gameRenderer Parent renderer {@code GameRenderer}
@@ -59,7 +56,6 @@ public class BuildingRenderer{
         isPreviewing = false;
         selectedTexture = null;
 
-        campusBuildingsMap = new BuildingsMap(gameRenderer.getBackgroundRenderer());
     }
 
     /**
@@ -98,30 +94,30 @@ public class BuildingRenderer{
         batch.begin();
 
         // Draw all placed textures
-        for (Building building : campusBuildingsMap.getPlacedBuildings()) {
+        for (Building building : GameGlobals.BUILDINGSMAP.getPlacedBuildings()) {
             batch.draw(building.getTexture(), building.getX(), building.getY());
             // Checks if building is under construction
             if (building.getConstructing()) {
-                batch.draw(constructingTexture, building.getX(), 
+                batch.draw(constructingTexture, building.getX(),
                     building.getY(), GameGlobals.SCREEN_BUILDING_SIZE, (int) (GameGlobals.SCREEN_BUILDING_SIZE * 0.75));
-                
+
                 // Starts or stops timer if needed, doesn't place building if not currently building buildings.
                 if (building.getEndConstructionTime() == -1) {
                     building.setEndConstructionTime(GameGlobals.TIME_REMAINING - 10);
                 }
-                else if(building.getEndConstructionTime() >= GameGlobals.TIME_REMAINING && GameGlobals.currentlyBuilding) {
+                else if(building.getEndConstructionTime() >= GameGlobals.TIME_REMAINING && GameGlobals.buildingAllowed) {
                     building.setConstructing(false);
-                    campusBuildingsMap.builtBuilding(building);
+                    GameGlobals.BUILDINGSMAP.builtBuilding(building);
                 }
-    
+
                 // Adds the passed time to the end construction time if not currently building buildings.
-                if (!GameGlobals.currentlyBuilding) {
+                if (!GameGlobals.buildingAllowed) {
                     building.updateEndConstructionTime(delta);
                 }
             }
             // Draws fire texture on building if on fire
             if(building.getOnFire()) {
-                batch.draw(fireTexture, building.getX(), 
+                batch.draw(fireTexture, building.getX(),
                     building.getY(), GameGlobals.SCREEN_BUILDING_SIZE, GameGlobals.SCREEN_BUILDING_SIZE);
             }
         }
@@ -138,7 +134,7 @@ public class BuildingRenderer{
             System.out.println("RightClick");
             Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
 
-            if(campusBuildingsMap.attemptBuildingDeleteAt(translatedPoint.x, translatedPoint.y).isEmpty()) {
+            if(GameGlobals.BUILDINGSMAP.attemptBuildingDeleteAt(translatedPoint.x, translatedPoint.y).isEmpty()) {
                 System.out.println("building was null: " + null);
             }
         }
@@ -146,7 +142,7 @@ public class BuildingRenderer{
         // Stops fire if the building is on fire
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && selectedTexture == null){
             Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
-            Building currentBuilding = campusBuildingsMap.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
+            Building currentBuilding = GameGlobals.BUILDINGSMAP.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
             if(currentBuilding != null) {
                 currentBuilding.setOnFire(false);
             }
@@ -155,7 +151,7 @@ public class BuildingRenderer{
         // Check for left mouse click to place the texture
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && selectedTexture != null) {
 
-            if (!campusBuildingsMap.attemptAddBuilding(currentBuildingInfo, selectedTexture, previewX, previewY).isEmpty()) {
+            if (!GameGlobals.BUILDINGSMAP.attemptAddBuilding(currentBuildingInfo, selectedTexture, previewX, previewY).isEmpty()) {
                 // Plays the sound of a building being places
                 GameSounds.playPlacedBuilding();
 
@@ -221,16 +217,5 @@ public class BuildingRenderer{
     public void dispose(){
         batch.dispose();
     }
-
-    // ─── Getters And Setters ─────────────────────────────────────────────
-
-    /**
-     * Return the Building Map object. Used by the GameScreen for satisfaction calculation
-     * @return
-     */
-    public BuildingsMap getBuildingsMap() {
-        return campusBuildingsMap;
-    }
-
 
 }

@@ -9,7 +9,7 @@ public class StrikesEvent extends Event{
 
     public StrikesEvent() {
 
-        GameGlobals.currentlyBuilding = false;
+        GameGlobals.buildingAllowed = false;
 
         setMessage("Your staff have gone on strike over pay disputes!\n\nYou can either increase their pay and stop the strikes\nor hope it goes away on its own.\n\nWhile strikes are ongoing, you cannot\nbuild any more buildings and your\nsatisfaction will fall.");
 
@@ -44,7 +44,7 @@ public class StrikesEvent extends Event{
             GameGlobals.SATISFACTION.applyPenalty(5);
             BuildingStats.setTypeIncomes(BuildingStats.BuildingType.ACADEMIC, 1.5F);
             BuildingStats.setTypeIncomes(BuildingStats.BuildingType.RECREATIONAL, 0.75F);
-            GameGlobals.currentlyBuilding = true;
+            GameGlobals.buildingAllowed = true;
         });
 
         GameGlobals.EVENT.incrementNegativeEvent();
