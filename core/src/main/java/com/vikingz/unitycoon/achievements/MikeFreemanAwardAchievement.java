@@ -44,7 +44,7 @@ public class MikeFreemanAwardAchievement extends Achievement {
      * @return true if achievement has been completed
      */
     @Override
-    protected boolean isCompleted() {
+    public boolean isCompleted() {
         if (mikeFreemanAwardStartTime - GameGlobals.TIME_REMAINING > 180) {
             return true;
         }

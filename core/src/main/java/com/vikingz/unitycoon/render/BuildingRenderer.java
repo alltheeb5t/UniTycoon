@@ -132,7 +132,7 @@ public class BuildingRenderer{
         batch.begin();
 
         // Draw all placed textures
-        for (Building building : GameGlobals.BUILDINGSMAP.getPlacedBuildings()) {
+        for (Building building : GameGlobals.BUILDINGS_MAP.getPlacedBuildings()) {
             batch.draw(building.getTexture(), building.getX(), building.getY());
             // Checks if building is under construction
             if (building.getConstructing()) {
@@ -145,7 +145,7 @@ public class BuildingRenderer{
                 }
                 else if(building.getEndConstructionTime() >= GameGlobals.TIME_REMAINING && GameGlobals.buildingAllowed) {
                     building.setConstructing(false);
-                    GameGlobals.BUILDINGSMAP.builtBuilding(building);
+                    GameGlobals.BUILDINGS_MAP.builtBuilding(building);
                 }
 
                 // Adds the passed time to the end construction time if not currently building buildings.
@@ -172,11 +172,11 @@ public class BuildingRenderer{
             System.out.println("RightClick");
             Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
 
-            Building buildingToRemove = GameGlobals.BUILDINGSMAP.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
+            Building buildingToRemove = GameGlobals.BUILDINGS_MAP.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
             //If building exists brings up pop-up
             if(buildingToRemove != null) {
                 removeBuildingPopUp.setPosition((UIStage.getWidth() - removeBuildingPopUp.getWidth()) / 2, (UIStage.getHeight() - removeBuildingPopUp.getHeight()) / 2);
-                removeBuildingPopUp.setupPopUp(campusBuildingsMap, buildingToRemove);
+                removeBuildingPopUp.setupPopUp(GameGlobals.BUILDINGS_MAP, buildingToRemove);
                 UIStage.addActor(removeBuildingPopUp);
             }
         }
@@ -184,7 +184,7 @@ public class BuildingRenderer{
         // Stops fire if the building is on fire
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && selectedTexture == null){
             Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
-            Building currentBuilding = GameGlobals.BUILDINGSMAP.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
+            Building currentBuilding = GameGlobals.BUILDINGS_MAP.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
             if(currentBuilding != null) {
                 currentBuilding.setOnFire(false);
             }
@@ -193,7 +193,7 @@ public class BuildingRenderer{
         // Check for left mouse click to place the texture
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && selectedTexture != null) {
 
-            if (!GameGlobals.BUILDINGSMAP.attemptAddBuilding(currentBuildingInfo, selectedTexture, previewX, previewY).isEmpty()) {
+            if (!GameGlobals.BUILDINGS_MAP.attemptAddBuilding(currentBuildingInfo, selectedTexture, previewX, previewY).isEmpty()) {
                 // Plays the sound of a building being places
                 GameSounds.playPlacedBuilding();
 

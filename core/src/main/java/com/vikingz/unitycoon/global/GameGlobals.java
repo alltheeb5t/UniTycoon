@@ -30,7 +30,7 @@ public class GameGlobals {
     public static int RECREATIONAL_BUILDINGS_COUNT = 0;
     public static int FOOD_BUILDINGS_COUNT = 0;
     public static int TIME_REMAINING = 0;
-    public static BuildingsMap BUILDINGSMAP; // Instantiated within GameScreen when it is instantiated
+    public static BuildingsMap BUILDINGS_MAP; // Instantiated within GameScreen when it is instantiated
     public static AchievementsHandler ACHIEVEMENTS = new AchievementsHandler();
     public static MoneyHandler MONEY = new MoneyHandler();
     public static EventHandler EVENT = new EventHandler();

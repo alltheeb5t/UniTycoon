@@ -44,7 +44,7 @@ public class MasterOfChangeAchievement extends Achievement {
      * @return true if achievement has been completed
      */
     @Override
-    protected boolean isCompleted() {
+    public boolean isCompleted() {
         if (GameGlobals.TIME_REMAINING <= 0 && masterOfChangePossible && GameGlobals.gameWon) {
             return true;
         }

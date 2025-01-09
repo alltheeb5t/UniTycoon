@@ -68,7 +68,7 @@ public class GameScreen extends SuperScreen implements Screen {
 
         //5 minutes
         GameGlobals.resetGlobals(300);
-        GameGlobals.BUILDINGSMAP = new BuildingsMap(gameRenderer.getBackgroundRenderer());
+        GameGlobals.BUILDINGS_MAP = new BuildingsMap(gameRenderer.getBackgroundRenderer());
     }
 
 
@@ -105,7 +105,7 @@ public class GameScreen extends SuperScreen implements Screen {
                 // Calculate Game Stats
                 GameGlobals.TIME_REMAINING--;
 
-                GameGlobals.MONEY.earn(GameGlobals.BUILDINGSMAP.getPlacedBuildings(),
+                GameGlobals.MONEY.earn(GameGlobals.BUILDINGS_MAP.getPlacedBuildings(),
                                         EarnSchedule.DAILY);
 
                 for (int time : GameGlobals.EVENT.getEventTimes()) {
@@ -122,7 +122,7 @@ public class GameScreen extends SuperScreen implements Screen {
                 // Run twice per year at the start of each semester.
                 if (((GameGlobals.TIME_REMAINING % TimeHandler.SECONDS_PER_YEAR))
                     % TimeHandler.SECONDS_PER_SEMESTER == 0) {
-                    GameGlobals.MONEY.earn(GameGlobals.BUILDINGSMAP.getPlacedBuildings(),
+                    GameGlobals.MONEY.earn(GameGlobals.BUILDINGS_MAP.getPlacedBuildings(),
                                             EarnSchedule.SEMESTERLY);
                 }
 
