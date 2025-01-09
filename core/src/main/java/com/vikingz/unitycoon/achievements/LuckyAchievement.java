@@ -3,7 +3,7 @@ package com.vikingz.unitycoon.achievements;
 /**
  * This class creates a lucky achievement object.
  */
-public class LuckyAchievement extends Achievements {
+public class LuckyAchievement extends Achievement {
 
     private int luckyCounter;
 
@@ -36,7 +36,7 @@ public class LuckyAchievement extends Achievements {
      * @return true if achievement has been completed
      */
     @Override
-    protected boolean isCompleted() {
+    public boolean isCompleted() {
         if (luckyCounter == 3) {
             return true;
         }

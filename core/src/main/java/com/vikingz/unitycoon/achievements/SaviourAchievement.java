@@ -3,7 +3,7 @@ package com.vikingz.unitycoon.achievements;
 /**
  * This class creates a saviour achievement object.
  */
-public class SaviourAchievement extends Achievements {
+public class SaviourAchievement extends Achievement {
     
     private final String NAME = "Saviour";
     private final String DESCRIPTION = "Save a burning building.";
@@ -32,7 +32,7 @@ public class SaviourAchievement extends Achievements {
      * @return true if achievement has been completed
      */
     @Override
-    protected boolean isCompleted() {
+    public boolean isCompleted() {
         //if(savedBurningBuilding) {
         //    return true;
         //}
@@ -40,7 +40,7 @@ public class SaviourAchievement extends Achievements {
     }
 
     @Override
-    protected int getSatisfactionBonus() {
+    public int getSatisfactionBonus() {
         return 5;
     }
 }

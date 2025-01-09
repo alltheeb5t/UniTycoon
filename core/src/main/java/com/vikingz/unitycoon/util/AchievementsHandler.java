@@ -1,4 +1,4 @@
-package com.vikingz.unitycoon.achievements;
+package com.vikingz.unitycoon.util;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,6 +8,19 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
+import com.vikingz.unitycoon.achievements.Achievement;
+import com.vikingz.unitycoon.achievements.BareMinimumAchievement;
+import com.vikingz.unitycoon.achievements.BusyCampusAchievement;
+import com.vikingz.unitycoon.achievements.CleanSlateAchievement;
+import com.vikingz.unitycoon.achievements.IndecisiveAchievement;
+import com.vikingz.unitycoon.achievements.IsThisAUniversityAchievement;
+import com.vikingz.unitycoon.achievements.LuckyAchievement;
+import com.vikingz.unitycoon.achievements.MasterOfChangeAchievement;
+import com.vikingz.unitycoon.achievements.MikeFreemanAwardAchievement;
+import com.vikingz.unitycoon.achievements.PrioritiesAchievement;
+import com.vikingz.unitycoon.achievements.RealisticAchievement;
+import com.vikingz.unitycoon.achievements.SaviourAchievement;
+import com.vikingz.unitycoon.achievements.UnluckyAchievement;
 import com.vikingz.unitycoon.menus.UsernameMenu;
 
 /**
@@ -16,7 +29,7 @@ import com.vikingz.unitycoon.menus.UsernameMenu;
 public class AchievementsHandler {
     
     // All Achievements
-    private static Achievements[] gameAchievements = {new BareMinimumAchievement(), new RealisticAchievement(),
+    private Achievement[] gameAchievements = {new BareMinimumAchievement(), new RealisticAchievement(),
         new BusyCampusAchievement(), new CleanSlateAchievement(), new IndecisiveAchievement(),
         new IsThisAUniversityAchievement(), new LuckyAchievement(), new MasterOfChangeAchievement(),
         new MikeFreemanAwardAchievement(), new PrioritiesAchievement(), new SaviourAchievement(),
@@ -24,12 +37,12 @@ public class AchievementsHandler {
 
     private int bonus;
     
-    public static Queue<String> achievementsToDisplay;
+    public Queue<String> achievementsToDisplay;
 
-    private static ArrayList<String> allUserAchievements;
-    private final static File achievementsFile = new File("achievements.txt");
+    private ArrayList<String> allUserAchievements;
+    private final File achievementsFile = new File("achievements.txt");
 
-    private static String username;
+    private String username;
     
     public AchievementsHandler() {
         achievementsToDisplay = new LinkedList<>();
@@ -40,7 +53,7 @@ public class AchievementsHandler {
         return bonus;
     }
 
-    public static Achievements[] getAchievements() {
+    public Achievement[] getAchievements() {
         return gameAchievements;
     }
 
@@ -49,7 +62,7 @@ public class AchievementsHandler {
      * Format: username followed by true/false for each achievement seperated by
      * spaces. Each new username is put on a new line.
      */
-    public static void saveAchievements(){
+    public void saveAchievements(){
         // Don't save if user is a guest.
         if(username != "Guest") {
             String valueToSave = "";
@@ -97,7 +110,7 @@ public class AchievementsHandler {
     /**
      * Loads achievements from text file.
      */
-    public static void loadAchievements(){
+    public void loadAchievements(){
         username = UsernameMenu.getUsername();
         allUserAchievements = new ArrayList<String>();
 
@@ -130,7 +143,7 @@ public class AchievementsHandler {
      * Makes a list of achievements that have been completed during the game
      * @return String containing the list to be output
      */
-    public static String allAchievementsCompleted() {
+    public String allAchievementsCompleted() {
         String output = "Achievements:";
         for (int i = 0; i < gameAchievements.length; i++) {
             if (gameAchievements[i].achieved) {

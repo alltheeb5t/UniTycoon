@@ -5,10 +5,10 @@ import com.vikingz.unitycoon.global.GameGlobals;
 /**
  * This class creates a bankruptcy achievement object.
  */
-public class RealisticAchievement extends Achievements {
+public class RealisticAchievement extends Achievement {
 
     private final String NAME = "Realistic";
-    private final String DESCRIPTION = "Balance drops below £24m.";
+    private final String DESCRIPTION = "Balance drops below £24000 in debt.";
 
     public RealisticAchievement() {
         achieved = false;
@@ -34,7 +34,7 @@ public class RealisticAchievement extends Achievements {
      * @return true if achievement has been completed
      */
     @Override
-    protected boolean isCompleted() {
+    public boolean isCompleted() {
         if (GameGlobals.MONEY.getBalance() < -24000) {
             return true;
         }
