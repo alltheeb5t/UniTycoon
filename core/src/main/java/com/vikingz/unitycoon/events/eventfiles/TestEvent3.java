@@ -1,11 +1,8 @@
 package com.vikingz.unitycoon.events.eventfiles;
 
-import com.vikingz.unitycoon.screens.GameScreen;
-
-public class TestEvent3 extends SuperEvent {
+public class TestEvent3 extends Event {
 
     /** This event shouldn't ever fire and is only here for debug reasons
-     * @param gameScreen Game screen
      */
     public TestEvent3() {
 

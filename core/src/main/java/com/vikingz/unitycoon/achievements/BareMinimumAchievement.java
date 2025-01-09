@@ -39,7 +39,7 @@ public class BareMinimumAchievement extends Achievement {
      */
     @Override
     public boolean isCompleted() {
-        if (GameGlobals.ELAPSED_TIME <= 0 && bareMinimumPossible) {
+        if (GameGlobals.TIME_REMAINING <= 0 && bareMinimumPossible) {
             if (GameGlobals.ACADEMIC_BUILDINGS_COUNT == 1 && GameGlobals.ACCOMODATION_BUILDINGS_COUNT == 1
                 && GameGlobals.FOOD_BUILDINGS_COUNT == 1 && GameGlobals.RECREATIONAL_BUILDINGS_COUNT == 1) {
                 return true;

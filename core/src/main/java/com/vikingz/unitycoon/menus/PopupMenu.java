@@ -38,7 +38,7 @@ public class PopupMenu extends Window {
 
 
         Label message = new Label(Message, skin);
-        this.add(message).padBottom(20).row();
+        this.add(message).colspan(2).padBottom(20).row();
 
         GameGlobals.TIME.setPaused(true);
 
@@ -89,7 +89,7 @@ public class PopupMenu extends Window {
 
         TextButton closeButton = new TextButton("Close", skin);
 
-        this.add(closeButton);
+        this.add(closeButton).colspan(2);
 
         // Created for game events with no choices
 

@@ -18,7 +18,8 @@ public abstract class Building {
     private float width;
     private float height;
     private boolean constructing;    
-    private int endConstructionTime;
+    private float endConstructionTime;
+    private boolean onFire;
 
 
     // Building functional properties
@@ -153,12 +154,27 @@ public abstract class Building {
         this.constructing = constructing;
     }
 
-    public int getEndConstructionTime() {
+    public float getEndConstructionTime() {
         return endConstructionTime;
     }
 
     public void setEndConstructionTime(int endConstructionTime) {
         this.endConstructionTime = endConstructionTime;
+    }
+
+    /**
+     * Lowers the endConstructionTime by the given amount.
+     */
+    public void updateEndConstructionTime(float extraTime) {
+        this.endConstructionTime -= extraTime;
+    }
+
+    public boolean getOnFire() {
+        return onFire;
+    }
+
+    public void setOnFire(boolean onFire) {
+        this.onFire = onFire;
     }
 
     /**
