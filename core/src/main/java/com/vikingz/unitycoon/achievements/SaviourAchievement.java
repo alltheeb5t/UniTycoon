@@ -41,10 +41,7 @@ public class SaviourAchievement extends Achievement {
      */
     @Override
     public boolean isCompleted() {
-        if(savedBurningBuilding) {
-            return true;
-        }
-        return false;
+        return savedBurningBuilding;
     }
 
     @Override
