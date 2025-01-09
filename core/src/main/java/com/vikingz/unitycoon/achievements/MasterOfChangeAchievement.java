@@ -5,12 +5,12 @@ import com.vikingz.unitycoon.global.GameGlobals;
 /**
  * This class creates a master of change achievement object.
  */
-public class MasterOfChangeAchievement extends Achievements {
+public class MasterOfChangeAchievement extends Achievement {
     
     private boolean masterOfChangePossible;
 
     private final String NAME = "Master Of Change";
-    private final String DESCRIPTION = "Remain under 50% satisfaction for the first 3 minutes and then win the game.";
+    private final String DESCRIPTION = "Remain under 30% satisfaction for the first 3 minutes and then win the game.";
     private final boolean HIDDEN = true;
 
     public MasterOfChangeAchievement() {

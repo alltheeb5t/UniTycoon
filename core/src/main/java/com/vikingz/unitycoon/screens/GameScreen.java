@@ -62,7 +62,7 @@ public class GameScreen extends SuperScreen implements Screen {
         FileHandler.loadBuildings("buildingInfo","TextureAtlasMap");
         GameGlobals.TIME.setPaused(false);
         endedAlready = false;
-        gameRenderer = new GameRenderer(mapName);
+        gameRenderer = new GameRenderer(mapName, skin);
         uiRenderer = new UIRenderer(skin, gameRenderer.getBuildingRenderer());
         elapsedTime = 0;
 
@@ -196,10 +196,16 @@ public class GameScreen extends SuperScreen implements Screen {
      * This is called when the game finishes, ie when the timer runs out
      */
     private void endGame(){
+        //Checks if game has been won
+        gameWon();
+        //Checks achievements at the end of the game
+        GameGlobals.ACHIEVEMENTS.checkAllAchievements();
+        uiRenderer.displayAchievements();
+
         GameGlobals.TIME.setPaused(true);
         GameGlobals.SATISFACTION.addBonus(GameGlobals.ACHIEVEMENTS.getBonus());
         // Checks if player won the game
-        if (gameWon()) {
+        if (GameGlobals.gameWon) {
             uiRenderer.endGame("You Win!");
         }
         else{
@@ -211,12 +217,10 @@ public class GameScreen extends SuperScreen implements Screen {
      * Determines if the player won the game.
      * @return true if the player won
      */
-    public static boolean gameWon(){
-        if (GameGlobals.SATISFACTION.getSatisfaction() >= 70 && GameGlobals.MONEY.getBalance() >= 0) {
-            return true;
+    private void gameWon(){
+        if (GameGlobals.SATISFACTION.getSatisfaction() > 50 && GameGlobals.MONEY.getBalance() >= 0) {
+            GameGlobals.gameWon = true;
         }
-        return false;
-
     }
 
     @Override

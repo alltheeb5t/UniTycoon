@@ -53,6 +53,9 @@ public class BuildMenu{
     //should be displayed currently
     private int index = 0;
 
+    // Determines if the user has ever seen the inDebtMenu
+    private boolean seenDebtMenu;
+
     /**
      * Creates a new BuildMenu
      * @param skin SKin of the buttons on the menu
@@ -69,7 +72,7 @@ public class BuildMenu{
         Texture textureAtlas = new Texture(Gdx.files.internal("textureAtlases/buildMenuButtonsAtlas.png")); // Load your 64x64 PNG
 
         //Sets the pixel size of tiles used for build menu bar
-        int atlasTileSize = 64;
+        int atlasTileSize = 128;
         TextureRegion btn1Texture = new TextureRegion(textureAtlas, 0, 0, atlasTileSize, atlasTileSize);
         TextureRegion btn2Texture = new TextureRegion(textureAtlas, atlasTileSize, 0, atlasTileSize, atlasTileSize);
         TextureRegion btn3Texture = new TextureRegion(textureAtlas, atlasTileSize * 2, 0, atlasTileSize, atlasTileSize);
@@ -77,8 +80,8 @@ public class BuildMenu{
 
         TextureRegion btn1Texture_hover = new TextureRegion(textureAtlas, 0, atlasTileSize, atlasTileSize, atlasTileSize);
         TextureRegion btn2Texture_hover = new TextureRegion(textureAtlas, atlasTileSize, atlasTileSize, atlasTileSize, atlasTileSize);
-        TextureRegion btn3Texture_hover = new TextureRegion(textureAtlas, atlasTileSize * 2, atlasTileSize, atlasTileSize, atlasTileSize);
-        TextureRegion btn4Texture_hover = new TextureRegion(textureAtlas, atlasTileSize * 3, atlasTileSize, atlasTileSize, atlasTileSize);
+        TextureRegion btn3Texture_hover = new TextureRegion(textureAtlas, atlasTileSize*2, atlasTileSize, atlasTileSize, atlasTileSize);
+        TextureRegion btn4Texture_hover = new TextureRegion(textureAtlas, atlasTileSize*3, atlasTileSize, atlasTileSize, atlasTileSize);
 
         // Create ImageButtons
         ImageButton btn1 = new ImageButton(new ImageButton.ImageButtonStyle());
@@ -101,7 +104,7 @@ public class BuildMenu{
         // Table for layout
         Table table = new Table();
         table.setFillParent(true);
-        table.bottom().center();
+        table.center();
         table.bottom();
 
         // Add buttons to table
@@ -117,39 +120,48 @@ public class BuildMenu{
         btn1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(currentMenu != null) { currentMenu.remove(); }
-                showMenu(ACADEMIC);
+                if (buildingRenderer.getOpenMenu()) {
+                    if(currentMenu != null) { currentMenu.remove(); }
+                    showMenu(ACADEMIC);
+                }
+                buildingRenderer.setOpenMenu(true);
             }
         });
 
         btn2.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(currentMenu != null) { currentMenu.remove(); }
-
-                showMenu(BuildingStats.BuildingType.ACCOMODATION);
+                if (buildingRenderer.getOpenMenu()) {
+                    if(currentMenu != null) { currentMenu.remove(); }
+                    showMenu(ACCOMODATION);
+                }
+                buildingRenderer.setOpenMenu(true);
             }
         });
 
         btn3.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(currentMenu != null) { currentMenu.remove(); }
-
-                showMenu(RECREATIONAL);
+                if (buildingRenderer.getOpenMenu()) {
+                    if(currentMenu != null) { currentMenu.remove(); }
+                    showMenu(RECREATIONAL);
+                }
+                buildingRenderer.setOpenMenu(true);
             }
         });
 
         btn4.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(currentMenu != null) { currentMenu.remove(); }
-
-                showMenu(FOOD);
+                if (buildingRenderer.getOpenMenu()) {
+                    if(currentMenu != null) { currentMenu.remove(); }
+                    showMenu(FOOD);
+                }
+                buildingRenderer.setOpenMenu(true);
             }
         });
 
-
+        seenDebtMenu = false;
     }
 
 
@@ -241,8 +253,8 @@ public class BuildMenu{
             public void clicked(InputEvent event, float x, float y) {
                 // Creates an going into debt pop-up if the user doesn't have enough money for the building.
                 // Only shows the first time
-                if(!GameGlobals.MONEY.getInDebtBefore() && (GameGlobals.MONEY.getBalance() - Integer.valueOf(BuildingStats.BuildingPriceDict.get(buildingType)[index]) < 0)) {
-                    GameGlobals.MONEY.setInDebtBefore(true);
+                if(!seenDebtMenu && (GameGlobals.MONEY.getBalance() - Integer.valueOf(BuildingStats.BuildingPriceDict.get(buildingType)[index]) < 0)) {
+                    seenDebtMenu = true;
                     DebtMenu debtPopUp = new DebtMenu(skin);
                     debtPopUp.setPosition((stage.getWidth() - debtPopUp.getWidth()) / 2, (stage.getHeight() - debtPopUp.getHeight()) / 2);
                     debtPopUp.setupButton(skin, buildingRenderer, window, buildingType, index);
@@ -340,7 +352,6 @@ public class BuildMenu{
     public boolean isWindowActive() {
         return windowActive;
     }
-
 
     /**
      * Sets the windowActive, used when the menu is opened or closed,

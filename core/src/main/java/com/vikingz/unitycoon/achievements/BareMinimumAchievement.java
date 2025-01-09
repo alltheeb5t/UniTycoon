@@ -5,7 +5,7 @@ import com.vikingz.unitycoon.global.GameGlobals;
 /**
  * This class creates a bare minimum achievement object.
  */
-public class BareMinimumAchievement extends Achievements {
+public class BareMinimumAchievement extends Achievement {
     
     private boolean bareMinimumPossible;
     

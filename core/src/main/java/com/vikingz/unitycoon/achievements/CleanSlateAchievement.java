@@ -5,7 +5,7 @@ import com.vikingz.unitycoon.global.GameGlobals;
 /**
  * This class creates a clean slate achievement object.
  */
-public class CleanSlateAchievement extends Achievements {
+public class CleanSlateAchievement extends Achievement {
 
     private boolean cleanSlateMinReached;
     
@@ -38,7 +38,7 @@ public class CleanSlateAchievement extends Achievements {
      * @return true if achievement has been completed
      */
     @Override
-    protected boolean isCompleted() {
+    public boolean isCompleted() {
         if (GameGlobals.ACADEMIC_BUILDINGS_COUNT + GameGlobals.ACCOMODATION_BUILDINGS_COUNT
                 + GameGlobals.FOOD_BUILDINGS_COUNT + GameGlobals.RECREATIONAL_BUILDINGS_COUNT == 0
                 && cleanSlateMinReached) {

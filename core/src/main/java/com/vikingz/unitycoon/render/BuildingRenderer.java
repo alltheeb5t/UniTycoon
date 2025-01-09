@@ -1,16 +1,26 @@
 package com.vikingz.unitycoon.render;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingInfo;
 import com.vikingz.unitycoon.building.BuildingStats;
 import com.vikingz.unitycoon.building.BuildingsMap;
 import com.vikingz.unitycoon.global.GameGlobals;
+import com.vikingz.unitycoon.menus.RemoveBuildingMenu;
 import com.vikingz.unitycoon.util.GameSounds;
 
 /**
@@ -26,11 +36,18 @@ public class BuildingRenderer{
     //Used to draw buildings textures
     private final SpriteBatch batch;
 
+    // Used to display removeBuildingMenu on the UIRenderer stage
+    // This allows the user to interact with buttons on the menu
+    private Stage UIStage;
+
     //X and Y values used to place buildings
     private float previewX, previewY;
 
     //If building is being placed by user
     private boolean isPreviewing;
+
+    //Prevents building being placed and menu opening in the same click
+    private boolean openMenu;
 
     //Textures of Building, fire and construction
     private TextureRegion selectedTexture;
@@ -44,18 +61,39 @@ public class BuildingRenderer{
     //GameRender used to get mouse position and background tiles
     private final GameRenderer gameRenderer;
 
+    //Checks if the user wants to delete a building
+    private RemoveBuildingMenu removeBuildingPopUp;
+
+    // Image to be placed on top of constructing buildings
+    private Texture underConstructionTexture;
+
+    // Pop Up when a player tries to place a building on a colliding square
+    private TextButton collisionPopUp;
+
     /**
      * Creates a new Building Renderer
      * @param gameRenderer Parent renderer {@code GameRenderer}
      */
-    public BuildingRenderer(GameRenderer gameRenderer) {
+    public BuildingRenderer(GameRenderer gameRenderer, Skin skin) {
 
         this.gameRenderer = gameRenderer;
-
+        
+        // Initialised as a blank stage initially as UIRenderer is initialised later
+        UIStage = new Stage();
         batch = new SpriteBatch();
         isPreviewing = false;
         selectedTexture = null;
+        openMenu = true;
 
+        underConstructionTexture = new Texture("png\\UnderConstruction.png");
+        removeBuildingPopUp = new RemoveBuildingMenu(skin);
+
+        // Set collision popup
+        collisionPopUp = new TextButton("Unable to place building here", skin);
+        collisionPopUp.setColor(Color.RED);
+        collisionPopUp.setWidth(350);
+        collisionPopUp.setPosition((UIStage.getWidth() - collisionPopUp.getWidth()) / 2, (UIStage.getHeight() - 100));
+        collisionPopUp.getLabel().setFontScale((float)0.4,(float)0.4);
     }
 
     /**
@@ -98,7 +136,7 @@ public class BuildingRenderer{
             batch.draw(building.getTexture(), building.getX(), building.getY());
             // Checks if building is under construction
             if (building.getConstructing()) {
-                batch.draw(constructingTexture, building.getX(),
+                batch.draw(underConstructionTexture, building.getX(), 
                     building.getY(), GameGlobals.SCREEN_BUILDING_SIZE, (int) (GameGlobals.SCREEN_BUILDING_SIZE * 0.75));
 
                 // Starts or stops timer if needed, doesn't place building if not currently building buildings.
@@ -134,8 +172,12 @@ public class BuildingRenderer{
             System.out.println("RightClick");
             Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
 
-            if(GameGlobals.BUILDINGSMAP.attemptBuildingDeleteAt(translatedPoint.x, translatedPoint.y).isEmpty()) {
-                System.out.println("building was null: " + null);
+            Building buildingToRemove = GameGlobals.BUILDINGSMAP.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
+            //If building exists brings up pop-up
+            if(buildingToRemove != null) {
+                removeBuildingPopUp.setPosition((UIStage.getWidth() - removeBuildingPopUp.getWidth()) / 2, (UIStage.getHeight() - removeBuildingPopUp.getHeight()) / 2);
+                removeBuildingPopUp.setupPopUp(campusBuildingsMap, buildingToRemove);
+                UIStage.addActor(removeBuildingPopUp);
             }
         }
 
@@ -162,8 +204,27 @@ public class BuildingRenderer{
             }
             else {
                 // If building is colliding with something
+                
+                //Creates a task to remove the event from the screen after 8s.
+                Timer timer = new Timer(3000, new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent arg0) {
+                        collisionPopUp.remove();
+                    }
+                }); 
+                timer.setRepeats(false);
+
+                UIStage.addActor(collisionPopUp);
+                timer.start();
+
                 System.err.println("Player Trying to place on a collision piece");
                 GameSounds.playPlaceError();
+            }
+
+            //Stops menu from opening when placing buildings below buttons
+            Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
+            if (translatedPoint.x >= 616 && translatedPoint.x < 1176 && translatedPoint.y < 136){
+                openMenu = false;
             }
         }
 
@@ -204,6 +265,14 @@ public class BuildingRenderer{
         return new Vector3(newX, newY, 0);
     }
 
+    public boolean getOpenMenu() {
+        return openMenu;
+    }
+
+    public void setOpenMenu(boolean openMenu) {
+        this.openMenu = openMenu;
+    }
+
     /**
      * Updates the width and height when the window
      * is resized
@@ -218,4 +287,13 @@ public class BuildingRenderer{
         batch.dispose();
     }
 
+    // ─── Getters And Setters ─────────────────────────────────────────────
+
+    /**
+     * Return the Building Map object. Used by the GameScreen for satisfaction calculation
+     * @return
+     */
+    public void setUIStage(Stage stage) {
+        this.UIStage = stage;
+    }
 }

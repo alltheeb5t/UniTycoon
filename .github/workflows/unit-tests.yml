@@ -1,26 +1,21 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
 name: Run Unit Tests
+# description: For any pushes to the main branch, run all unit tests and then, if testing is sucessful, build a .jar file.
 
 on:
   push:
-    branches: [ "main", "ci" ]
+    branches: [ "main"]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      issues: read
-      checks: write
+      checks: write  # Needs to write extended output of tests
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout latest commit
+      uses: actions/checkout@v4
+    
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
@@ -39,22 +34,25 @@ jobs:
       run: ./gradlew test
 
     - name: Publish Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v2
-      if: always()
+      uses: EnricoMi/publish-unit-test-result-action@170bf24d20d201b842d7a52403b73ed297e6645b
+      if: always()  # Want to run this step even if the testing step itself fails
       with:
-        comment_mode: off
+        comment_mode: off  # Don't want to leave a comment on related PRs
         files: |
           headless/build/test-results/**/*.xml
 
   # If tests pass, make a .jar file available to download
   build:
     runs-on: ubuntu-latest
-    needs: test
+    needs: test  # Will be skipped if tests fail
+    
     permissions:
       contents: read
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout latest commit
+      uses: actions/checkout@v4
+      
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
@@ -76,4 +74,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: UniSim Java Package
-        path: lwjgl3/build/libs/*
+        path: lwjgl3/build/libs/*  # Upload generated Java file ('*' used in case output file name changes)

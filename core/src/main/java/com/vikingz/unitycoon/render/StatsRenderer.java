@@ -132,10 +132,10 @@ public class StatsRenderer {
         //Sets the pixel size of tiles used for build menu bar
         int atlasTileSize = 64;
         //Sets all the images
-        academImg = new Image(new TextureRegion(textureAtlas, 0, 0, atlasTileSize, atlasTileSize));
-        accomImg = new Image(new TextureRegion(textureAtlas, atlasTileSize, 0, atlasTileSize, atlasTileSize));
-        recImg = new Image(new TextureRegion(textureAtlas, atlasTileSize * 2, 0, atlasTileSize, atlasTileSize));
-        foodImg = new Image(new TextureRegion(textureAtlas, atlasTileSize * 3, 0, atlasTileSize, atlasTileSize));
+        academImg = new Image(new TextureRegion(textureAtlas, (int) (atlasTileSize * 0.5), atlasTileSize, atlasTileSize, atlasTileSize));
+        accomImg = new Image(new TextureRegion(textureAtlas, (int) (atlasTileSize * 2.5), atlasTileSize, atlasTileSize, atlasTileSize));
+        recImg = new Image(new TextureRegion(textureAtlas, (int) (atlasTileSize * 4.5), atlasTileSize, atlasTileSize, atlasTileSize));
+        foodImg = new Image(new TextureRegion(textureAtlas, (int) (atlasTileSize * 6.5), atlasTileSize, atlasTileSize, atlasTileSize));
         balImg = new Image(new Texture("png\\moneySymbol.png"));
         satisImg = new Image(new Texture("png\\satisfactionSymbol.png"));
         timerImg = new Image(new Texture("png\\timeSymbol.png"));
@@ -203,6 +203,7 @@ public class StatsRenderer {
         timerTbl.add(timeCountdownTbl).expandX().uniformX();
         timerTbl.add(inGameTimer).pad(padding).expandX().uniformX();
         statsBarTbl.add(timerTbl).expandX().uniformX().right();
+        statsBarTbl.padRight(50); //Adds gap at the end for pause button
 
         stage.addActor(statsBarTbl);
     }
