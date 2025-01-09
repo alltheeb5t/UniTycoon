@@ -31,15 +31,15 @@ public class GameTimeTest {
         // Simulate a game loop where time decrements by 1 second per loop
         for (int i = 0; i < 300; i++) {
             // Decrement the timer
-            GameGlobals.ELAPSED_TIME--;
+            GameGlobals.TIME_REMAINING--;
 
             // Assert that the timer is decreasing correctly
-            assertEquals(initialTime - (i + 1), GameGlobals.ELAPSED_TIME,
+            assertEquals(initialTime - (i + 1), GameGlobals.TIME_REMAINING,
                     "Timer should decrement correctly for each second elapsed.");
         }
 
         // After 300 seconds, the timer should reach 0
-        assertEquals(0, GameGlobals.ELAPSED_TIME, "Timer should reach 0 after 300 seconds.");
+        assertEquals(0, GameGlobals.TIME_REMAINING, "Timer should reach 0 after 300 seconds.");
     }
 
     /**
@@ -54,12 +54,12 @@ public class GameTimeTest {
         // Simulate a game loop running for more than the initial time
         for (int i = 0; i < 10; i++) {
             // Decrement the timer
-            if (GameGlobals.ELAPSED_TIME > 0) {
-                GameGlobals.ELAPSED_TIME--;
+            if (GameGlobals.TIME_REMAINING > 0) {
+                GameGlobals.TIME_REMAINING--;
             }
         }
 
         // Assert that the timer stops at 0 and does not go negative
-        assertEquals(0, GameGlobals.ELAPSED_TIME, "Timer should not go below 0.");
+        assertEquals(0, GameGlobals.TIME_REMAINING, "Timer should not go below 0.");
     }
 }

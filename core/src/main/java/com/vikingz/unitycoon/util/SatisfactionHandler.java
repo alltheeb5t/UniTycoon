@@ -7,7 +7,7 @@ import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 public class SatisfactionHandler {
-    
+
     private static int satisfaction;
     private static int satisfactionModifier;
 
@@ -15,7 +15,7 @@ public class SatisfactionHandler {
         satisfaction = 10; //Starting satisfaction is 10
         satisfactionModifier = 0;
     }
-    
+
     public int getSatisfaction() {
         //Insures satisfaction is no more than 100 and no less than 0
         if(satisfaction < 0) {
@@ -28,7 +28,7 @@ public class SatisfactionHandler {
     }
 
     /**
-     * Calculates satisfaction 
+     * Calculates satisfaction
      * @param placedBuildings List of placed buildings on the map
      * @return Int Amount of satisfaction gained
      */
@@ -42,7 +42,7 @@ public class SatisfactionHandler {
 
     /**
      * Calculates a loss to add to satisfaction if the accomodation buildings
-     * are not near enough to one of each other building. 
+     * are not near enough to one of each other building.
      * @return Loss to add to satisfaction
      */
     private int calculateProximityLoss(List<Building> placedBuildings) {
@@ -77,7 +77,7 @@ public class SatisfactionHandler {
                         }
                     }
                 }
-                
+
             // Adds 1 to proximity for each building that isn't close enough
             if(!nearAcademic) {proximityLoss++;}
             if(!nearFood) {proximityLoss++;}
@@ -96,16 +96,16 @@ public class SatisfactionHandler {
      * @return the distance value
      */
     private int getDistance(Building accBuilding, Building otherBuilding) {
-        int distance = (int) (Math.abs(accBuilding.getX() - otherBuilding.getX()) 
+        int distance = (int) (Math.abs(accBuilding.getX() - otherBuilding.getX())
             + Math.abs(Math.abs(accBuilding.getY() - otherBuilding.getY())));
-        
+
         return distance;
     }
 
     /**
      * Calculates a loss to add to satisfaction if the number of
      * non-accomodation buildings is much higher than the number of
-     * accomodation buildings. 
+     * accomodation buildings.
      * @return Loss to add to satisfaction
      */
     private int calculateBuildingProportionLoss() {
@@ -114,7 +114,7 @@ public class SatisfactionHandler {
         // Checks if recreational buildings is in proportion with accomodation buildings.
         if (GameGlobals.RECREATIONAL_BUILDINGS_COUNT >= 4 // There should be no more than 1 per every 6 and never more than 4.
                 || (GameGlobals.RECREATIONAL_BUILDINGS_COUNT > Math.ceil((GameGlobals.ACCOMODATION_BUILDINGS_COUNT + 1) / 6.0))) {
-            buildingProportionLoss += 10; 
+            buildingProportionLoss += 10;
         }
         // Checks if food buildings is in proportion with accomodation buildings.
         if (GameGlobals.FOOD_BUILDINGS_COUNT >= 6 // There should be no more than 1 per every 4 and never more than 6.
@@ -133,7 +133,7 @@ public class SatisfactionHandler {
     /**
      * Increases the satisfaction by a given amount. Stores that amount so that
      * it is added everytime satisfaction is calculated.
-     * @param satisfactionBonus
+     * @param bonus
      */
     public void addBonus(int bonus) {
         satisfactionModifier += bonus;
@@ -143,7 +143,7 @@ public class SatisfactionHandler {
     /**
      * Decreases the satisfaction by a given amount. Stores that amount so that
      * it is removed everytime satisfaction is calculated.
-     * @param satisfactionBonus
+     * @param penalty
      */
     public void applyPenalty(int penalty) {
         satisfactionModifier -= penalty;
@@ -151,7 +151,7 @@ public class SatisfactionHandler {
     }
 
     /**
-     * Calculates the maximum satisfaction the user can have based on 
+     * Calculates the maximum satisfaction the user can have based on
      * the number of placed buildings.
      * @return the max satisfaction
      */

@@ -149,7 +149,7 @@ public class StatsRenderer {
 
         int padding = 5;
         int groupSpacing = 30;
-        
+
         // Create layout table
         statsBarTbl = new Table();
         statsBarTbl.setFillParent(true);
@@ -161,7 +161,7 @@ public class StatsRenderer {
         // Groups together game stats
         Table gameStatsTbl = new Table();
         // Groups each stat to it's image
-        Table studentsTbl = new Table();     
+        Table studentsTbl = new Table();
         studentsTbl.add(studentsImg).pad(padding).size(30);
         studentsTbl.add(students).pad(padding);
         gameStatsTbl.add(studentsTbl).spaceRight(groupSpacing).expandX().uniformX();
@@ -181,7 +181,7 @@ public class StatsRenderer {
         accomTbl.add(accomImg).pad(padding).size(30);
         accomTbl.add(accomBuildings).pad(padding);
         buildingTbl.add(accomTbl).spaceRight(groupSpacing).expandX().uniformX();
-        Table academTbl = new Table();     
+        Table academTbl = new Table();
         academTbl.add(academImg).pad(padding).size(30);
         academTbl.add(academBuildings).pad(padding);
         buildingTbl.add(academTbl).spaceRight(groupSpacing).expandX().uniformX();
@@ -200,7 +200,7 @@ public class StatsRenderer {
         Table timeCountdownTbl = new Table();
         timeCountdownTbl.add(timerImg).pad(padding).size(30);
         timeCountdownTbl.add(timer).pad(padding);
-        timerTbl.add(timeCountdownTbl).expandX().uniformX();  
+        timerTbl.add(timeCountdownTbl).expandX().uniformX();
         timerTbl.add(inGameTimer).pad(padding).expandX().uniformX();
         statsBarTbl.add(timerTbl).expandX().uniformX().right();
         statsBarTbl.padRight(50); //Adds gap at the end for pause button
@@ -219,7 +219,7 @@ public class StatsRenderer {
         // Update the label contents each frame
         if (GameGlobals.MONEY.getBalance() < 0) {balance.setColor(Color.RED);} //Sets the balance colour to red if in debt
         else {balance.setColor(Color.WHITE);}
-        balStr = "" + (int)(GameGlobals.MONEY.getBalance());
+        balStr = "" + (int)(GameGlobals.MONEY.getBalance()) + "k";
         studentsStr = "" + GameGlobals.STUDENTS;
         satisStr = "" + GameGlobals.SATISFACTION.getSatisfaction() + "%";
         accomBuildingsStr = "" + GameGlobals.ACCOMODATION_BUILDINGS_COUNT;
@@ -227,10 +227,10 @@ public class StatsRenderer {
         recBuildingsStr = "" + GameGlobals.RECREATIONAL_BUILDINGS_COUNT;
         foodBuildingsStr = "" + GameGlobals.FOOD_BUILDINGS_COUNT;
 
-        TimeHandler.Time timerAmount = TimeHandler.secondsToMinSecs(GameGlobals.ELAPSED_TIME);
+        TimeHandler.Time timerAmount = TimeHandler.secondsToMinSecs(GameGlobals.TIME_REMAINING);
         timerStr = "Timer: " + timerAmount;
 
-        inGameTimerStr = TimeHandler.inGameTime(GameGlobals.ELAPSED_TIME);
+        inGameTimerStr = TimeHandler.inGameTime(GameGlobals.TIME_REMAINING);
 
         // Sets the new string to the corresponding label
         balance.setText(balStr);

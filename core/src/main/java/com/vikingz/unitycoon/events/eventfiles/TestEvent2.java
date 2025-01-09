@@ -2,11 +2,10 @@ package com.vikingz.unitycoon.events.eventfiles;
 
 import com.vikingz.unitycoon.global.GameGlobals;
 
-public class TestEvent2 extends SuperEvent {
+public class TestEvent2 extends Event {
 
     /**
      * Test event with one close button
-     * @param gameScreen Game screen
      */
     public TestEvent2() {
 
