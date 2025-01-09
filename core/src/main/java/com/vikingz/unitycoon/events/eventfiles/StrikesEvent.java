@@ -18,7 +18,7 @@ public class StrikesEvent extends Event{
         setLeftRun(() -> {
             Random random = new Random();
             GameGlobals.SATISFACTION.applyPenalty(5);
-            int eventTime = GameGlobals.ELAPSED_TIME - 10;
+            int eventTime = GameGlobals.TIME_REMAINING - 10;
             // Prevents events happening at the same time
             for (int time : GameGlobals.EVENT.getEventTimes()) {
                 if (time == eventTime) {

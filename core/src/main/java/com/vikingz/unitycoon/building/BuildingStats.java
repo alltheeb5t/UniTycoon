@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
 
-import static java.lang.Math.abs;
-
 /**
  * This class contains all the static data,
  * or data loaded from a file.

@@ -218,7 +218,7 @@ public class StatsRenderer {
         // Update the label contents each frame
         if (GameGlobals.MONEY.getBalance() < 0) {balance.setColor(Color.RED);} //Sets the balance colour to red if in debt
         else {balance.setColor(Color.WHITE);}
-        balStr = "" + (int)(GameGlobals.MONEY.getBalance());
+        balStr = "" + (int)(GameGlobals.MONEY.getBalance()) + "k";
         studentsStr = "" + GameGlobals.STUDENTS;
         satisStr = "" + GameGlobals.SATISFACTION.getSatisfaction() + "%";
         accomBuildingsStr = "" + GameGlobals.ACCOMODATION_BUILDINGS_COUNT;
@@ -226,10 +226,10 @@ public class StatsRenderer {
         recBuildingsStr = "" + GameGlobals.RECREATIONAL_BUILDINGS_COUNT;
         foodBuildingsStr = "" + GameGlobals.FOOD_BUILDINGS_COUNT;
 
-        TimeHandler.Time timerAmount = TimeHandler.secondsToMinSecs(GameGlobals.ELAPSED_TIME);
+        TimeHandler.Time timerAmount = TimeHandler.secondsToMinSecs(GameGlobals.TIME_REMAINING);
         timerStr = "Timer: " + timerAmount;
 
-        inGameTimerStr = TimeHandler.inGameTime(GameGlobals.ELAPSED_TIME);
+        inGameTimerStr = TimeHandler.inGameTime(GameGlobals.TIME_REMAINING);
 
         // Sets the new string to the corresponding label
         balance.setText(balStr);

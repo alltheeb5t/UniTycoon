@@ -107,9 +107,9 @@ public class BuildingRenderer{
                 
                 // Starts or stops timer if needed, doesn't place building if not currently building buildings.
                 if (building.getEndConstructionTime() == -1) {
-                    building.setEndConstructionTime(GameGlobals.ELAPSED_TIME - 10);
+                    building.setEndConstructionTime(GameGlobals.TIME_REMAINING - 10);
                 }
-                else if(building.getEndConstructionTime() >= GameGlobals.ELAPSED_TIME && GameGlobals.currentlyBuilding) {
+                else if(building.getEndConstructionTime() >= GameGlobals.TIME_REMAINING && GameGlobals.currentlyBuilding) {
                     building.setConstructing(false);
                     campusBuildingsMap.builtBuilding(building);
                 }

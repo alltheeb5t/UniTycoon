@@ -18,7 +18,7 @@ public class RosesEvent extends Event {
             public void run() {
                 Random random = new Random();
                 BuildingStats.setTypeIncomes(BuildingStats.BuildingType.RECREATIONAL, 2F);
-                int eventTime = ((GameGlobals.ELAPSED_TIME / 100) * 100) + 1;
+                int eventTime = ((GameGlobals.TIME_REMAINING / 100) * 100) + 1;
                 // Prevents events happening at the same time
                 for (int time : GameGlobals.EVENT.getEventTimes()) {
                     if (time == eventTime) {

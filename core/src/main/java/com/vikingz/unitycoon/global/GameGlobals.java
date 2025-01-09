@@ -26,7 +26,7 @@ public class GameGlobals {
     public static int ACCOMODATION_BUILDINGS_COUNT = 0;
     public static int RECREATIONAL_BUILDINGS_COUNT = 0;
     public static int FOOD_BUILDINGS_COUNT = 0;
-    public static int ELAPSED_TIME = 0;
+    public static int TIME_REMAINING = 0;
     public static AchievementsHandler ACHIEVEMENTS = new AchievementsHandler();
     public static MoneyHandler MONEY = new MoneyHandler();
     public static EventHandler EVENT = new EventHandler();
@@ -56,7 +56,7 @@ public class GameGlobals {
      * @param time The amount of time in minutes the game should last for
      */
     public static void resetGlobals(int time){
-        ELAPSED_TIME = time;
+        TIME_REMAINING = time;
         ACADEMIC_BUILDINGS_COUNT = 0;
         ACCOMODATION_BUILDINGS_COUNT = 0;
         RECREATIONAL_BUILDINGS_COUNT = 0;

@@ -8,7 +8,7 @@ public class FireEvent extends Event {
     public FireEvent() {
 
         Building burningBuilding = buildingsMap.chooseRandomBuilding();
-        int eventTime = GameGlobals.ELAPSED_TIME - 2;
+        int eventTime = GameGlobals.TIME_REMAINING - 2;
         burningBuilding.setOnFire(true);
 
         setMessage("A building on campus is on fire!\n\nClick on it to put it out, or leave it for the insurance money!");

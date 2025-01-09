@@ -52,7 +52,7 @@ public class EventHandler {
         Random random = new Random();
 
         int randomChoice = random.nextInt(9);
-        e = switch (randomChoice) {
+        e = switch (8) {
             case 0 -> new AlumniEvent();
             case 1 -> new AwardEvent();
             case 2 -> new BusChangeEvent();

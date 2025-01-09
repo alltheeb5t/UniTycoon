@@ -45,11 +45,11 @@ public class MasterOfChangeAchievement extends Achievements {
      */
     @Override
     protected boolean isCompleted() {
-        if (GameGlobals.ELAPSED_TIME <= 0 && masterOfChangePossible && GameGlobals.gameWon) {
+        if (GameGlobals.TIME_REMAINING <= 0 && masterOfChangePossible && GameGlobals.gameWon) {
             return true;
         }
         
-        if (GameGlobals.ELAPSED_TIME >= 120 && GameGlobals.SATISFACTION.getSatisfaction() >= 50) {
+        if (GameGlobals.TIME_REMAINING >= 120 && GameGlobals.SATISFACTION.getSatisfaction() >= 50) {
             masterOfChangePossible = false;
         }
 
