@@ -206,4 +206,18 @@ public class AchievementsHandler {
             gameAchievements[i].reset();
         }
     }
+
+    /**
+     * Returns the achievement with the desired type
+     * @param achievementName the name of the achievement wanted
+     * @return
+     */
+    public Achievement getAchievement(String achievementName) {
+        for (Achievement achievement : gameAchievements) {
+            if (achievementName == achievement.getName()) {
+                return achievement;
+            }
+        }
+        return null;
+    }
 }
