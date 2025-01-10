@@ -1,6 +1,6 @@
 package com.vikingz.unitycoon.events.eventfiles;
 
-import com.vikingz.unitycoon.building.BuildingStats;
+import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 import java.util.Random;
@@ -17,7 +17,7 @@ public class RosesEvent extends Event {
             @Override
             public void run() {
                 Random random = new Random();
-                BuildingStats.setTypeIncomes(BuildingStats.BuildingType.RECREATIONAL, 2F);
+                GameGlobals.MONEY.applyMultiplierToType(BuildingType.RECREATIONAL, 2F);
                 int eventTime = ((GameGlobals.TIME_REMAINING / 100) * 100) + 1;
                 // Prevents events happening at the same time
                 for (int time : GameGlobals.EVENT.getEventTimes()) {

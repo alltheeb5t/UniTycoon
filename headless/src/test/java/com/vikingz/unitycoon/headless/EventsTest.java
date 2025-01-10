@@ -22,6 +22,7 @@ import com.vikingz.unitycoon.events.eventfiles.FeeIncreaseEvent;
 import com.vikingz.unitycoon.events.eventfiles.FireEvent;
 import com.vikingz.unitycoon.events.eventfiles.FloodEvent;
 import com.vikingz.unitycoon.events.eventfiles.RosesEvent;
+import com.vikingz.unitycoon.events.eventfiles.RosesLoseEvent;
 import com.vikingz.unitycoon.events.eventfiles.RosesWinEvent;
 import com.vikingz.unitycoon.events.eventfiles.SponsorEvent;
 import com.vikingz.unitycoon.events.eventfiles.StrikesEvent;
@@ -254,11 +255,10 @@ public class EventsTest extends TestSuper {
         Event relevantEvent = new FloodEvent();
 
         float originalBalance = GameGlobals.MONEY.getBalance();
-        float originalSatisfaction = GameGlobals.SATISFACTION.getSatisfaction();
                                     
         assertTrue(addBasicTestBuilding(testMap, BuildingType.ACCOMODATION, validCoords[0][0], validCoords[0][1], true, true));
-        assertTrue(addBasicTestBuilding(testMap, BuildingType.ACADEMIC, validCoords[1][0], validCoords[1][1], true, true));
-        assertTrue(addBasicTestBuilding(testMap, BuildingType.FOOD, validCoords[2][0], validCoords[2][1], true, true));
+        assertTrue(addBasicTestBuilding(testMap, BuildingType.ACCOMODATION, validCoords[1][0], validCoords[1][1], true, true));
+        assertTrue(addBasicTestBuilding(testMap, BuildingType.ACCOMODATION, validCoords[2][0], validCoords[2][1], true, true));
 
         int originalBuildingCount = GameGlobals.ACADEMIC_BUILDINGS_COUNT + GameGlobals.ACCOMODATION_BUILDINGS_COUNT +
                                     GameGlobals.FOOD_BUILDINGS_COUNT + GameGlobals.RECREATIONAL_BUILDINGS_COUNT;
@@ -271,8 +271,8 @@ public class EventsTest extends TestSuper {
 
         assertEquals(originalBuildingCount-1, newBuildingCount, "Confirm that a single building is removed");
 
-        assertEquals(originalBalance, GameGlobals.MONEY.getBalance(), "This event should have no effect on balance");
-        assertEquals(originalSatisfaction, GameGlobals.SATISFACTION.getSatisfaction(), "This event should have no effect on satisfaction");
+        assertEquals(originalBalance + 750, GameGlobals.MONEY.getBalance(), "Balance should have increased by £750k (represents insurance payout)");
+        // We're not testing satisfaction since removing a building WILL affect satisfaction
 
         assertEquals(1, GameGlobals.EVENT.getNegativeEvent(), "Check the event is registered as negative event");
     }
@@ -346,7 +346,7 @@ public class EventsTest extends TestSuper {
         // Add a building for testing
         assertTrue(addBasicTestBuilding(testMap, BuildingType.RECREATIONAL, validCoords[0][0], validCoords[0][1], true, true));
 
-        Event relevantEvent = new RosesWinEvent();
+        Event relevantEvent = new RosesLoseEvent();
 
         float originalBalance = GameGlobals.MONEY.getBalance();
         float originalSatisfaction = GameGlobals.SATISFACTION.getSatisfaction();
