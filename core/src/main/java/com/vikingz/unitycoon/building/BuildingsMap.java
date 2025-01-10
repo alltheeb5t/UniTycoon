@@ -37,6 +37,10 @@ public class BuildingsMap {
      * @return Building chosen
      */
     public Building chooseRandomBuilding() {
+        if (placedBuildings.size() == 0) {
+            return null;
+        }
+        
         Random rand = new Random();
         int buildingIndex = rand.nextInt(0,placedBuildings.size());
         return placedBuildings.get(buildingIndex);

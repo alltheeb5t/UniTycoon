@@ -1,6 +1,9 @@
 package com.vikingz.unitycoon.util;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
@@ -48,40 +51,51 @@ public class SatisfactionHandler {
     private int calculateProximityLoss(List<Building> placedBuildings) {
         int proximityLoss = 0;
 
-        for (Building accomodationBuilding : placedBuildings) {
+        for (Building currentBuilding : placedBuildings) {
             boolean nearAcademic = false;
             boolean nearFood = false;
             boolean nearRecreation = false;
+            boolean nearAccomodation = false;
 
-            if (accomodationBuilding.getBuildingType() == BuildingType.ACCOMODATION && !accomodationBuilding.getConstructing()) {
+            // Used to set what type of building every other building should be affected by
+            Map<BuildingType,BuildingType[]> caresAbout = new HashMap<BuildingType, BuildingType[]>();
+            caresAbout.put(BuildingType.ACCOMODATION, new BuildingType[] { BuildingType.ACADEMIC, BuildingType.FOOD, BuildingType.RECREATIONAL });
+            caresAbout.put(BuildingType.ACADEMIC, new BuildingType[] { BuildingType.FOOD, BuildingType.ACCOMODATION });
+            caresAbout.put(BuildingType.FOOD, new BuildingType[] { BuildingType.ACCOMODATION, BuildingType.ACADEMIC });
+            caresAbout.put(BuildingType.RECREATIONAL, new BuildingType[] { BuildingType.ACCOMODATION });
+
+            if (!currentBuilding.getConstructing()) {
                 for (Building otherBuilding : placedBuildings) {
                     if (!otherBuilding.getConstructing()) {
                         // Checks if the other type of building is within 4 buildings distance
                         if (otherBuilding.getBuildingType() == BuildingType.ACADEMIC && !nearAcademic) {
-                            if (getDistance(accomodationBuilding, otherBuilding) < 4 * GameGlobals.SCREEN_BUILDING_SIZE) {
+                            if (getDistance(currentBuilding, otherBuilding) < 4 * GameGlobals.SCREEN_BUILDING_SIZE) {
                                 nearAcademic = true;
                             }
-                            continue;
                         }
                         else if (otherBuilding.getBuildingType() == BuildingType.FOOD && !nearFood) {
-                            if (getDistance(accomodationBuilding, otherBuilding) < 4 * GameGlobals.SCREEN_BUILDING_SIZE) {
+                            if (getDistance(currentBuilding, otherBuilding) < 4 * GameGlobals.SCREEN_BUILDING_SIZE) {
                                 nearFood = true;
                             }
-                            continue;
                         }
                         else if (otherBuilding.getBuildingType() == BuildingType.RECREATIONAL && !nearRecreation) {
-                            if (getDistance(accomodationBuilding, otherBuilding) < 4 * GameGlobals.SCREEN_BUILDING_SIZE) {
+                            if (getDistance(currentBuilding, otherBuilding) < 4 * GameGlobals.SCREEN_BUILDING_SIZE) {
                                 nearRecreation = true;
                             }
-                            continue;
+                        }
+                        else if (otherBuilding.getBuildingType() == BuildingType.ACCOMODATION && !nearAccomodation) {
+                            if (getDistance(currentBuilding, otherBuilding) < 4 * GameGlobals.SCREEN_BUILDING_SIZE) {
+                                nearAccomodation = true;
+                            }
                         }
                     }
                 }
 
-            // Adds 1 to proximity for each building that isn't close enough
-            if(!nearAcademic) {proximityLoss++;}
-            if(!nearFood) {proximityLoss++;}
-            if(!nearRecreation) {proximityLoss++;}
+                // Adds 1 to proximity for each building that isn't close enough
+                if(!nearAcademic && Arrays.asList(caresAbout.get(currentBuilding.getBuildingType())).contains(BuildingType.ACADEMIC) ) {proximityLoss++;}
+                if(!nearFood && Arrays.asList(caresAbout.get(currentBuilding.getBuildingType())).contains(BuildingType.FOOD)) {proximityLoss++;}
+                if(!nearRecreation && Arrays.asList(caresAbout.get(currentBuilding.getBuildingType())).contains(BuildingType.RECREATIONAL)) {proximityLoss++;}
+                if(!nearAccomodation && Arrays.asList(caresAbout.get(currentBuilding.getBuildingType())).contains(BuildingType.ACCOMODATION)) {proximityLoss++;}
             }
         }
 
@@ -161,13 +175,13 @@ public class SatisfactionHandler {
             + GameGlobals.FOOD_BUILDINGS_COUNT + GameGlobals.RECREATIONAL_BUILDINGS_COUNT;
 
         if (numBuildings <= 24) {
-            maxSatisfaction = Math.round((10 / 3) * numBuildings) + 10;
+            maxSatisfaction = Math.round((10f / 3f) * numBuildings) + 10;
         }
         else if (numBuildings <= 36) {
             maxSatisfaction = 90;
         }
         else {
-            maxSatisfaction = 90 - Math.round((10 / 3) * (numBuildings - 36));
+            maxSatisfaction = 90 - Math.round((10f / 3f) * (numBuildings - 36));
         }
 
         return maxSatisfaction;
