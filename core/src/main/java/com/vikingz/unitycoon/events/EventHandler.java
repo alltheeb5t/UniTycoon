@@ -115,11 +115,11 @@ public class EventHandler {
         negativeEvent++;
     }
 
-    public int getPositiveEvents() {
+    public int getPositiveEvent() {
         return positiveEvent;
     }
 
-    public int getNegativeEvents() {
+    public int getNegativeEvent() {
         return negativeEvent;
     }
 }

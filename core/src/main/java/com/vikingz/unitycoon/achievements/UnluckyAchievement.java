@@ -1,23 +1,21 @@
 package com.vikingz.unitycoon.achievements;
 
+import com.vikingz.unitycoon.global.GameGlobals;
+
 /**
  * This class creates a unlucky achievement object.
  */
 public class UnluckyAchievement extends Achievement {
-
-    private int unluckyCounter;
     
     private final String NAME = "Unlucky";
     private final String DESCRIPTION = "Get 3 negative events in one game.";
 
     public UnluckyAchievement() {
-        unluckyCounter = 0;
         achieved = false;
     }
 
     @Override
     public void reset() {
-        unluckyCounter = 0;
         achieved = false;
     }
     
@@ -37,13 +35,10 @@ public class UnluckyAchievement extends Achievement {
      */
     @Override
     public boolean isCompleted() {
-        if (unluckyCounter == 3) {
+        if (GameGlobals.EVENT.getNegativeEvent() == 3) {
             return true;
         }
 
-        //if(negativeEventOccurred) {
-        //    unluckyCounter++;
-        //}
         return false;
     }   
 }
