@@ -37,7 +37,7 @@ public class IsThisAUniversityAchievement extends Achievement {
     public boolean isCompleted() {
         if (GameGlobals.ACADEMIC_BUILDINGS_COUNT + GameGlobals.ACCOMODATION_BUILDINGS_COUNT
                 + GameGlobals.FOOD_BUILDINGS_COUNT + GameGlobals.RECREATIONAL_BUILDINGS_COUNT >= 20) {
-            if (2 * GameGlobals.ACADEMIC_BUILDINGS_COUNT < GameGlobals.RECREATIONAL_BUILDINGS_COUNT) {
+            if (2 * GameGlobals.ACADEMIC_BUILDINGS_COUNT <= GameGlobals.RECREATIONAL_BUILDINGS_COUNT) {
                 return true;
             }
         }
