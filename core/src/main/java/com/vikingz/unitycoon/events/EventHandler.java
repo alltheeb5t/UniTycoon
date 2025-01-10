@@ -39,7 +39,6 @@ public class EventHandler {
         eventQueue = new HashMap<>();
 
         eventTimes[0] = random.nextInt(201, 285);
-        //eventTimes[0] = 285;
         eventTimes[1] = random.nextInt(101, 199);
         eventTimes[2] = random.nextInt(15, 99);
 
@@ -67,6 +66,7 @@ public class EventHandler {
             default -> new StrikesEvent();
         };
 
+        //Generates the correct format depending on if the event has two options or no choice
         if (e.noChoice) {
             return new EventPopup(e.skin, e.message, e.leftRun);
         } else {
@@ -97,11 +97,20 @@ public class EventHandler {
         }
     }
 
+    /**
+     * Extends the queue of events to be run, given a specified time to execute the event
+     * @param time the time that the event should fire
+     * @param event the event that should be fired compiled into a runnable
+     */
     public void extendEventQueue(int time, Runnable event) {
 
         eventQueue.put(time, event);
     }
 
+    /**
+     * Removes an event from the queue after it is executed at a specific time
+     * @param time the time that the event was executed
+     */
     public void reduceEventQueue(int time) {
 
         eventQueue.remove(time);

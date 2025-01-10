@@ -81,6 +81,7 @@ public abstract class Event {
         };
         rightText = "";
 
+        //the default event is assumed to have no choice in options
         noChoice = true;
     }
 }

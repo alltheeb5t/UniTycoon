@@ -5,6 +5,9 @@ import com.vikingz.unitycoon.global.GameGlobals;
 
 public class FireEvent extends Event {
 
+    /**
+     * A negative event where a building sets on fire, and the player is required to put it out, otherwise it will break.
+     */
     public FireEvent() {
 
         Building burningBuilding = buildingsMap.chooseRandomBuilding();
@@ -28,6 +31,6 @@ public class FireEvent extends Event {
         }
 
         GameGlobals.EVENT.incrementNegativeEvent();
-        
+
     }
 }
