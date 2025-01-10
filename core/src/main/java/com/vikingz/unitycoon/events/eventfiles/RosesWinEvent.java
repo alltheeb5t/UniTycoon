@@ -14,7 +14,7 @@ public class RosesWinEvent extends Event {
         setMessage("Your University has won Roses!\n\nPeople are very happy!");
 
         setLeftRun(() -> {
-            BuildingStats.setTypeIncomes(BuildingStats.BuildingType.RECREATIONAL, ((float) 1/2));
+            GameGlobals.MONEY.applyMultiplierToType(BuildingStats.BuildingType.RECREATIONAL, (float) 1/2);
             GameGlobals.SATISFACTION.addBonus(20);
         });
     }

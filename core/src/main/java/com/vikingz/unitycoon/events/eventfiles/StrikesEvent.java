@@ -1,6 +1,6 @@
 package com.vikingz.unitycoon.events.eventfiles;
 
-import com.vikingz.unitycoon.building.BuildingStats;
+import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 import java.util.Random;
@@ -48,8 +48,8 @@ public class StrikesEvent extends Event{
 
         setRightRun(() -> {
             GameGlobals.SATISFACTION.applyPenalty(5);
-            BuildingStats.setTypeIncomes(BuildingStats.BuildingType.ACADEMIC, 1.5F);
-            BuildingStats.setTypeIncomes(BuildingStats.BuildingType.RECREATIONAL, 0.75F);
+            GameGlobals.MONEY.applyMultiplierToType(BuildingType.ACADEMIC, 1.5F);
+            GameGlobals.MONEY.applyMultiplierToType(BuildingType.RECREATIONAL, 0.75F);
             GameGlobals.buildingAllowed = true;
         });
 
