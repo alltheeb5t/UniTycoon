@@ -114,4 +114,12 @@ public class EventHandler {
     public void incrementNegativeEvent() {
         negativeEvent++;
     }
+
+    public int getPositiveEvents() {
+        return positiveEvent;
+    }
+
+    public int getNegativeEvents() {
+        return negativeEvent;
+    }
 }

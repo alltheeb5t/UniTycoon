@@ -14,13 +14,6 @@ import com.vikingz.unitycoon.global.GameGlobals;
 
 public class AchievementsTest extends TestSuper {
 
-    Integer[][] validCoords = {
-        {0, 832}, {128, 832}, {256, 832}, {384, 832}, {0, 736}, {128, 736}, {256, 736}, {128, 640}, {0, 640}, {384, 384}, {384, 288}, {384, 192},
-        {512, 384}, {512, 288}, {512, 192}, {640, 384}, {640, 288}, {640, 192}, {768, 384}, {768, 288}, {768, 192}, {896, 384}, {896, 288}, {896, 192},
-        {1024, 384}, {1024, 288}, {1024, 192}, {1152, 384}, {1152, 288}, {1152, 192}, {1280, 384}, {1280, 288}, {1280, 192}, {1408, 384}, {1408, 288},
-        {1408, 192}, {1536, 384}, {1536, 288}, {1536, 192}, {1664, 384}, {1664, 288}, {1664, 192}, {1504, 864}, {1632, 864}, {1504, 768}, {1632, 768}
-    };
-
     /**
      * Retrieve an instance of a specific achievement by referencing its name
      * @param handler An instance of AchievementsHandler where achievements are stored
