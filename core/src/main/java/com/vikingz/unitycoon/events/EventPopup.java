@@ -2,7 +2,6 @@ package com.vikingz.unitycoon.events;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.vikingz.unitycoon.menus.PopupMenu;
-import com.vikingz.unitycoon.screens.GameScreen;
 
 public class EventPopup {
 

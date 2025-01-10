@@ -1,7 +1,5 @@
 package com.vikingz.unitycoon.events.eventfiles;
 
-import com.vikingz.unitycoon.global.GameGlobals;
-
 public class AwardEvent extends Event {
 
     public AwardEvent() {

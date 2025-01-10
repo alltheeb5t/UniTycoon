@@ -182,9 +182,11 @@ public class BuildingRenderer{
             Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
             Building currentBuilding = GameGlobals.BUILDINGS_MAP.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
             if(currentBuilding != null) {
+                if(currentBuilding.getOnFire()){    
+                    SaviourAchievement saviourAchievement = (SaviourAchievement) GameGlobals.ACHIEVEMENTS.getAchievement("Saviour");
+                    saviourAchievement.burningBuildingSaved();
+                }
                 currentBuilding.setOnFire(false);
-                SaviourAchievement saviourAchievement = (SaviourAchievement) GameGlobals.ACHIEVEMENTS.getAchievement("Saviour");
-                saviourAchievement.burningBuildingSaved();
             }
         }
 

@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.vikingz.unitycoon.global.GameGlobals;
-import com.vikingz.unitycoon.screens.GameScreen;
 
 /**
  * This is a generic PopupMenu class that can create user defined
