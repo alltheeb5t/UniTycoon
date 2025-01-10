@@ -11,10 +11,12 @@ import com.vikingz.unitycoon.building.EarnSchedule;
  * Represents the Accomodation building in the game
  * Inherits Building
  *
+ * This class has been refactored.
  */
 public class AccommodationBuilding extends Building{
 
-    public AccommodationBuilding(TextureRegion texture, float x, float y, BuildingInfo buildingInfo, float earnAmount){
+    public AccommodationBuilding(TextureRegion texture, float x, float y, BuildingInfo buildingInfo, 
+            float earnAmount){
         super(texture, x, y, buildingInfo, earnAmount);
         earnSchedule = EarnSchedule.SEMESTERLY;
     }

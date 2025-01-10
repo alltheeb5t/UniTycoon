@@ -6,15 +6,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Dictionary;
 
 /**
- * This class contains all the static data,
- * or data loaded from a file.
+ * This class contains all the static data, or data loaded from a file.
+ * This class has been refactored to improve code readability.
  */
 public class BuildingStats {
-
 
     /**
      * Enum of types of buildings available
@@ -24,36 +22,30 @@ public class BuildingStats {
         ACADEMIC,
         ACCOMODATION,
         RECREATIONAL,
-        FOOD,
-
+        FOOD
     }
 
-
-
-
-
     /**
-     * dictionaries of all the buildings in files
-     * BuildingNameDict contains the full names of every Building, lookup using BuildingType
-     * BuildingPriceDict contains the price of every building, lookup using BuildingType
-     * BuildingSatisfactionDict contains the satisfaction of every building, lookup using BuildingType
-     * BuildingStudentDict contains the student increase of every building, lookup using BuildingType
-     * BuildingCoinDict contains the coins per second of every building, lookup using BuildingType
-     * BuildingDict contains the ShortHandNames of every building, lookup using BuildingType
-     * BuildingTextureMap contains the positions of every building's Texture,
-     *                           lookup using String of the buildings ShortHandName
+     * Dictionaries of all the buildings in files:
+     * buildingNameDict contains the full names of every Building, lookup using BuildingType
+     * buildingPriceDict contains the price of every building, lookup using BuildingType
+     * buildingStudentDict contains the student increase of every building, lookup using BuildingType
+     * buildingCoinDict contains the coins per second of every building, lookup using BuildingType
+     * buildingDict contains the ShortHandNames of every building, lookup using BuildingType
+     * buildingTextureMap contains the positions of every building's Texture, lookup using String of 
+     *     the buildings ShortHandName
      */
 
     //Loaded from buildingInfo.json
-    public static Dictionary<BuildingType, String[]> BuildingNameDict;
-    public static Dictionary<BuildingStats.BuildingType, String[]> BuildingPriceDict;
-    public static Dictionary<BuildingStats.BuildingType, String[]> BuildingStudentDict;
-    public static Dictionary<BuildingStats.BuildingType, String[]> BuildingCoinDict;
-    public static Dictionary<BuildingStats.BuildingType, String[]> BuildingDict;
+    public static Dictionary<BuildingType, String[]> buildingNameDict;
+    public static Dictionary<BuildingStats.BuildingType, String[]> buildingPriceDict;
+    public static Dictionary<BuildingStats.BuildingType, String[]> buildingStudentDict;
+    public static Dictionary<BuildingStats.BuildingType, String[]> buildingCoinDict;
+    public static Dictionary<BuildingStats.BuildingType, String[]> buildingDict;
     public static ArrayList<String> BuildingIDs;
 
     //Loaded from TextureAtlasMap.json
-    public static Dictionary<String, int[]> BuildingTextureMap;
+    public static Dictionary<String, int[]> buildingTextureMap;
 
     //Textures information
     public static String textureAtlasLocation;
@@ -63,32 +55,31 @@ public class BuildingStats {
     public static boolean nextBuildingFree = false;
 
     /**
-     * Uses the params to lookup and convert values
-     * into creating a new BuildingInfo Object
-     * using the lookup dictionaries
-     * @param buildingType contains Type of building from BuildingStats
-     * @param index int contains the index of which building is being select from Dictionary
+     * Uses the params to lookup and convert values into a new BuildingInfo Object using the 
+     * lookup dictionaries.
+     * @param buildingType contains type of building from BuildingStats
+     * @param index int contains the index of which building is being selected from Dictionary
      * @return BuildingInfo
      */
     public static BuildingInfo getInfo(BuildingStats.BuildingType buildingType, int index){
 
         int price, student, coins;
 
-        //price
-        try {price = Integer.parseInt(BuildingPriceDict.get(buildingType)[index]);}
+        //Price
+        try {price = Integer.parseInt(buildingPriceDict.get(buildingType)[index]);}
         catch (Exception e){price = 100;}
 
         //Student
-        try {student = Integer.parseInt(BuildingStudentDict.get(buildingType)[index]);}
+        try {student = Integer.parseInt(buildingStudentDict.get(buildingType)[index]);}
         catch (Exception e) {student = 0;}
 
-        //coins
-        try {coins = Integer.parseInt(BuildingCoinDict.get(buildingType)[index]);}
+        //Coins
+        try {coins = Integer.parseInt(buildingCoinDict.get(buildingType)[index]);}
         catch (Exception e) {coins = 0;}
 
 
         try {
-            return new BuildingInfo(BuildingDict.get(buildingType)[index],
+            return new BuildingInfo(buildingDict.get(buildingType)[index],
                 buildingType,
                 price,
                 student,
@@ -99,63 +90,31 @@ public class BuildingStats {
         }
     }
 
-     /**
-     * Change the incomes from the buildings.
-     * @param multiplier the multiplier to modify the income from each building
-     */
-    public static void setBuildingIncomes(float multiplier) {
-        for (BuildingType type : BuildingType.values()) {
-            if(type == BuildingType.NONE) {continue; }
-            String[] newBuildingIncomes = new String[BuildingCoinDict.get(type).length];
-            for (int i = 0; i < newBuildingIncomes.length; i++) {
-                newBuildingIncomes[i] = String.valueOf((int) (multiplier * (Integer.valueOf(BuildingCoinDict.get(type)[i]))));
-            }
-            BuildingCoinDict.put(type, newBuildingIncomes);
-        }
-    }
-
     /**
-     * Change the incomes from the inputted type.
-     * @param multiplier the multiplier to modify the income from each building of the inputted type
+     * Change the incomes from the passed in type of building.
+     * This is a new method used to change the income from different buildings for UR_EVENTS_RESULT.
+     * @param multiplier the multiplier to modify the income from each building of the inputted type.
      */
     public static void setTypeIncomes(BuildingType type, float multiplier) {
-        String[] newBuildingIncomes = new String[BuildingCoinDict.get(type).length];
+        String[] newBuildingIncomes = new String[buildingCoinDict.get(type).length];
+        //Multiplies each value in coins dict for the given type by multiplier
         for (int i = 0; i < newBuildingIncomes.length; i++) {
-            newBuildingIncomes[i] = String.valueOf((int) (multiplier * (Integer.valueOf(BuildingCoinDict.get(type)[i]))));
+            int newIncome = (int) (multiplier * (Integer.valueOf(buildingCoinDict.get(type)[i])));
+            newBuildingIncomes[i] = String.valueOf(newIncome);
         }
-        BuildingCoinDict.put(type, newBuildingIncomes);
+        buildingCoinDict.put(type, newBuildingIncomes);
     }
 
     /**
-     * Change the prices of the buildings.
-     * @param newPrices the new prices in an integer list ordered as buildings are in json
-     * @return true if the prices are successfully changed
-     */
-    public static boolean setBuildingPrices(String[] newPrices) {
-        int StartI = 0;
-        int EndI = 0;
-        for (BuildingType type : BuildingType.values()) {
-            EndI = StartI + BuildingPriceDict.get(type).length;
-            if (EndI >= newPrices.length) {return false;}
-            String[] newBuildingPrices = Arrays.copyOfRange(newPrices, StartI, EndI);
-            BuildingPriceDict.put(type, newBuildingPrices);
-            StartI = EndI;
-        }
-
-        return true;
-    }
-
-    /**
-     * This class Creates the Texture Image for the Building
-     * to be drawn with, this uses a lookup Dictionary created from json file.
+     * Creates the Texture Image for the Building to be drawn with using the lookup dictionary.
      * @param id String name of the building
      * @return TextureRegion
      */
     public static TextureRegion getTextureOfBuilding(String id){
-        Texture textureAtlas = new Texture(Gdx.files.internal(textureAtlasLocation)); // Load your 64x64 PNG
+        Texture textureAtlas = new Texture(Gdx.files.internal(textureAtlasLocation)); // Load the PNG
         try {
-            return new TextureRegion(textureAtlas, atlasBuildingSize * BuildingTextureMap.get(id)[0],
-                atlasBuildingSize * BuildingTextureMap.get(id)[1],
+            return new TextureRegion(textureAtlas, atlasBuildingSize * buildingTextureMap.get(id)[0],
+                atlasBuildingSize * buildingTextureMap.get(id)[1],
                 atlasBuildingSize, atlasBuildingSize);
         }
         catch (Exception e){
@@ -165,11 +124,10 @@ public class BuildingStats {
 
     /**
      * Returns a drawable Texture region, used for building ui.
-     * @param id Selects which building is being used the building StringID
+     * @param id Selects which building is being used from the building StringID
      * @return TextureRegionDrawable
      */
     public static TextureRegionDrawable getTextureDrawableOfBuilding(String id) {
         return new TextureRegionDrawable(BuildingStats.getTextureOfBuilding(id));
     }
-
 }

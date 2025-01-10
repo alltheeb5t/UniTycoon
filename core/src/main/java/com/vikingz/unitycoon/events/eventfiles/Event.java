@@ -8,9 +8,8 @@ import com.vikingz.unitycoon.screens.GameScreen;
 import com.vikingz.unitycoon.screens.ScreenMultiplexer;
 
 /**
- * This is an abstract class that contains all the components
- * that all other events use, and therefore by creating them in here
- * we de-clutter all the other event classes.
+ * This is an abstract class that contains the components that all other events use, and therefore 
+ * by creating them in here we de-clutter all the other event classes.
  */
 public abstract class Event {
 

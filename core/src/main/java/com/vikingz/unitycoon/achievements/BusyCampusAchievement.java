@@ -3,36 +3,26 @@ package com.vikingz.unitycoon.achievements;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
- * This class creates a busy campus achievement object.
+ * This new class creates a busy campus achievement object.
+ * It was implemented to complete FR_BUSY_UNLOCK.
  */
 public class BusyCampusAchievement extends Achievement {
 
-    private final String NAME = "Busy Campus";
-    private final String DESCRIPTION = "Place more than 40 buildings.";
+    public static final String NAME = "Busy Campus";
+    public static final String DESCRIPTION = "Place more than 40 buildings.";
     
     public BusyCampusAchievement() {
-        achieved = false;
+        super();
     }
 
-    @Override
-    public void reset() {
-        achieved = false;
-    }
-    
-    @Override
     public String getName() {
         return NAME;
     }
 
-    @Override
     public String getDescription() {
         return DESCRIPTION;
     }
 
-    /**
-     * Checks if achievement has been completed.
-     * @return true if achievement has been completed
-     */
     @Override
     public boolean isCompleted() {
         if (GameGlobals.ACADEMIC_BUILDINGS_COUNT + GameGlobals.ACCOMODATION_BUILDINGS_COUNT

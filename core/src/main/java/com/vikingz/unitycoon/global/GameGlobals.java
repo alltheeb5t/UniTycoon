@@ -43,8 +43,8 @@ public class GameGlobals {
     public static final Texture map1Texture = new Texture(Gdx.files.internal("png/map1Texture.png"));
     public static final Texture map2Texture = new Texture(Gdx.files.internal("png/map2Texture.png"));
     public static final Texture map3Texture = new Texture(Gdx.files.internal("png/map3Texture.png"));
-
-    public static final TextureRegionDrawable backGroundDrawable = new TextureRegionDrawable(new Texture("png/background.png"));
+    public static final TextureRegionDrawable backGroundDrawable = new TextureRegionDrawable(
+            new Texture("png/background.png"));
 
     //Loads map as a drawable to allow changing Image Actors to different images
     public static final TextureRegionDrawable map1Draw = new TextureRegionDrawable(map1Texture);
@@ -54,7 +54,7 @@ public class GameGlobals {
 
 
     /**
-     * Resets the game globals to the original values
+     * Resets the game globals to the original values.
      * @param time The amount of time in minutes the game should last for
      */
     public static void resetGlobals(int time){
@@ -71,5 +71,4 @@ public class GameGlobals {
         ACHIEVEMENTS.resetAllAchievements();
         buildingAllowed = true;
     }
-
 }

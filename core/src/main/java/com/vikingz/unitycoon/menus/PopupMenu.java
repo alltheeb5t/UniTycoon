@@ -6,17 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
- * This is a generic PopupMenu class that can create user defined
- * popups. This class is crucial for the implementation of random events
- * in the game during later development.
- * <p>
- * The user can assign everything in the popup, all the text displayed
- * as well as the runnable that run when the 2 buttons are pressed.
+ * This is a generic PopupMenu class that can create user defined popups.
+ * This class has been refactored slightly, but mainly remains unchanged.
  */
 public class PopupMenu extends Window {
 
     // Skin for the popup
-    private final Skin skin;
+    final Skin skin;
 
     /**
      * Creates a new Popup menu
@@ -44,14 +40,13 @@ public class PopupMenu extends Window {
     }
 
     /**
-     * Configures the 2 buttons that appear on the popup
+     * Configures the 2 buttons that appear on the popup.
      * @param leftRun Runnable that will be run if the left button is pressed
      * @param leftText The text written on the left button
      * @param rightRun Runnable that will be run if the right button is pressed
      * @param rightText The text written on the right button
      */
     public void setupButtons(Runnable leftRun, String leftText, Runnable rightRun, String rightText){
-
 
         TextButton leftBtn = new TextButton(leftText, skin);
         TextButton rightBtn = new TextButton(rightText, skin);
@@ -82,7 +77,7 @@ public class PopupMenu extends Window {
 
 
     /**
-     * Configures a close button for the popup
+     * Configures a close button for the popup.
      */
     public void setupClose(Runnable runnable){
 

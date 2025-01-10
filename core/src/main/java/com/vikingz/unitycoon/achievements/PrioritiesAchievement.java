@@ -3,36 +3,27 @@ package com.vikingz.unitycoon.achievements;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
- * This class creates a priorities achievement object.
+ * This new class creates a priorities achievement object.
+ * It was implemented to complete FR_PRIORITIES_UNLOCK.
  */
 public class PrioritiesAchievement extends Achievement {
     
-    private final String NAME = "Priorities";
-    private final String DESCRIPTION = "Have twice as many study as recreation buildings after 20 buildings.";
+    public static final String NAME = "Priorities";
+    public static final String DESCRIPTION = "Have twice as many study as recreation buildings after"
+                                           + " 20 buildings.";
 
     public PrioritiesAchievement() {
-        achieved = false;
+        super();
     }
 
-    @Override
-    public void reset() {
-        achieved = false;
-    }
-    
-    @Override
     public String getName() {
         return NAME;
     }
 
-    @Override
     public String getDescription() {
         return DESCRIPTION;
     }
 
-    /**
-     * Checks if achievement has been completed.
-     * @return true if achievement has been completed
-     */
     @Override
     public boolean isCompleted() {
         if (GameGlobals.ACADEMIC_BUILDINGS_COUNT + GameGlobals.ACCOMODATION_BUILDINGS_COUNT

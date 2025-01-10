@@ -3,40 +3,35 @@ package com.vikingz.unitycoon.achievements;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
- * This class creates a bare minimum achievement object.
+ * This is a new class which creates a bare minimum achievement object.
+ * It was implemented to complete FR_BM_UNLOCK.
  */
 public class BareMinimumAchievement extends Achievement {
     
-    private boolean bareMinimumPossible;
-    
-    private final String NAME = "Bare Minimum";
-    private final String DESCRIPTION = "Place exactly 1 of each building type.";
+    public static final String NAME = "Bare Minimum";
+    static final String DESCRIPTION = "Place exactly 1 of each building type.";
+
+    boolean bareMinimumPossible;
 
     public BareMinimumAchievement() {
+        super();
         bareMinimumPossible = true;
-        achieved = false;
     }
 
-    @Override
-    public void reset() {
-        bareMinimumPossible = true;
-        achieved = false;
-    }
-
-    @Override
     public String getName() {
         return NAME;
     }
 
-    @Override
     public String getDescription() {
         return DESCRIPTION;
     }
+
+    @Override
+    public void reset() {
+        super.reset();
+        bareMinimumPossible = true;
+    }
     
-    /**
-     * Checks if achievement Bare Minimum has been completed.
-     * @return true if achievement has been completed
-     */
     @Override
     public boolean isCompleted() {
         if (GameGlobals.TIME_REMAINING <= 0 && bareMinimumPossible) {

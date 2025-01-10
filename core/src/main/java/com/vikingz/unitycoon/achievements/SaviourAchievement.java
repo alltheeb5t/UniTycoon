@@ -1,44 +1,39 @@
 package com.vikingz.unitycoon.achievements;
 
 /**
- * This class creates a saviour achievement object.
+ * This new class creates a saviour achievement object.
+ * It was implemented to complete FR_SAVIOUR_UNLOCK.
  */
 public class SaviourAchievement extends Achievement {
+    
+    public static final String NAME = "Saviour";
+    public static final String DESCRIPTION = "Save a burning building.";
 
     boolean savedBurningBuilding;
-    
-    private final String NAME = "Saviour";
-    private final String DESCRIPTION = "Save a burning building.";
 
     public SaviourAchievement() {
+        super();
         savedBurningBuilding = false;
-        achieved = false;
     }
 
-    @Override
-    public void reset() {
-        savedBurningBuilding = false;
-        achieved = false;
-    }
-    
-    @Override
     public String getName() {
         return NAME;
     }
 
-    @Override
     public String getDescription() {
         return DESCRIPTION;
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        savedBurningBuilding = false;
     }
 
     public void burningBuildingSaved() {
         savedBurningBuilding = true;
     }
 
-    /**
-     * Checks if achievement has been completed.
-     * @return true if achievement has been completed
-     */
     @Override
     public boolean isCompleted() {
         if(savedBurningBuilding) {
