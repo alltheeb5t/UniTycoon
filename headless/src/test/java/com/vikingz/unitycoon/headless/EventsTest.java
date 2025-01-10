@@ -252,13 +252,13 @@ public class EventsTest extends TestSuper {
         BuildingsMap testMap = getTestMap();
         GameGlobals.BUILDINGS_MAP = testMap; // Necessary since this event depends on the map
 
-        Event relevantEvent = new FloodEvent();
-
-        float originalBalance = GameGlobals.MONEY.getBalance();
-                                    
         assertTrue(addBasicTestBuilding(testMap, BuildingType.ACCOMODATION, validCoords[0][0], validCoords[0][1], true, true));
         assertTrue(addBasicTestBuilding(testMap, BuildingType.ACCOMODATION, validCoords[1][0], validCoords[1][1], true, true));
         assertTrue(addBasicTestBuilding(testMap, BuildingType.ACCOMODATION, validCoords[2][0], validCoords[2][1], true, true));
+
+        Event relevantEvent = new FloodEvent();
+
+        float originalBalance = GameGlobals.MONEY.getBalance();
 
         int originalBuildingCount = GameGlobals.ACADEMIC_BUILDINGS_COUNT + GameGlobals.ACCOMODATION_BUILDINGS_COUNT +
                                     GameGlobals.FOOD_BUILDINGS_COUNT + GameGlobals.RECREATIONAL_BUILDINGS_COUNT;
@@ -395,9 +395,6 @@ public class EventsTest extends TestSuper {
 
     @Test
     public void testStrikesEventIgnore() {
-        BuildingsMap testMap = getTestMap();
-        GameGlobals.BUILDINGS_MAP = testMap; // Necessary since this event depends on the map
-
         Event relevantEvent = new StrikesEvent();
 
         float originalBalance = GameGlobals.MONEY.getBalance();
@@ -413,7 +410,7 @@ public class EventsTest extends TestSuper {
         assertNotNull(GameGlobals.EVENT.getEventQueue().get(GameGlobals.TIME_REMAINING-10), "Confirm that recurring strike event has been scheduled");
 
         // Confirm that building is not allowed
-        assertFalse(addBasicTestBuilding(testMap, BuildingType.ACADEMIC, validCoords[0][0], validCoords[0][1], false, true));
+        assertFalse(GameGlobals.buildingAllowed);
 
         assertEquals(1, GameGlobals.EVENT.getNegativeEvent(), "Check the event is registered as negative event");
     }
@@ -453,14 +450,11 @@ public class EventsTest extends TestSuper {
         assertEquals(originalSatisfaction-5, GameGlobals.SATISFACTION.getSatisfaction(), "This event should apply a 5% satisfaction penalty");
 
         // Confirm that building is now allowed
-        assertTrue(addBasicTestBuilding(testMap, BuildingType.ACADEMIC, validCoords[2][0], validCoords[2][1], false, true));
+        assertTrue(GameGlobals.buildingAllowed);
     }
 
     @Test
     public void testStrikesResolvedEvent() {
-        BuildingsMap testMap = getTestMap();
-        GameGlobals.BUILDINGS_MAP = testMap; // Necessary since this event depends on the map
-
         Event relevantEvent = new StrikesResolvedEvent();
 
         float originalBalance = GameGlobals.MONEY.getBalance();
@@ -474,6 +468,6 @@ public class EventsTest extends TestSuper {
         assertEquals(originalSatisfaction, GameGlobals.SATISFACTION.getSatisfaction(), "This event should have no effect on satisfaction");
 
         // Confirm that building is now allowed
-        assertTrue(addBasicTestBuilding(testMap, BuildingType.ACADEMIC, validCoords[2][0], validCoords[2][1], false, true));
+        assertTrue(GameGlobals.buildingAllowed);
     }
 }
