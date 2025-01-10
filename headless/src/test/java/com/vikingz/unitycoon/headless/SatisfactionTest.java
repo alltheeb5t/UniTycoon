@@ -79,7 +79,7 @@ public class SatisfactionTest extends TestSuper{
      * Test that two of the same building adjacent to each other have an appropriate effect
      */ 
      @Test
-     public void testDuplicationBiilding () {
+     public void testDuplicationBuilding () {
          BuildingsMap testMap = getTestMap();
  
          // Add buildings using TestSuper's methods by putting two same type
@@ -92,8 +92,8 @@ public class SatisfactionTest extends TestSuper{
          List<Building> placedBuildings = testMap.getPlacedBuildings();
  
          GameGlobals.SATISFACTION.recalculateSatisfaction(placedBuildings);
-         assertTrue(GameGlobals.SATISFACTION.getSatisfaction() >= 6, "Satisfaction should be recalculated correctly");
-         System.out.println(GameGlobals.SATISFACTION.getSatisfaction());
+         // Max Satisfaction is 17 (with two buildings). Proximity loss is 4 (not near accommodation or academic). Proportion loss is 10.
+         assertTrue(GameGlobals.SATISFACTION.getSatisfaction() == 3, "Satisfaction should be recalculated correctly");
      }
     
 }
