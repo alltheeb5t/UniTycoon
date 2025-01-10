@@ -8,17 +8,18 @@ import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
  * This class is the menu that pops up at the end of the game.
- *
- * This menu also contains a quit button that sends the user back to the
- * main menu as well as a continue button that lets the user continue the game.
+ * This menu contains a quit button that sends the user back to the main menu as well as a continue 
+ * button that lets the user continue the game.
+ * 
+ * This menu was refactored to meet FR_END_SCREEN and FR_WIN.
  */
 public class EndMenu extends Window {
 
-    private Label titleLabel;
-    private Label messageLabel;
+    Label titleLabel;
+    Label messageLabel;
 
     //skin used for window
-    private final Skin skin;
+    final Skin skin;
 
     /**
      * Creates a new EndMenu
@@ -47,8 +48,7 @@ public class EndMenu extends Window {
     }
 
     /**
-     * Crates the buttons Left and Right,
-     * sets the actions and text of each button
+     * Crates the buttons Left and Right, sets the actions and text of each button.
      * @param leftRun contains function to be run on click for left button
      * @param leftText contains text for the left button
      * @param rightRun contains function to be run on click for right button

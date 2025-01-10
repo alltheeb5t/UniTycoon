@@ -46,7 +46,7 @@ public class TestSuper {
     protected List<Building> addGetBasicTestBuilding(BuildingsMap testMap, BuildingType testBuildingType, float x, float y, boolean skipConstruction, boolean ignoreCost) {
         int testBuildingIndex = 0;  // Represents what variant we want. ACADEMIC 0 is a Ron Cooke Hub
         BuildingInfo testBuildingInfo = BuildingStats.getInfo(testBuildingType, testBuildingIndex);
-        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuildingType)[testBuildingIndex]);
+        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuildingType)[testBuildingIndex]);
 
         List<Building> addedBuilding = testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, x, y, ignoreCost);
 

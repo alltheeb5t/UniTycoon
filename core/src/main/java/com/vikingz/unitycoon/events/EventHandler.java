@@ -2,11 +2,14 @@ package com.vikingz.unitycoon.events;
 
 import com.vikingz.unitycoon.events.eventfiles.*;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * This new class manages the random events that occur during the game.
+ * It was implemented to complete UR_EVENTS, FR_EVENT_RESULT, FR_EVENT_DISPLAY, FR_EVENT_CHOICE.
+ */
 public class EventHandler {
 
     public int[] getEventTimes() {
@@ -38,12 +41,10 @@ public class EventHandler {
 
         eventQueue = new HashMap<>();
 
+        //Creates 1 event per in game year.
         eventTimes[0] = random.nextInt(201, 285);
-        //eventTimes[0] = 285;
         eventTimes[1] = random.nextInt(101, 199);
         eventTimes[2] = random.nextInt(15, 99);
-
-        System.out.println(Arrays.toString(eventTimes));
     }
 
     /**
@@ -87,7 +88,7 @@ public class EventHandler {
             case "StrikesResolvedEvent" -> new StrikesResolvedEvent();
             case "RosesWinEvent" -> new RosesWinEvent();
             case "RosesLoseEvent" -> new RosesLoseEvent();
-            default -> new TestEvent();
+            default -> throw new IllegalArgumentException("Unexpected value: " + eventName);
         };
 
         if (e.noChoice) {
@@ -97,13 +98,19 @@ public class EventHandler {
         }
     }
 
+    /**
+     * Allows events to run over a duration of time.
+     * @param time the time the event should last.
+     * @param event the event.
+     */
     public void extendEventQueue(int time, Runnable event) {
-
         eventQueue.put(time, event);
     }
 
+    /**
+     * Removes an event from the queue once it has been completed. 
+     */ 
     public void reduceEventQueue(int time) {
-
         eventQueue.remove(time);
     }
 

@@ -84,6 +84,8 @@ public class BuildingRenderer{
 
         removeBuildingPopUp = new RemoveBuildingMenu(skin);
 
+        BuildingStats.nextBuildingFree = false;
+
         // Set collision popup
         collisionPopUp = new TextButton("Unable to place building here", skin);
         collisionPopUp.setColor(Color.RED);
@@ -182,9 +184,11 @@ public class BuildingRenderer{
             Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
             Building currentBuilding = GameGlobals.BUILDINGS_MAP.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
             if(currentBuilding != null) {
+                if(currentBuilding.getOnFire()){    
+                    SaviourAchievement saviourAchievement = (SaviourAchievement) GameGlobals.ACHIEVEMENTS.getAchievement(SaviourAchievement.NAME);
+                    saviourAchievement.burningBuildingSaved();
+                }
                 currentBuilding.setOnFire(false);
-                SaviourAchievement saviourAchievement = (SaviourAchievement) GameGlobals.ACHIEVEMENTS.getAchievement("Saviour");
-                saviourAchievement.burningBuildingSaved();
             }
         }
 
@@ -237,9 +241,9 @@ public class BuildingRenderer{
 
         isPreviewing = true;
         BuildingInfo newBuilding = BuildingStats.getInfo(buildingType,index);
-        selectedTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(buildingType)[index]);
+        selectedTexture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(buildingType)[index]);
         if (selectedTexture == null){
-            System.err.println("ERROR: Could not select building: " + BuildingStats.BuildingDict.get(buildingType)[index]);
+            System.err.println("ERROR: Could not select building: " + BuildingStats.buildingDict.get(buildingType)[index]);
         }
         currentBuildingInfo = newBuilding;
     }

@@ -66,7 +66,7 @@ public class FileHandler {
             //Name
             BuildingParse nameParser = gson.fromJson(arrayDict[0],BuildingParse.class);
 
-            BuildingStats.BuildingNameDict = new Hashtable<BuildingStats.BuildingType, String[]>(){{
+            BuildingStats.buildingNameDict = new Hashtable<BuildingStats.BuildingType, String[]>(){{
                 put(ACADEMIC, nameParser.ACADEMIC);
                 put(ACCOMODATION, nameParser.ACCOMODATION);
                 put(RECREATIONAL, nameParser.RECREATIONAL);
@@ -76,7 +76,7 @@ public class FileHandler {
 
             //Price
             BuildingParse priceParser = gson.fromJson(arrayDict[1],BuildingParse.class);
-            BuildingStats.BuildingPriceDict = new Hashtable<BuildingStats.BuildingType, String[]>(){{
+            BuildingStats.buildingPriceDict = new Hashtable<BuildingStats.BuildingType, String[]>(){{
                 put(ACADEMIC, priceParser.ACADEMIC);
                 put(ACCOMODATION, priceParser.ACCOMODATION);
                 put(RECREATIONAL, priceParser.RECREATIONAL);
@@ -86,7 +86,7 @@ public class FileHandler {
 
             //Student
             BuildingParse studentParser = gson.fromJson(arrayDict[2],BuildingParse.class);
-            BuildingStats.BuildingStudentDict = new Hashtable<BuildingStats.BuildingType, String[]>(){{
+            BuildingStats.buildingStudentDict = new Hashtable<BuildingStats.BuildingType, String[]>(){{
                 put(ACADEMIC, studentParser.ACADEMIC);
                 put(ACCOMODATION, studentParser.ACCOMODATION);
                 put(RECREATIONAL, studentParser.RECREATIONAL);
@@ -96,7 +96,7 @@ public class FileHandler {
 
             //Coins
             BuildingParse coinParser = gson.fromJson(arrayDict[3],BuildingParse.class);
-            BuildingStats.BuildingCoinDict = new Hashtable<BuildingStats.BuildingType, String[]>(){{
+            BuildingStats.buildingCoinDict = new Hashtable<BuildingStats.BuildingType, String[]>(){{
                 put(ACADEMIC, coinParser.ACADEMIC);
                 put(ACCOMODATION, coinParser.ACCOMODATION);
                 put(RECREATIONAL, coinParser.RECREATIONAL);
@@ -106,7 +106,7 @@ public class FileHandler {
 
             //IDs
             BuildingParse idParser = gson.fromJson(arrayDict[4],BuildingParse.class);
-            BuildingStats.BuildingDict = new Hashtable<BuildingStats.BuildingType, String[]>(){{
+            BuildingStats.buildingDict = new Hashtable<BuildingStats.BuildingType, String[]>(){{
                 put(ACADEMIC, idParser.ACADEMIC);
                 put(ACCOMODATION, idParser.ACCOMODATION);
                 put(RECREATIONAL, idParser.RECREATIONAL);
@@ -115,7 +115,7 @@ public class FileHandler {
             }};
 
             //passing child elements from types
-            Enumeration<String[]> BuildingIDsIterator = BuildingStats.BuildingDict.elements();
+            Enumeration<String[]> BuildingIDsIterator = BuildingStats.buildingDict.elements();
             BuildingStats.BuildingIDs = new ArrayList<String>();
             while (BuildingIDsIterator.hasMoreElements()){
                 for (String item :BuildingIDsIterator.nextElement()) {
@@ -127,7 +127,7 @@ public class FileHandler {
 
 
             //Textures
-            BuildingStats.BuildingTextureMap = new Hashtable<String, int[]>();
+            BuildingStats.buildingTextureMap = new Hashtable<String, int[]>();
             TextureParse textureParse = gson.fromJson(textureFileRead,TextureParse.class);
             BuildingStats.textureAtlasLocation = textureParse.textureAtlasLocation;
             BuildingStats.atlasBuildingSize = textureParse.atlasBuildingSize;
@@ -135,7 +135,7 @@ public class FileHandler {
                 int[] convertValue = new int[]{Integer.parseInt(textureParse.buildingPos.get(i).split(",")[0]),
                                                 Integer.parseInt(textureParse.buildingPos.get(i).split(",")[1]),
                 };
-                BuildingStats.BuildingTextureMap.put(textureParse.buildings.get(i),convertValue);
+                BuildingStats.buildingTextureMap.put(textureParse.buildings.get(i),convertValue);
             }
 
 

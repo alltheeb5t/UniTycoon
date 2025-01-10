@@ -3,36 +3,26 @@ package com.vikingz.unitycoon.achievements;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
- * This class creates a bankruptcy achievement object.
+ * This new class creates a realistic achievement object.
+ * It was implemented to complete FR_REALISTIC_UNLOCK.
  */
 public class RealisticAchievement extends Achievement {
 
-    private final String NAME = "Realistic";
-    private final String DESCRIPTION = "Balance drops below £24000 in debt.";
+    public static final String NAME = "Realistic";
+    public static final String DESCRIPTION = "Balance drops below £24000 in debt.";
 
     public RealisticAchievement() {
-        achieved = false;
+        super();
     }
 
-    @Override
-    public void reset() {
-        achieved = false;
-    }
-
-    @Override
     public String getName() {
         return NAME;
     }
 
-    @Override
     public String getDescription() {
         return DESCRIPTION;
     }
 
-    /**
-     * Checks if achievement has been completed.
-     * @return true if achievement has been completed
-     */
     @Override
     public boolean isCompleted() {
         if (GameGlobals.MONEY.getBalance() < -24000) {

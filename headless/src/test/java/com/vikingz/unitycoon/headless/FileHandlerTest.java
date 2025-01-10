@@ -36,28 +36,28 @@ public class FileHandlerTest {
     public void loadBuildingFiles() {
         FileHandler.loadBuildings("buildingInfo","TextureAtlasMap");
 
-        assertNotNull(BuildingStats.BuildingDict);
+        assertNotNull(BuildingStats.buildingDict);
 
         // Check that all buildings have all relevant details in the file
-        Iterator<BuildingType> buildingTypeIterator = BuildingStats.BuildingDict.keys().asIterator();
+        Iterator<BuildingType> buildingTypeIterator = BuildingStats.buildingDict.keys().asIterator();
 
         String currentBuilding = "";
 
         try {
             while (buildingTypeIterator.hasNext()) {
                 BuildingType buildingType = buildingTypeIterator.next();
-                int buildingsOfType = BuildingStats.BuildingDict.get(buildingType).length;
+                int buildingsOfType = BuildingStats.buildingDict.get(buildingType).length;
 
                 for (int i = 0; i < buildingsOfType; i++) { // Need to check each variant of buildings
                     currentBuilding = "Building "+buildingType+" Index "+1;
-                    assertNotNull(BuildingStats.BuildingNameDict.get(buildingType)[i]);
-                    assertNotNull(BuildingStats.BuildingPriceDict.get(buildingType)[i]);
-                    assertNotNull(BuildingStats.BuildingCoinDict.get(buildingType)[i]);
-                    assertNotNull(BuildingStats.BuildingStudentDict.get(buildingType)[i]);
+                    assertNotNull(BuildingStats.buildingNameDict.get(buildingType)[i]);
+                    assertNotNull(BuildingStats.buildingPriceDict.get(buildingType)[i]);
+                    assertNotNull(BuildingStats.buildingCoinDict.get(buildingType)[i]);
+                    assertNotNull(BuildingStats.buildingStudentDict.get(buildingType)[i]);
                     
                     // Test texture can be loaded
                     if (buildingType != BuildingType.NONE) { // None-type building have no texture
-                        assertEquals(TextureRegion.class, BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(buildingType)[i]).getClass());
+                        assertEquals(TextureRegion.class, BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(buildingType)[i]).getClass());
                     }
                 }
             }

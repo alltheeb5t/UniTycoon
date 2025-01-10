@@ -3,35 +3,34 @@ package com.vikingz.unitycoon.achievements;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
- * This class creates a mike freeman award achievement object.
+ * This new class creates a mike freeman award achievement object.
+ * It was implemented to complete FR_MFA_UNLOCK.
  */
 public class MikeFreemanAwardAchievement extends Achievement {
-
-    private int mikeFreemanAwardStartTime;
     
-    private final String NAME = "Mike Freeman Award";
-    private final String DESCRIPTION = "Maintain 80% or higher satisfaction for more than 3 minutes.";
-    private final boolean HIDDEN = true;
+    public static final String NAME = "Mike Freeman Award";
+    public static final String DESCRIPTION = "Maintain 70% or higher satisfaction for more than 3 minutes.";
+    static final boolean HIDDEN = true;
+
+    int mikeFreemanAwardStartTime;
 
     public MikeFreemanAwardAchievement() {
+        super();
         mikeFreemanAwardStartTime = 0;
-        achieved = false;
     }
 
-    @Override
-    public void reset() {
-        mikeFreemanAwardStartTime = 0;
-        achieved = false;
-    }
-    
-    @Override
     public String getName() {
         return NAME;
     }
 
-    @Override
     public String getDescription() {
         return DESCRIPTION;
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        mikeFreemanAwardStartTime = 0;
     }
 
     @Override
@@ -39,17 +38,13 @@ public class MikeFreemanAwardAchievement extends Achievement {
         return HIDDEN;
     }
 
-    /**
-     * Checks if achievement has been completed.
-     * @return true if achievement has been completed
-     */
     @Override
     public boolean isCompleted() {
         if (mikeFreemanAwardStartTime - GameGlobals.TIME_REMAINING > 180) {
             return true;
         }
 
-        if (GameGlobals.SATISFACTION.getSatisfaction() < 80) {
+        if (GameGlobals.SATISFACTION.getSatisfaction() < 70) {
             mikeFreemanAwardStartTime = -1;
         }
         

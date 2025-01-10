@@ -15,7 +15,7 @@ import com.vikingz.unitycoon.global.GameConfig;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.render.BuildingRenderer;
 
-import static com.vikingz.unitycoon.building.BuildingStats.BuildingCoinDict;
+import static com.vikingz.unitycoon.building.BuildingStats.buildingCoinDict;
 import static com.vikingz.unitycoon.building.BuildingStats.BuildingType.*;
 
 
@@ -26,35 +26,27 @@ import static com.vikingz.unitycoon.building.BuildingStats.BuildingType.*;
  * and a Stage as parameters to create the Building Menu.
  *
  * This class also creates the 4 buttons at the bottom of the game screen
- *  by which the build menu is accessed
+ *  by which the build menu is accessed.
+ * 
+ * This class has been refactored to update the UI.
  */
 public class BuildMenu{
 
-    //renders buildings and handles placing them
-    private final BuildingRenderer buildingRenderer;
+    final BuildingRenderer buildingRenderer;
+    final Stage stage;
+    final Skin skin;
 
-    //the stage where the menu will be added to
-    private final Stage stage;
+    boolean windowActive = false;
+    int width = GameConfig.getInstance().getWindowWidth();
+    int height = GameConfig.getInstance().getWindowHeight();
 
-    //The skin of the window
-    private final Skin skin;
+    Window currentMenu;
 
-    //Determines if there is already an active window open
-    private boolean windowActive = false;
-
-    //Allows BuildMenu to be placed in the center
-    private int width = GameConfig.getInstance().getWindowWidth();
-    private int height = GameConfig.getInstance().getWindowHeight();
-
-    //Current displayed in game Menu
-    private Window currentMenu;
-
-    //Selects which building of BuildingType,
-    //should be displayed currently
-    private int index = 0;
+    //Selects which building of BuildingType should be displayed currently.
+    int index = 0;
 
     // Determines if the user has ever seen the inDebtMenu
-    private boolean seenDebtMenu;
+    boolean seenDebtMenu;
 
     /**
      * Creates a new BuildMenu
@@ -69,37 +61,43 @@ public class BuildMenu{
         this.skin = skin;
 
         //Texture atlas of building menu bar
-        Texture textureAtlas = new Texture(Gdx.files.internal("textureAtlases/buildMenuButtonsAtlas.png")); // Load your 64x64 PNG
+        Texture textureAtlas = new Texture(Gdx.files.internal("textureAtlases/buildMenuButtonsAtlas.png"));
 
         //Sets the pixel size of tiles used for build menu bar
         int atlasTileSize = 128;
         TextureRegion btn1Texture = new TextureRegion(textureAtlas, 0, 0, atlasTileSize, atlasTileSize);
-        TextureRegion btn2Texture = new TextureRegion(textureAtlas, atlasTileSize, 0, atlasTileSize, atlasTileSize);
-        TextureRegion btn3Texture = new TextureRegion(textureAtlas, atlasTileSize * 2, 0, atlasTileSize, atlasTileSize);
-        TextureRegion btn4Texture = new TextureRegion(textureAtlas, atlasTileSize * 3, 0, atlasTileSize, atlasTileSize);
+        TextureRegion btn2Texture = new TextureRegion(textureAtlas, atlasTileSize, 0, atlasTileSize, 
+            atlasTileSize);
+        TextureRegion btn3Texture = new TextureRegion(textureAtlas, atlasTileSize * 2, 0, atlasTileSize, 
+            atlasTileSize);
+        TextureRegion btn4Texture = new TextureRegion(textureAtlas, atlasTileSize * 3, 0, atlasTileSize, 
+            atlasTileSize);
 
-        TextureRegion btn1Texture_hover = new TextureRegion(textureAtlas, 0, atlasTileSize, atlasTileSize, atlasTileSize);
-        TextureRegion btn2Texture_hover = new TextureRegion(textureAtlas, atlasTileSize, atlasTileSize, atlasTileSize, atlasTileSize);
-        TextureRegion btn3Texture_hover = new TextureRegion(textureAtlas, atlasTileSize*2, atlasTileSize, atlasTileSize, atlasTileSize);
-        TextureRegion btn4Texture_hover = new TextureRegion(textureAtlas, atlasTileSize*3, atlasTileSize, atlasTileSize, atlasTileSize);
+        TextureRegion btn1Texture_hover = new TextureRegion(textureAtlas, 0, atlasTileSize, atlasTileSize, 
+            atlasTileSize);
+        TextureRegion btn2Texture_hover = new TextureRegion(textureAtlas, atlasTileSize, atlasTileSize, 
+            atlasTileSize, atlasTileSize);
+        TextureRegion btn3Texture_hover = new TextureRegion(textureAtlas, atlasTileSize*2, atlasTileSize, 
+            atlasTileSize, atlasTileSize);
+        TextureRegion btn4Texture_hover = new TextureRegion(textureAtlas, atlasTileSize*3, atlasTileSize, 
+            atlasTileSize, atlasTileSize);
 
         // Create ImageButtons
-        ImageButton btn1 = new ImageButton(new ImageButton.ImageButtonStyle());
-        btn1.getStyle().imageUp = new TextureRegionDrawable(btn1Texture);
-        btn1.getStyle().imageOver = new TextureRegionDrawable(btn1Texture_hover);
+        ImageButton studyBtn = new ImageButton(new ImageButton.ImageButtonStyle());
+        studyBtn.getStyle().imageUp = new TextureRegionDrawable(btn1Texture);
+        studyBtn.getStyle().imageOver = new TextureRegionDrawable(btn1Texture_hover);
 
-        ImageButton btn2 = new ImageButton(new ImageButton.ImageButtonStyle());
-        btn2.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(btn2Texture));
-        btn2.getStyle().imageOver = new TextureRegionDrawable(new TextureRegion(btn2Texture_hover));
+        ImageButton accommBtn = new ImageButton(new ImageButton.ImageButtonStyle());
+        accommBtn.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(btn2Texture));
+        accommBtn.getStyle().imageOver = new TextureRegionDrawable(new TextureRegion(btn2Texture_hover));
 
-        ImageButton btn3 = new ImageButton(new ImageButton.ImageButtonStyle());
-        btn3.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(btn3Texture));
-        btn3.getStyle().imageOver = new TextureRegionDrawable(new TextureRegion(btn3Texture_hover));
+        ImageButton recBtn = new ImageButton(new ImageButton.ImageButtonStyle());
+        recBtn.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(btn3Texture));
+        recBtn.getStyle().imageOver = new TextureRegionDrawable(new TextureRegion(btn3Texture_hover));
 
-        ImageButton btn4 = new ImageButton(new ImageButton.ImageButtonStyle());
-        btn4.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(btn4Texture));
-        btn4.getStyle().imageOver = new TextureRegionDrawable(new TextureRegion(btn4Texture_hover));
-
+        ImageButton foodBtn = new ImageButton(new ImageButton.ImageButtonStyle());
+        foodBtn.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(btn4Texture));
+        foodBtn.getStyle().imageOver = new TextureRegionDrawable(new TextureRegion(btn4Texture_hover));
 
         // Table for layout
         Table table = new Table();
@@ -108,16 +106,16 @@ public class BuildMenu{
         table.bottom();
 
         // Add buttons to table
-        table.add(btn1).pad(10);
-        table.add(btn2).pad(10);
-        table.add(btn3).pad(10);
-        table.add(btn4).pad(10);
+        table.add(studyBtn).pad(10);
+        table.add(accommBtn).pad(10);
+        table.add(recBtn).pad(10);
+        table.add(foodBtn).pad(10);
 
         // Add table to stage
         stage.addActor(table);
 
         // Set up click listeners for buttons
-        btn1.addListener(new ClickListener() {
+        studyBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (buildingRenderer.getOpenMenu()) {
@@ -128,7 +126,7 @@ public class BuildMenu{
             }
         });
 
-        btn2.addListener(new ClickListener() {
+        accommBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (buildingRenderer.getOpenMenu()) {
@@ -139,7 +137,7 @@ public class BuildMenu{
             }
         });
 
-        btn3.addListener(new ClickListener() {
+        recBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (buildingRenderer.getOpenMenu()) {
@@ -150,7 +148,7 @@ public class BuildMenu{
             }
         });
 
-        btn4.addListener(new ClickListener() {
+        foodBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (buildingRenderer.getOpenMenu()) {
@@ -160,15 +158,13 @@ public class BuildMenu{
                 buildingRenderer.setOpenMenu(true);
             }
         });
-
         seenDebtMenu = false;
     }
 
-
     /**
-     * Creates a new window and sets up all of the contents of the window
-     * so that when the user presses one of the buttons at the bottom of the game
-     * screen the corresponding menu is shown.
+     * Creates a new window and sets up all of the contents of the window so that when the user 
+     * presses one of the buttons at the bottom of the game screen the corresponding menu is shown.
+     * This method has been refactored to add a debt popup for UI.
      * @param buildingType contains Type of building from BuildingStats
      */
     private void showMenu(BuildingStats.BuildingType buildingType) {
@@ -182,20 +178,22 @@ public class BuildMenu{
         window.setBackground(GameGlobals.backGroundDrawable);
 
         //Building name Label
-        Label buildingNameLabel = new Label(BuildingStats.BuildingNameDict.get(buildingType)[0], skin);
+        Label buildingNameLabel = new Label(BuildingStats.buildingNameDict.get(buildingType)[0], skin);
         window.add((Actor) null);
         window.add(buildingNameLabel);
         window.row().padTop(10);
 
         //Image Of Building
         window.add((Actor) null);
-        Image buildingImage = new Image(BuildingStats.getTextureOfBuilding( BuildingStats.BuildingDict.get(buildingType)[0]));
+        Image buildingImage = new Image(BuildingStats.getTextureOfBuilding( BuildingStats.buildingDict.get(
+            buildingType)[0]));
         window.add(buildingImage);
         window.row().padTop(20);
 
         //Student Label
         window.add((Actor) null);
-        Label buildingStudent = new Label("Student Space: " + BuildingStats.BuildingStudentDict.get(buildingType)[0],skin);
+        Label buildingStudent = new Label("Student Space: " + BuildingStats.buildingStudentDict.get(
+            buildingType)[0],skin);
         window.add(buildingStudent).expandX();
         window.row();
 
@@ -204,10 +202,10 @@ public class BuildMenu{
         Label buildingCoins;
         // Sets label to semester if the building changes money every semester and second otherwise
         if (buildingType == BuildingType.ACADEMIC || buildingType == BuildingType.ACCOMODATION) {
-            buildingCoins = new Label("Coins Per Semester: " + BuildingCoinDict.get(buildingType)[0],skin);
+            buildingCoins = new Label("Coins Per Semester: " + buildingCoinDict.get(buildingType)[0],skin);
         }
         else {
-            buildingCoins = new Label("Coins Per Second: " + BuildingCoinDict.get(buildingType)[0],skin);
+            buildingCoins = new Label("Coins Per Second: " + buildingCoinDict.get(buildingType)[0],skin);
         }
         window.add(buildingCoins).expandX();
         window.row();
@@ -219,7 +217,7 @@ public class BuildMenu{
             buildingPrice = new Label("Price: FREE", skin);
         }
         else {
-            buildingPrice= new Label("Price: " + BuildingStats.BuildingPriceDict.get(buildingType)[0],skin);
+            buildingPrice= new Label("Price: " + BuildingStats.buildingPriceDict.get(buildingType)[0],skin);
         }
         window.add(buildingPrice);
 
@@ -235,11 +233,13 @@ public class BuildMenu{
             public void clicked(InputEvent event, float x, float y) {
                 try {
                     index--;
-                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingStudent, buildingCoins, buildingImage);
+                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingStudent, 
+                        buildingCoins, buildingImage);
                 }
                 catch (ArrayIndexOutOfBoundsException e){
-                    index = BuildingStats.BuildingNameDict.get(buildingType).length-1;
-                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingStudent, buildingCoins, buildingImage);
+                    index = BuildingStats.buildingNameDict.get(buildingType).length-1;
+                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingStudent, 
+                        buildingCoins, buildingImage);
                 }
             }
         });
@@ -253,10 +253,12 @@ public class BuildMenu{
             public void clicked(InputEvent event, float x, float y) {
                 // Creates an going into debt pop-up if the user doesn't have enough money for the building.
                 // Only shows the first time
-                if(!seenDebtMenu && (GameGlobals.MONEY.getBalance() - Integer.valueOf(BuildingStats.BuildingPriceDict.get(buildingType)[index]) < 0)) {
+                if(!seenDebtMenu && (GameGlobals.MONEY.getBalance() - Integer.valueOf(
+                        BuildingStats.buildingPriceDict.get(buildingType)[index]) < 0)) {
                     seenDebtMenu = true;
                     DebtMenu debtPopUp = new DebtMenu(skin);
-                    debtPopUp.setPosition((stage.getWidth() - debtPopUp.getWidth()) / 2, (stage.getHeight() - debtPopUp.getHeight()) / 2);
+                    debtPopUp.setPosition((stage.getWidth() - debtPopUp.getWidth()) / 2, 
+                        (stage.getHeight() - debtPopUp.getHeight()) / 2);
                     debtPopUp.setupButton(skin, buildingRenderer, window, buildingType, index);
                     stage.addActor(debtPopUp);
                 }
@@ -277,11 +279,13 @@ public class BuildMenu{
             public void clicked(InputEvent event, float x, float y) {
                 try {
                     index++;
-                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingStudent, buildingCoins, buildingImage);
+                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingStudent, 
+                        buildingCoins, buildingImage);
                 }
                 catch (ArrayIndexOutOfBoundsException e){
                     index = 0;
-                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingStudent, buildingCoins, buildingImage);
+                    SetLabelText(buildingNameLabel, buildingType, buildingPrice, buildingStudent, 
+                        buildingCoins, buildingImage);
                 }
             }
         });
@@ -311,7 +315,8 @@ public class BuildMenu{
         int MENU_WINDOW_WIDTH = 1000;
         int MENU_WINDOW_HEIGHT = 800;
         window.setSize(MENU_WINDOW_WIDTH, MENU_WINDOW_HEIGHT);
-        window.setPosition(this.width / 2f - (MENU_WINDOW_WIDTH / 2), this.height / 2f - (MENU_WINDOW_HEIGHT / 2));
+        window.setPosition(this.width / 2f - (MENU_WINDOW_WIDTH / 2), this.height / 2f - 
+            (MENU_WINDOW_HEIGHT / 2));
 
         // Add window to the stage
         stage.addActor(window);
@@ -320,6 +325,7 @@ public class BuildMenu{
 
     /**
      * Sets the text of each label to current index
+     * This method has been refactored to allow free buildings for UR_EVENTS.
      * @param buildingNameLabel Name Of building
      * @param buildingType Type of Building used, for dictionary lookup
      * @param buildingPrice Price of building
@@ -327,26 +333,29 @@ public class BuildMenu{
      * @param buildingCoins coin generated per second by building
      * @param buildingImage Image of building being, used for preview
      */
-    private void SetLabelText(Label buildingNameLabel, BuildingStats.BuildingType buildingType, Label buildingPrice, Label buildingStudent, Label buildingCoins, Image buildingImage) {
-        buildingNameLabel.setText(BuildingStats.BuildingNameDict.get(buildingType)[index]);
+    private void SetLabelText(Label buildingNameLabel, BuildingStats.BuildingType buildingType, 
+        Label buildingPrice, Label buildingStudent, Label buildingCoins, Image buildingImage) {
+        buildingNameLabel.setText(BuildingStats.buildingNameDict.get(buildingType)[index]);
         if (BuildingStats.nextBuildingFree) {
             buildingPrice.setText("Price: FREE");
         }
         else {
-            buildingPrice.setText("Price: " + BuildingStats.BuildingPriceDict.get(buildingType)[index]);
+            buildingPrice.setText("Price: " + BuildingStats.buildingPriceDict.get(buildingType)[index]);
         }
-        buildingStudent.setText("Student Space: " + BuildingStats.BuildingStudentDict.get(buildingType)[index]);
+        buildingStudent.setText("Student Space: " + BuildingStats.buildingStudentDict.get(
+                buildingType)[index]);
         if (buildingType == BuildingType.ACADEMIC || buildingType == BuildingType.ACCOMODATION) {
-            buildingCoins.setText("Coins Per Semester: " + BuildingCoinDict.get(buildingType)[index]);
+            buildingCoins.setText("Coins Per Semester: " + buildingCoinDict.get(buildingType)[index]);
         }
         else {
-            buildingCoins.setText("Coins Per Second: " + BuildingCoinDict.get(buildingType)[index]);
+            buildingCoins.setText("Coins Per Second: " + buildingCoinDict.get(buildingType)[index]);
         }
-        buildingImage.setDrawable(BuildingStats.getTextureDrawableOfBuilding(BuildingStats.BuildingDict.get(buildingType)[index]));
+        buildingImage.setDrawable(BuildingStats.getTextureDrawableOfBuilding(BuildingStats.buildingDict.get(
+                buildingType)[index]));
     }
 
     /**
-     * returns if the window is currently open
+     * Returns if the window is currently open.
      * @return windowActive boolean
      */
     public boolean isWindowActive() {
@@ -354,8 +363,8 @@ public class BuildMenu{
     }
 
     /**
-     * Sets the windowActive, used when the menu is opened or closed,
-     * to prevent two windows being opened at same time.
+     * Sets the windowActive, used when the menu is opened or closed, to prevent two windows being 
+     * opened at same time.
      * @param windowActive boolean
      */
     public void setWindowActive(boolean windowActive) {
@@ -363,7 +372,7 @@ public class BuildMenu{
     }
 
     /**
-     * BuildingMenu render actors objects
+     * BuildingMenu render actors objects.
      * @param delta
      */
     public void render(float delta) {
@@ -372,7 +381,7 @@ public class BuildMenu{
     }
 
     /**
-     * Called when the window resizes
+     * Called when the window resizes.
      * @param width New width
      * @param height New height
      */
@@ -383,10 +392,9 @@ public class BuildMenu{
     }
 
     /**
-     * Disposes of the build menu
+     * Disposes of the build menu.
      */
     public void dispose() {
         stage.dispose();
-
     }
 }

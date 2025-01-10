@@ -1,6 +1,5 @@
 package com.vikingz.unitycoon.util;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -23,17 +22,6 @@ public class GameSounds {
 
     //Sets the volume of the GameSounds to be played
     public static float volume = GameConfig.getInstance().SoundVolumeValue;
-
-    // Could be useful for more sounds later on
-    private static final ArrayList<Sound> sounds = new ArrayList<>() {
-        {
-            add(placeBuilding1);
-            add(placeBuilding2);
-            add(placeBuilding3);
-            add(placeError1);
-            add(placeError2);
-        }
-    };
 
     /**
      * Plays the placed building sound

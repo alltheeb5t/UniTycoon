@@ -3,6 +3,10 @@ package com.vikingz.unitycoon.events.eventfiles;
 import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.global.GameGlobals;
 
+/**
+ * This is a new class which creates a roses loses event object.
+ * It was implemented to complete UR_EVENTS.
+ */
 public class RosesLoseEvent extends Event {
 
     public RosesLoseEvent() {
