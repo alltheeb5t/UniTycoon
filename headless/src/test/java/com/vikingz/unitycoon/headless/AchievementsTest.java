@@ -1,0 +1,321 @@
+package com.vikingz.unitycoon.headless;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+import com.vikingz.unitycoon.building.BuildingsMap;
+import com.vikingz.unitycoon.util.AchievementsHandler;
+import com.vikingz.unitycoon.util.MoneyHandler;
+import com.vikingz.unitycoon.achievements.Achievement;
+import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
+import com.vikingz.unitycoon.global.GameGlobals;
+
+public class AchievementsTest extends TestSuper {
+
+    Integer[][] validCoords = {
+        {0, 832}, {128, 832}, {256, 832}, {384, 832}, {0, 736}, {128, 736}, {256, 736}, {128, 640}, {0, 640}, {384, 384}, {384, 288}, {384, 192},
+        {512, 384}, {512, 288}, {512, 192}, {640, 384}, {640, 288}, {640, 192}, {768, 384}, {768, 288}, {768, 192}, {896, 384}, {896, 288}, {896, 192},
+        {1024, 384}, {1024, 288}, {1024, 192}, {1152, 384}, {1152, 288}, {1152, 192}, {1280, 384}, {1280, 288}, {1280, 192}, {1408, 384}, {1408, 288},
+        {1408, 192}, {1536, 384}, {1536, 288}, {1536, 192}, {1664, 384}, {1664, 288}, {1664, 192}, {1504, 864}, {1632, 864}, {1504, 768}, {1632, 768}
+    };
+
+    /**
+     * Retrieve an instance of a specific achievement by referencing its name
+     * @param handler An instance of AchievementsHandler where achievements are stored
+     * @param achievementName Name of the achievement to find
+     * @return an instance of Achievement
+     */
+    private Achievement getRelevantAchievement(AchievementsHandler handler, String achievementName) {
+        Achievement relevantAchievement = new Achievement();
+        for (Achievement achievement : handler.getAchievements()) {
+            if (achievement.getName() == achievementName) {
+                relevantAchievement = achievement;
+            }
+        }
+
+        return relevantAchievement;
+    }
+    
+    @Test
+    public void testStudyPrioritiesAchievement() {
+        BuildingsMap testMap = getTestMap();
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Priorities");
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that the achievement is initially not completed");
+
+        // Add 6 academic buildings
+        for (int i = 0; i < 6; i++) {
+            assertTrue(addBasicTestBuilding(testMap, BuildingType.ACADEMIC, validCoords[i][0], validCoords[i][1], true, true));
+        }
+
+        // Add 3 recreation buildings
+        for (int i = 6; i < 9; i++) {
+            assertTrue(addBasicTestBuilding(testMap, BuildingType.RECREATIONAL, validCoords[i][0], validCoords[i][1], true, true));
+        }
+
+        // Add a 11 other buildings to make up to 20
+        for (int i = 9; i < 20; i++) {
+            assertTrue(addBasicTestBuilding(testMap, BuildingType.FOOD, validCoords[i][0], validCoords[i][1], true, true));
+        }
+
+        assertTrue(relevantAchievement.isCompleted(), "Confirm that the achievement is subsequently achieved");
+
+        assertFalse(testMap.attemptBuildingDeleteAt(validCoords[0][0]+10, validCoords[0][1]+10).isEmpty());
+        assertFalse(relevantAchievement.isCompleted(), "Confirm the achievement is no longer achieved if a building is deleted.");
+    }
+
+    @Test
+    public void testIsThisAUniversityAchievement() {
+        BuildingsMap testMap = getTestMap();
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+
+        // Locate the 'Is this a university?' Achievement in the list of achievements
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Is This A University");
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that the achievement is initially not completed");
+
+        // Add 6 recreation buildings
+        for (int i = 0; i < 6; i++) {
+            assertTrue(addBasicTestBuilding(testMap, BuildingType.RECREATIONAL, validCoords[i][0], validCoords[i][1], true, true));
+        }
+
+        // Add 3 academic buildings
+        for (int i = 6; i < 9; i++) {
+            assertTrue(addBasicTestBuilding(testMap, BuildingType.ACADEMIC, validCoords[i][0], validCoords[i][1], true, true));
+        }
+
+        // Add a 10 other buildings to make up to 19
+        for (int i = 9; i < 19; i++) {
+            assertTrue(addBasicTestBuilding(testMap, BuildingType.FOOD, validCoords[i][0], validCoords[i][1], true, true));
+        }
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm the achievement isn't completed until the 20th building placed");
+        
+        assertTrue(addBasicTestBuilding(testMap, BuildingType.ACCOMODATION, validCoords[19][0], validCoords[19][1], true, true));
+
+        assertTrue(relevantAchievement.isCompleted(), "Confirm that the achievement is subsequently achieved");
+
+        assertFalse(testMap.attemptBuildingDeleteAt(validCoords[2][0]+10, validCoords[2][1]+10).isEmpty());
+        assertFalse(relevantAchievement.isCompleted(), "Confirm the achievement is no longer achieved if a building is deleted.");
+    }
+
+    @Test
+    public void testCleanSlateAchievement() {
+        BuildingsMap testMap = getTestMap();
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+
+        // Locate the 'Clean Slate' Achievement in the list of achievements
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Clean Slate");
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that the achievement is initially not completed");
+
+        BuildingType[] typesOrder = {
+            BuildingType.ACADEMIC, BuildingType.FOOD, BuildingType.ACCOMODATION, BuildingType.ACCOMODATION, BuildingType.RECREATIONAL, BuildingType.ACCOMODATION, BuildingType.ACCOMODATION, BuildingType.ACCOMODATION, BuildingType.ACADEMIC, BuildingType.ACADEMIC, 
+            BuildingType.ACADEMIC, BuildingType.FOOD, BuildingType.FOOD, BuildingType.RECREATIONAL, BuildingType.RECREATIONAL, BuildingType.RECREATIONAL, BuildingType.RECREATIONAL, BuildingType.ACADEMIC, BuildingType.ACADEMIC, BuildingType.ACADEMIC
+        };
+
+        // Add 20 buildings
+        for (int i = 0; i < 20; i++) {
+            assertTrue(addBasicTestBuilding(testMap, typesOrder[i], validCoords[i][0], validCoords[i][1], true, true));
+        }
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that the achievement is still not achieved");
+
+        // Remove 20 buildings
+        for (int i = 0; i < 20; i++) {
+            assertFalse(testMap.attemptBuildingDeleteAt(validCoords[i][0]+10, validCoords[i][1]+10).isEmpty());
+        }
+
+        assertTrue(relevantAchievement.isCompleted(), "Confirm that the achievement is subsequently achieved");
+        
+    }
+
+    @Test
+    public void testBareMinimumAchievement() {
+        BuildingsMap testMap = getTestMap();
+
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Bare Minimum");
+
+        GameGlobals.TIME_REMAINING = 0; // This achievement is only applicable at the end of the game
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
+
+        assertTrue(addBasicTestBuilding(testMap, BuildingType.ACCOMODATION, validCoords[0][0], validCoords[0][1], true, true));
+        assertTrue(addBasicTestBuilding(testMap, BuildingType.FOOD, validCoords[1][0], validCoords[1][1], true, true));
+        assertTrue(addBasicTestBuilding(testMap, BuildingType.ACADEMIC, validCoords[2][0], validCoords[2][1], true, true));
+        assertTrue(addBasicTestBuilding(testMap, BuildingType.RECREATIONAL, validCoords[3][0], validCoords[3][1], true, true));
+
+        assertTrue(relevantAchievement.isCompleted(), "Confirm that achievement matches successfully");
+    }
+
+    @Test
+    public void testBareMinimumAchievementErroneous() {
+        BuildingsMap testMap = getTestMap();
+
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Bare Minimum");
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
+
+        assertTrue(addBasicTestBuilding(testMap, BuildingType.ACCOMODATION, validCoords[0][0], validCoords[0][1], true, true));
+        assertTrue(addBasicTestBuilding(testMap, BuildingType.FOOD, validCoords[1][0], validCoords[1][1], true, true));
+        assertTrue(addBasicTestBuilding(testMap, BuildingType.ACADEMIC, validCoords[2][0], validCoords[2][1], true, true));
+        assertTrue(addBasicTestBuilding(testMap, BuildingType.RECREATIONAL, validCoords[3][0], validCoords[3][1], true, true));
+
+        assertTrue(addBasicTestBuilding(testMap, BuildingType.RECREATIONAL, validCoords[4][0], validCoords[4][1], true, true));
+        achievementsHandler.checkAllAchievements(); // This is called in the render() method normally so will have run between placing and deleting.
+        assertFalse(testMap.attemptBuildingDeleteAt(validCoords[4][0]+10, validCoords[4][1]+10).isEmpty());
+
+        GameGlobals.TIME_REMAINING = 0; // This achievement is only applicable at the end of the game
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed, even if a building is deleted");
+    }
+
+    @Test
+    public void testBusyCampusAchievement() {
+        BuildingsMap testMap = getTestMap();
+
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Busy Campus");
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
+
+        for (int i = 0; i < 40; i++) {
+            assertTrue(addBasicTestBuilding(testMap, BuildingType.FOOD, validCoords[i][0], validCoords[i][1], true, true));
+        }
+
+        assertFalse(relevantAchievement.isCompleted(), "BOUNDARY: Should still not be achieved with 40 buildings");
+
+        assertTrue(addBasicTestBuilding(testMap, BuildingType.FOOD, validCoords[40][0], validCoords[40][1], true, true));
+        assertTrue(relevantAchievement.isCompleted(), "Confirm that achievement is achieved after placing 41 buildings");
+    }
+
+    @Test
+    public void testIndecisiveAchievement() {
+        BuildingsMap testMap = getTestMap();
+
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Indecisive");
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
+
+        // Add 10 buildings to the campus
+        for (int i = 0; i < 10; i++) {
+            assertTrue(addBasicTestBuilding(testMap, BuildingType.FOOD, validCoords[i][0], validCoords[i][1], true, true));
+        }
+
+        // Remove all number of previously added buildings
+        for (int i = 0; i < 5; i++) {
+            assertFalse(testMap.attemptBuildingDeleteAt(validCoords[i][0]+10, validCoords[i][1]+10).isEmpty());
+        }
+
+        // Add another 15 buildings to the campus
+        for (int i = 10; i < 25; i++) {
+            assertTrue(addBasicTestBuilding(testMap, BuildingType.FOOD, validCoords[i][0], validCoords[i][1], true, true));
+        }
+
+        // Remove another 16 buildings
+        for (int i = 5; i < 21; i++) {
+            assertFalse(testMap.attemptBuildingDeleteAt(validCoords[i][0]+10, validCoords[i][1]+10).isEmpty());
+        }
+
+        assertTrue(relevantAchievement.isCompleted(), "Confirm that achievement is completed after removing 21 buildings");
+    }
+
+    @Test
+    public void testLuckyAchievement() {
+
+    }
+
+    @Test
+    public void testMasterOfChangeAchievement() {
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Master Of Change");
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
+
+        // Simulate not doing anything for 3 mins (satisfaction will be 10%)
+        GameGlobals.TIME_REMAINING = 120;
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement is still not met");
+
+        // Game has ended and player has won
+        GameGlobals.TIME_REMAINING = 0;
+        GameGlobals.gameWon = true;
+
+        assertTrue(relevantAchievement.isCompleted(), "Confirm that Master Of Change is awarded correctly");
+    }
+
+    @Test
+    public void testMikeFreemanAwardAchievement() {
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Mike Freeman Award");
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
+
+        // The first minute is just wasted
+        GameGlobals.TIME_REMAINING = 240;
+
+        // Satisfaction is raised to above 80%
+        GameGlobals.SATISFACTION.addBonus(70);
+        achievementsHandler.checkAllAchievements(); // This is normally called in render(). Needed to start the timer
+
+        // 3 Minutes passes
+        GameGlobals.TIME_REMAINING -= 181;
+        assertTrue(relevantAchievement.isCompleted(), "Confirm that Mike Freeman Award is awarded correctly");
+    }
+
+    @Test
+    public void testMikeFreemanAwardAchievementErroneous() {
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Mike Freeman Award");
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
+        
+        // The first minute is just wasted
+        GameGlobals.TIME_REMAINING = 240;
+
+        // Satisfaction is raised to above 80%
+        GameGlobals.SATISFACTION.addBonus(70);
+        achievementsHandler.checkAllAchievements(); // This is normally called in render(). Needed to start the timer
+
+        // 59 seconds passes
+        GameGlobals.TIME_REMAINING -= 59;
+
+        // At some point, the satisfaction dips briefly
+        GameGlobals.SATISFACTION.applyPenalty(3);
+        achievementsHandler.checkAllAchievements(); // This is normally called in render(). Needed to notice the dip
+        GameGlobals.SATISFACTION.addBonus(3);
+
+        // Remaining time to go above 3 mins passes
+        GameGlobals.TIME_REMAINING -= 122;
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that Mike Freeman Award is not awarded if satisfaction dropped at any point");
+    }
+
+    @Test
+    public void testRealisticAchievement() {
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Realistic");
+
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
+
+        GameGlobals.MONEY.withdraw(24001 + MoneyHandler.STARTING_BALANCE);
+
+        assertTrue(relevantAchievement.isCompleted(), "Confirm that achievement is completed if the balance falls below 24,000 at any point");
+    }
+
+    @Test
+    public void testSaviourAchievements() {
+
+    }
+
+    @Test
+    public void testUnluckyAchievement() {
+
+    }
+}
