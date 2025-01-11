@@ -152,12 +152,4 @@ public class EventHandler {
     public int getNegativeEvent() {
         return negativeEvent;
     }
-
-    public void resetPositiveEvent() {
-        positiveEvent = 0;
-    }
-
-    public void resetNegativeEvent() {
-        negativeEvent = 0;
-    }
 }
