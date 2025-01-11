@@ -126,8 +126,8 @@ public class BuildingRenderer{
 
             // Makes sure that the mouse is in the center of the building texture
             Vector3 previewPoint = snapBuildingToGrid(Gdx.input.getX() - 
-                GameGlobals.SCREEN_BUILDING_SIZE / 2, Gdx.input.getY() + 
-                GameGlobals.SCREEN_BUILDING_SIZE / 2);
+                GameGlobals.SCREEN_BUILDING_SIZE / 3, Gdx.input.getY() + 
+                GameGlobals.SCREEN_BUILDING_SIZE / 3);
 
             previewX = previewPoint.x;
             previewY = previewPoint.y;
@@ -257,7 +257,7 @@ public class BuildingRenderer{
     }
 
     /**
-     * Snaps the coordinates passed in to the grid
+     * Snaps the coordinates passed in to the grid.
      * @param x X
      * @param y Y
      * @return Point new coordinates that occur on an intersection of the tiles in the background.
@@ -280,11 +280,6 @@ public class BuildingRenderer{
     public void setOpenMenu(boolean openMenu) {
         this.openMenu = openMenu;
     }
-
-    /**
-     * Updates the width and height when the window is resized.
-     */
-    public void resize() {}
 
     /**
      * Disposes building being drawn for garbage collection.

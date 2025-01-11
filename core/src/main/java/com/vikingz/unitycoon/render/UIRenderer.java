@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.vikingz.unitycoon.global.GameConfig;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.menus.*;
 import com.vikingz.unitycoon.screens.GameScreen;
@@ -66,7 +67,7 @@ public class UIRenderer {
      */
     public UIRenderer(Skin skin, BuildingRenderer buildingRenderer){
 
-        viewport = new FitViewport(1824, 1026);
+        viewport = new FitViewport(GameConfig.getInstance().getWindowWidth(), GameConfig.getInstance().getWindowHeight());
         spriteBatch = new SpriteBatch();
         stage = new Stage(viewport);
 
@@ -119,8 +120,7 @@ public class UIRenderer {
     }
 
     /**
-     * When the game screen has decided the game has finished the game will call this function which 
-     * will show the end of game popup.
+     * When the game has finished the game will call this function which will show the end of game popup.
      */
     public void endGame(String title) {
         Leaderboard.loadLeaderboard();
@@ -195,7 +195,9 @@ public class UIRenderer {
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
         // Uses values defined when viewport is created
-        spriteBatch.draw(statsBarTexture, 0, 983, 1824, 43);
+        spriteBatch.draw(statsBarTexture, 0, 
+            GameConfig.getInstance().getWindowHeight() * 24/25, GameConfig.getInstance().getWindowWidth(), 
+            GameConfig.getInstance().getWindowHeight() * 1/24);
         spriteBatch.end();
 
         viewport.apply();
@@ -213,7 +215,6 @@ public class UIRenderer {
     public void resize(int width, int height){
         viewport.update(width, height);
         stage.getViewport().update(width, height, true);
-        spriteBatch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
         buildMenu.resize(width, height);
         statsRenderer.resize(width, height);
     }

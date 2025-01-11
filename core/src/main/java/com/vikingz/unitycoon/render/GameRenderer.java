@@ -5,18 +5,19 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.vikingz.unitycoon.global.GameConfig;
 
 /**
  * This class contains all the renderers that render the game.
  *
- * This class contains the renderers that draw the background as well
- * as the buildings. Using this class enables us to have a separate viewport
- * that controls how the game is rendered as well as what happens when the
- * game window is resized, as we wanted the map and the buildings to resize
- * differently from the UI, which is what the {@code UIRenderer} is used for.
+ * This class contains the renderers that draw the background as well as the buildings. Using this class 
+ * enables us to have a separate viewport that controls how the game is rendered as well as what happens 
+ * when the game window is resized, as we wanted the map and the buildings to resize differently from the 
+ * UI, which is what the {@code UIRenderer} is used for.
+ * 
+ * This class has been refactored to make the code more readable.
  */
 public class GameRenderer {
 
@@ -36,8 +37,8 @@ public class GameRenderer {
 
         // Creates and camera and set up the viewport
         camera = new OrthographicCamera();
-        viewport = new FillViewport(GameConfig.getInstance().getWindowWidth(), GameConfig.getInstance().getWindowHeight());
-
+        viewport = new FitViewport(GameConfig.getInstance().getWindowWidth(), GameConfig.getInstance().getWindowHeight());
+        
         stage = new Stage(viewport);
         backgroundRenderer = new BackgroundRenderer(mapName);
         buildingRenderer = new BuildingRenderer(this, skin);
@@ -48,7 +49,6 @@ public class GameRenderer {
      * @param delta Time since last frame
      */
     public void render(float delta){
-
         viewport.apply();
         stage.getViewport().apply();
         camera.update();
@@ -96,8 +96,6 @@ public class GameRenderer {
      */
     public void resize(int width, int height){
         viewport.update(width, height);
-        backgroundRenderer.resize();
-        buildingRenderer.resize();
     }
 
     public BuildingRenderer getBuildingRenderer(){
@@ -109,12 +107,11 @@ public class GameRenderer {
     }
 
     /**
-     * disposes all renderers being drawn for garbage collection
+     * Disposes all renderers being drawn for garbage collection.
      */
     public void dispose(){
         stage.dispose();
         backgroundRenderer.dispose();
         buildingRenderer.dispose();
     }
-
 }

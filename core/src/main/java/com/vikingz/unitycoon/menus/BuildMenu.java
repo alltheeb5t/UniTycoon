@@ -171,7 +171,7 @@ public class BuildMenu{
         // Create a window (menu)
         index = 0;
 
-        Window window = new Window("Build Menu", skin);
+        Window window = new Window("", skin);
         window.getTitleTable().padTop(25).padLeft(437);
         this.currentMenu = window;
         window.setMovable(false);

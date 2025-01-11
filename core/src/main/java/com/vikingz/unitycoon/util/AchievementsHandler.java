@@ -143,7 +143,7 @@ public class AchievementsHandler {
         for (int i = 0; i < gameAchievements.length; i++) {
             if (gameAchievements[i].achieved) {
                 output += "\n  -  " + gameAchievements[i].getName();
-                if(i == 8 || i == 10) {
+                if(i == 7 || i == 10) {
                     if (i == 10) {output += "\t \t    ";}
                     output += "\t(+5% satisfaction)";
                 }
