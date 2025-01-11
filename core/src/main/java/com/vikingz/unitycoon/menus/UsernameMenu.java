@@ -12,19 +12,19 @@ import com.vikingz.unitycoon.global.GameGlobals;
 /**
  * This class creates a Menu that pops up when the user chooses to play the game.
  * It asks the user to enter a username.
+ * This new class was added to meet FR_SAVES and FR_LEADERBOARD.
  */
 public class UsernameMenu extends Window{
 
-    private String message = "Usernames should have no puntcuation, no spaces and no more than 12 characters.";
-    private Label messageLabel;
-    private static String username = "";
+    String message = "Usernames should have no punctuation, no spaces and no more than 12 characters.";
+    Label messageLabel;
+    static String username = "";
 
     // Text field for entering username.
     TextField usernameField;
 
     // Skin for the popup
-    private final Skin skin;
-
+    final Skin skin;
 
     /**
      * Creates a new leaderboard menu.
@@ -73,10 +73,9 @@ public class UsernameMenu extends Window{
     }
 
     /**
-     * Gets the entered username and ensures that it is in the correct format 
-     * (no punctuation, no spaces, less than 12 characters).
-     * @return The value of the username with no spaces or punctuation or guest 
-     *         if the username if blank.
+     * Gets the entered username and ensures that it is in the correct format (no punctuation, no spaces, 
+     * less than 12 characters).
+     * @return The value of the username with no spaces or punctuation or guest if the username if blank.
      */
     private void formatUsername() {
         String finalUsername = "";

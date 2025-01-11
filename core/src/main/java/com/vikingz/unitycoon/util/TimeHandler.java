@@ -4,7 +4,10 @@ package com.vikingz.unitycoon.util;
  * This class contains functions that we use to format time.
  *
  * Contains an inner class {@code Time} simply just to serve as
- * a return type once the formatting is done
+ * a return type once the formatting is done.
+ * 
+ * This new class has been added to refactor the time infrastructure and to make it easier to implement 
+ * new features.
  */
 public class TimeHandler {
 
@@ -16,14 +19,13 @@ public class TimeHandler {
         return isPaused;
     }
 
-    //determines if the game is paused
-    private boolean isPaused;
+    //Determines if the game is paused
+    boolean isPaused;
 
     /**
      * This class contains three attributes secs, mins and hrs.
      *
      * Only serves as a return type
-     *
      */
     public static class Time{
 
@@ -59,7 +61,6 @@ public class TimeHandler {
      * @return Time in minutes and seconds
      */
     public static Time secondsToMinSecs(int secs){
-
         int m = secs/ 60;
         int s = secs % 60;
 
@@ -103,6 +104,4 @@ public class TimeHandler {
     public void setPaused(boolean isPaused){
         this.isPaused = isPaused;
     }
-
 }
-

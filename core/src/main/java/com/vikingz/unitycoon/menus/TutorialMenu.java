@@ -10,6 +10,7 @@ import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
  * This class creates a Menu that pops up with the game rules.
+ * This new class was added to meet FR_TUTORIAL.
  */
 public class TutorialMenu extends Window  {
 

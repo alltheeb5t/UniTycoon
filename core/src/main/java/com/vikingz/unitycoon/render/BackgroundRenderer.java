@@ -12,50 +12,50 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *  This class is in charge of loading and drawing the textured tiles
- * for the background.
+ * This class is in charge of loading and drawing the textured tiles for the background.
  *
- * The constructor is passed a mapName which then can be read using the
- * {@code FileHandler} which is then used to draw the map as defined in the
+ * The constructor is passed a mapName which then can be read using the {@code FileHandler} which is 
+ * then used to draw the map as defined in the map file.
+ *
+ * This class also contains the constants that assign the characters that represent the tiles in the 
  * map file.
- *
- * This class also contains the constants that assign the characters
- * that represent the tiles in the map file.
+ * 
+ * This class has been refactored slightly to make the code more readable, however it is largely unchanged.
  */
 public class BackgroundRenderer{
 
-    // Constants that map the tiles used to draw the background
-    // to characters that can be encoded in the map file
-    private final char GRASS = 'G';
-    private final char WATER = 'W';
-    private final char COBBLE_STONE = 'C';
-    private final char ROAD = 'R';
-    private final char GRASS2 = 'g';
-    private final char WATER2 = 'w';
-    private final char COBBLE_STONE2 = 'c';
-    private final char ROAD2 = 'r';
+    // Constants that map the tiles used to draw the background to characters that can be encoded in the 
+    //map file.
+    final char GRASS = 'G';
+    final char WATER = 'W';
+    final char COBBLE_STONE = 'C';
+    final char ROAD = 'R';
+    final char GRASS2 = 'g';
+    final char WATER2 = 'w';
+    final char COBBLE_STONE2 = 'c';
+    final char ROAD2 = 'r';
 
-    //batch that the tiles will be drawn on
-    private SpriteBatch batch;
+    //Batch that the tiles will be drawn on.
+    SpriteBatch batch;
 
-    //String of the map from file
-    private final String map;
+    //String of the map from file.
+    final String map;
 
     // Textures of tiles
-    private TextureRegion grassTile, waterTile, cobbleTile, roadTile;
-    private TextureRegion grassTile2, waterTile2, cobbleTile2, roadTile2;
+    TextureRegion grassTile, waterTile, cobbleTile, roadTile;
+    TextureRegion grassTile2, waterTile2, cobbleTile2, roadTile2;
 
-    private final int tileWidth = 32; // Size of each tile in game
-    private final int tileHeight = 32; // Size of each tile in game
+    final int tileWidth = 32; // Size of each tile in game
+    final int tileHeight = 32; // Size of each tile in game
 
     /**
-     * Creates a new background renderer
+     * Creates a new background renderer.
      * @param mapName The name of the map that will be drawn
      */
     public BackgroundRenderer(String mapName) {
         this.map = FileHandler.loadMap(mapName);
-        //Texture of all tiles
-        Texture texture = new Texture(Gdx.files.internal("textureAtlases/backgroundAtlas.png")); // Load your 64x64 PNG
+        //Texture of all tiles loaded in from file
+        Texture texture = new Texture(Gdx.files.internal("textureAtlases/backgroundAtlas.png"));
 
         // Create TextureRegions for each tile
         int atlasTileSize = 64;
@@ -66,9 +66,10 @@ public class BackgroundRenderer{
 
         grassTile2 = new TextureRegion(texture, 0, atlasTileSize, atlasTileSize, atlasTileSize);
         waterTile2 = new TextureRegion(texture, atlasTileSize, atlasTileSize, atlasTileSize, atlasTileSize);
-        cobbleTile2 = new TextureRegion(texture, atlasTileSize * 2, atlasTileSize, atlasTileSize, atlasTileSize);
-        roadTile2 = new TextureRegion(texture, atlasTileSize * 3, atlasTileSize, atlasTileSize, atlasTileSize);
-
+        cobbleTile2 = new TextureRegion(texture, atlasTileSize * 2, atlasTileSize, atlasTileSize, 
+            atlasTileSize);
+        roadTile2 = new TextureRegion(texture, atlasTileSize * 3, atlasTileSize, atlasTileSize, 
+            atlasTileSize);
     }
 
 
@@ -80,6 +81,8 @@ public class BackgroundRenderer{
         Gdx.gl.glClearColor(0, 0, 0, 1); // Set background color
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear the screen
 
+        // Moved here to support testing (first buildingTest)
+        // Its something to do with the load order that makes it necessary
         if (batch == null) {
             batch = new SpriteBatch();
         }
@@ -90,8 +93,7 @@ public class BackgroundRenderer{
     }
 
     /**
-     * Draws the background to the screen,
-     * using the String map and char case switch
+     * Draws the background to the screen, using the String map and char case switch.
      */
     private void drawTiledBackgroundFromMap() {
 
@@ -101,34 +103,34 @@ public class BackgroundRenderer{
         for(int i = 0; i < rows ; i++){
             for(int j = 0; j < cols; j++){
 
-                // The list has to be reversed as the file is read top to bottom
-                // but the tiles are drawn bottom to top.
-
+                // The list has to be reversed as the file is read top to bottom but the tiles are drawn 
+                // bottom to top.
                 List<String> strRowsList = Arrays.asList(map.split("\n"));
                 Collections.reverse(strRowsList);
 
                 switch (strRowsList.get(i).charAt(j)) {
-                    case GRASS -> batch.draw(grassTile, j * tileWidth, i * tileHeight, tileWidth, tileHeight);
-                    case WATER -> batch.draw(waterTile, j * tileWidth, i * tileHeight, tileWidth, tileHeight);
-                    case COBBLE_STONE -> batch.draw(cobbleTile, j * tileWidth, i * tileHeight, tileWidth, tileHeight);
-                    case ROAD -> batch.draw(roadTile, j * tileWidth, i * tileHeight, tileWidth, tileHeight);
-                    case GRASS2 -> batch.draw(grassTile2, j * tileWidth, i * tileHeight, tileWidth, tileHeight);
-                    case WATER2 -> batch.draw(waterTile2, j * tileWidth, i * tileHeight, tileWidth, tileHeight);
-                    case COBBLE_STONE2 -> batch.draw(cobbleTile2, j * tileWidth, i * tileHeight, tileWidth, tileHeight);
-                    case ROAD2 -> batch.draw(roadTile2, j * tileWidth, i * tileHeight, tileWidth, tileHeight);
+                    case GRASS -> batch.draw(grassTile, j * tileWidth, i * tileHeight, tileWidth, 
+                        tileHeight);
+                    case WATER -> batch.draw(waterTile, j * tileWidth, i * tileHeight, tileWidth, 
+                        tileHeight);
+                    case COBBLE_STONE -> batch.draw(cobbleTile, j * tileWidth, i * tileHeight, 
+                        tileWidth, tileHeight);
+                    case ROAD -> batch.draw(roadTile, j * tileWidth, i * tileHeight, tileWidth, 
+                        tileHeight);
+                    case GRASS2 -> batch.draw(grassTile2, j * tileWidth, i * tileHeight, tileWidth, 
+                        tileHeight);
+                    case WATER2 -> batch.draw(waterTile2, j * tileWidth, i * tileHeight, tileWidth, 
+                        tileHeight);
+                    case COBBLE_STONE2 -> batch.draw(cobbleTile2, j * tileWidth, i * tileHeight, 
+                        tileWidth, tileHeight);
+                    case ROAD2 -> batch.draw(roadTile2, j * tileWidth, i * tileHeight, tileWidth, 
+                        tileHeight);
                 }
 
             }
         }
 
     }
-
-
-    public void resize() {
-        // Update the screen dimensions
-    }
-
-    //Getter and Setters for tiles
 
     public char getGRASS() {
         return GRASS;
@@ -162,12 +164,10 @@ public class BackgroundRenderer{
         return ROAD2;
     }
 
-    //Getter for Map String
     public String getMap() {
         return map;
     }
 
-    //get the tile size
     public int getTileWidth() {
         return tileWidth;
     }
@@ -177,7 +177,7 @@ public class BackgroundRenderer{
     }
 
     /**
-     * disposes tile assets for garbage collection
+     * Disposes tile assets for garbage collection.
      */
     public void dispose(){
         batch.dispose();
@@ -190,6 +190,4 @@ public class BackgroundRenderer{
         cobbleTile2 = null;
         roadTile2 = null;
     }
-
-
 }

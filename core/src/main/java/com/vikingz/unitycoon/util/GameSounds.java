@@ -1,6 +1,5 @@
 package com.vikingz.unitycoon.util;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -8,32 +7,22 @@ import com.badlogic.gdx.audio.Sound;
 import com.vikingz.unitycoon.global.GameConfig;
 
 /**
- * GameSounds
- * This class loads and plays all the sounds effects for the entire game
+ * This class loads and plays all the sounds effects for the entire game.
+ * 
+ * This class has been refactored slightly to make the code more readable, however it is largely unchanged.
  */
 public class GameSounds {
 
     // Load the sounds fx
-    private static final Sound placeBuilding1 = Gdx.audio.newSound(Gdx.files.internal("audio/place_1.ogg"));
-    private static final Sound placeBuilding2 = Gdx.audio.newSound(Gdx.files.internal("audio/place_2.ogg"));
-    private static final Sound placeBuilding3 = Gdx.audio.newSound(Gdx.files.internal("audio/place_3.ogg"));
+    static final Sound placeBuilding1 = Gdx.audio.newSound(Gdx.files.internal("audio/place_1.ogg"));
+    static final Sound placeBuilding2 = Gdx.audio.newSound(Gdx.files.internal("audio/place_2.ogg"));
+    static final Sound placeBuilding3 = Gdx.audio.newSound(Gdx.files.internal("audio/place_3.ogg"));
 
-    private static final Sound placeError1 = Gdx.audio.newSound(Gdx.files.internal("audio/place_error_1.ogg"));
-    private static final Sound placeError2 = Gdx.audio.newSound(Gdx.files.internal("audio/place_error_2.ogg"));
+    static final Sound placeError1 = Gdx.audio.newSound(Gdx.files.internal("audio/place_error_1.ogg"));
+    static final Sound placeError2 = Gdx.audio.newSound(Gdx.files.internal("audio/place_error_2.ogg"));
 
     //Sets the volume of the GameSounds to be played
     public static float volume = GameConfig.getInstance().SoundVolumeValue;
-
-    // Could be useful for more sounds later on
-    private static final ArrayList<Sound> sounds = new ArrayList<>() {
-        {
-            add(placeBuilding1);
-            add(placeBuilding2);
-            add(placeBuilding3);
-            add(placeError1);
-            add(placeError2);
-        }
-    };
 
     /**
      * Plays the placed building sound
@@ -49,10 +38,8 @@ public class GameSounds {
         }
     }
 
-
     /**
-     * Plays the error sounds when the user tries
-     * placing a building somewhere illegal
+     * Plays the error sounds when the user tries placing a building somewhere illegal
      */
     public static void playPlaceError(){
         int randNum = new Random().nextInt(1, 3);

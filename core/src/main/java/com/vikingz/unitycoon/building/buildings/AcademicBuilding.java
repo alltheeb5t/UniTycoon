@@ -5,17 +5,18 @@ import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingInfo;
 import com.vikingz.unitycoon.building.EarnSchedule;
 
-
 /**
  * AcademicBuilding
  *
  * Represents the academic building in the game
  * Inherits Building
  *
+ * This class has been refactored.
  */
 public class AcademicBuilding extends Building{
 
-    public AcademicBuilding(TextureRegion texture, float x, float y, BuildingInfo buildingInfo, float earnAmount){
+    public AcademicBuilding(TextureRegion texture, float x, float y, BuildingInfo buildingInfo, 
+            float earnAmount){
         super(texture, x, y, buildingInfo, earnAmount);
         earnSchedule = EarnSchedule.SEMESTERLY;
     }

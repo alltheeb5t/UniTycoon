@@ -3,22 +3,19 @@ package com.vikingz.unitycoon.achievements;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
- * This class creates an is this a university achievement object.
+ * This new class creates an is this a university achievement object.
+ * It was implemented to complete FR_ITAU_UNLOCK.
  */
 public class IsThisAUniversityAchievement extends Achievement {
     
-    private final String NAME = "Is This A University";
-    private final String DESCRIPTION = "Have twice as many recreation as study buildings after 20 buildings.";
+    public static final String NAME = "Is This A University";
+    public static final String DESCRIPTION = "Have twice as many recreation as study buildings after"
+                                           + " 20 buildings.";
 
     public IsThisAUniversityAchievement() {
-        achieved = false;
+        super();
     }
 
-    @Override
-    public void reset() {
-        achieved = false;
-    }
-    
     @Override
     public String getName() {
         return NAME;
@@ -29,10 +26,6 @@ public class IsThisAUniversityAchievement extends Achievement {
         return DESCRIPTION;
     }
 
-    /**
-     * Checks if achievement has been completed.
-     * @return true if achievement has been completed
-     */
     @Override
     public boolean isCompleted() {
         if (GameGlobals.ACADEMIC_BUILDINGS_COUNT + GameGlobals.ACCOMODATION_BUILDINGS_COUNT

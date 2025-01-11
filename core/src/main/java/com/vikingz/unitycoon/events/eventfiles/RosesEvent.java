@@ -5,6 +5,10 @@ import com.vikingz.unitycoon.global.GameGlobals;
 
 import java.util.Random;
 
+/**
+ * This is a new class which creates a roses event object.
+ * It was implemented to complete UR_EVENTS.
+ */
 public class RosesEvent extends Event {
 
     /**
@@ -13,7 +17,9 @@ public class RosesEvent extends Event {
      */
     public RosesEvent() {
 
-        setMessage("Roses is about to start!\n\nSports teams eagerly await the event, and would like facilities to train in.\n\nBuilding these facilities will provide additional\nbenefits, including an increased chance to win!");
+        setMessage("Roses is about to start!\n\nSports teams eagerly await the event, and would like "
+            + "facilities to train in.\n\nBuilding these facilities will provide additional\nbenefits, "
+            + "including an increased chance to win!");
 
         GameGlobals.EVENT.incrementPositiveEvent();
 
@@ -29,7 +35,6 @@ public class RosesEvent extends Event {
                         eventTime++;
                     }
                 }
-                System.out.println(eventTime);
                 Runnable eventRun = () -> {
                     if (GameGlobals.RECREATIONAL_BUILDINGS_COUNT < 6) {
                         int chance = random.nextInt(3);

@@ -6,14 +6,14 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * This class contains all the leaderboard functions.
- * 
+ * This new class contains all the leaderboard functions.
+ * It was implemented to complete UR_ACHIEVEMENTS.
  */
 public class Leaderboard {
     
-    private static String leaderboardValue;
-    private static File leaderboardFile = new File("leaderboard.txt");
-    private static int leaderboardPos = 0;
+    static String leaderboardValue;
+    static File leaderboardFile = new File("leaderboard.txt");
+    static int leaderboardPos = 0;
 
     /**
      * Saves leaderboard to text file.
@@ -23,8 +23,6 @@ public class Leaderboard {
             FileWriter fileWriter = new FileWriter(leaderboardFile);
             fileWriter.write(leaderboardValue);
             fileWriter.close();
-            
-            System.out.println("Successfully wrote to the leaderboard file.");
 
         } catch (IOException i) {
             System.out.println("FILE NOT FOUND");
@@ -53,15 +51,11 @@ public class Leaderboard {
             //Updates the leaderboard removing the additional \n at the end."
             leaderboardValue = leaderboardValue.substring(0, leaderboardValue.length()-1);
 
-            System.out.println("\n\nLoaded Leaderboard");
-
-        } catch (IOException i) {
-            System.out.println("FILE NOT FOUND");
-        }
+        } catch (IOException i) {}
     }
 
     /**
-     *  Determines if a final score needs to be stored on the leaderboard.
+     * Determines if a final score needs to be stored on the leaderboard.
      * @return True if needs to be added to leaderboard. Else false.
      */
     public static Boolean isLeaderboardScore(int finalScore) {
@@ -71,7 +65,8 @@ public class Leaderboard {
         String[] scores = leaderboardValue.split("\n");
         //Finds the 5th placed score stored on the leaderboard, removes % and converts to integer.  
         String lowestSavedPercentage = scores[4].split(" ")[0];
-        int lowestSavedScore = Integer.valueOf(lowestSavedPercentage.substring(0, lowestSavedPercentage.length()-1));
+        int lowestSavedScore = Integer.valueOf(lowestSavedPercentage.substring(0, 
+            lowestSavedPercentage.length()-1));
 
         if (lowestSavedScore < finalScore) {
             return true;
@@ -93,7 +88,8 @@ public class Leaderboard {
         for (int i = 0; i < scores.length; i++) {
             //Finds score stored on the leaderboard at place i, removes % and converts to integer.
             String satisfactionPercentage = scores[i].split(" ")[0];
-            int score = Integer.valueOf(satisfactionPercentage.substring(0, satisfactionPercentage.length()-1));
+            int score = Integer.valueOf(satisfactionPercentage.substring(0, 
+                satisfactionPercentage.length()-1));
 
             if (score < finalScore && !addedNewScore) {
                 addedNewScore = true;

@@ -3,26 +3,21 @@ package com.vikingz.unitycoon.achievements;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
- * This class creates a clean slate achievement object.
+ * This new class creates a clean slate achievement object.
+ * It was implemented to complete FR_CS_UNLOCK.
  */
 public class CleanSlateAchievement extends Achievement {
-
-    private boolean cleanSlateMinReached;
     
-    private final String NAME = "Clean Slate";
-    private final String DESCRIPTION = "Place 10 or more buildings and remove them all.";
+    public static final String NAME = "Clean Slate";
+    public static final String DESCRIPTION = "Place 10 or more buildings and remove them all.";
+    
+    boolean cleanSlateMinReached;
 
     public CleanSlateAchievement() {
+        super();
         cleanSlateMinReached = false;
-        achieved = false;
     }
 
-    @Override
-    public void reset() {
-        cleanSlateMinReached = false;
-        achieved = false;
-    }
-    
     @Override
     public String getName() {
         return NAME;
@@ -33,10 +28,12 @@ public class CleanSlateAchievement extends Achievement {
         return DESCRIPTION;
     }
 
-    /**
-     * Checks if achievement has been completed.
-     * @return true if achievement has been completed
-     */
+    @Override
+    public void reset() {
+        super.reset();
+        cleanSlateMinReached = false;
+    }
+
     @Override
     public boolean isCompleted() {
         if (GameGlobals.ACADEMIC_BUILDINGS_COUNT + GameGlobals.ACCOMODATION_BUILDINGS_COUNT

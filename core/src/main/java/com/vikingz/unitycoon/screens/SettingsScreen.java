@@ -17,37 +17,37 @@ import com.vikingz.unitycoon.util.GameSounds;
 /**
  * This screen represents the settings screen in the game
  *
- * It contains multiple buttons and slider which edit different game settings
+ * It contains multiple buttons and slider which edit different game settings.
  *
  * Inherits Screen, SuperScreen
+ * 
+ * This class has been refactored slightly to make the code more readable and improve UI.
  */
 public class SettingsScreen extends SuperScreen implements Screen {
 
-
     // Components on the settings screen
-    private final Label resolutionLabel;
-    private String resolutionString;
-    private String musicVolume;
-    private String soundVolume;
+    final Label resolutionLabel;
+    String resolutionString;
+    String musicVolume;
+    String soundVolume;
 
     //Music and Sounds Components
-    private final Slider SoundVolumeSlider;
-    private final Label SoundVolumeLabel;
-    private final Slider MusicVolumeSlider;
-    private final Label MusicVolumeLabel;
+    final Slider SoundVolumeSlider;
+    final Label SoundVolumeLabel;
+    final Slider MusicVolumeSlider;
+    final Label MusicVolumeLabel;
 
     //Stores the previous screen before settings
-    private ScreenMultiplexer.Screens previousScreen;
+    ScreenMultiplexer.Screens previousScreen;
 
     //Button that fullscreen game
-    private final TextButton fullscreenButton;
+    final TextButton fullscreenButton;
     //Button that makes the game window
-    private final TextButton windowButton;
+    final TextButton windowButton;
 
-    private GameScreen gameScreen;
+    GameScreen gameScreen;
 
-    private boolean changedAudioSliders;
-
+    boolean changedAudioSliders;
 
     /**
      * Creates a new settings screen
@@ -72,8 +72,6 @@ public class SettingsScreen extends SuperScreen implements Screen {
         this.musicVolume = "Music Volume: " + MusicVolumeSlider.getValue();
 
         changedAudioSliders = false;
-
-        // Adds event listeners to buttons
 
         // Back button to return to MenuScreen
         TextButton backButton = new TextButton("Back", skin);
@@ -138,7 +136,6 @@ public class SettingsScreen extends SuperScreen implements Screen {
      * Switches screens back to the screen the user access the settings from
      */
     public void goBack(){
-        System.out.println(previousScreen.name());
         if (previousScreen.name().equals("GAME")) {
             ScreenMultiplexer.switchScreens(previousScreen);
             setPrevScreen(Screens.MENU); 
@@ -183,6 +180,8 @@ public class SettingsScreen extends SuperScreen implements Screen {
 
     /**
      * Determines if either audio slider has been moved and saves if it has.
+     * This new method was added to clear the user interface and avoid confusion with the save
+     * button following the user evaluation.
      */
     private void audioChanged() {
         if (SoundVolumeSlider.isDragging() || MusicVolumeSlider.isDragging()) {
@@ -195,8 +194,7 @@ public class SettingsScreen extends SuperScreen implements Screen {
     }
 
     /**
-     * Changes SettingScreen to new resolution,
-     * and updates resolutionText
+     * Changes SettingScreen to new resolution, and updates resolutionText
      * @param width int resolution
      * @param height int resolution
      */
@@ -220,7 +218,6 @@ public class SettingsScreen extends SuperScreen implements Screen {
      */
     @Override
     public void dispose() {
-
         stage.dispose();
         skin.dispose();
     }
@@ -236,5 +233,4 @@ public class SettingsScreen extends SuperScreen implements Screen {
     public void setGameScreen(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
     }
-
 }
