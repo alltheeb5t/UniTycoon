@@ -17,6 +17,7 @@ import com.vikingz.unitycoon.achievements.BusyCampusAchievement;
 import com.vikingz.unitycoon.achievements.CleanSlateAchievement;
 import com.vikingz.unitycoon.achievements.IndecisiveAchievement;
 import com.vikingz.unitycoon.achievements.IsThisAUniversityAchievement;
+import com.vikingz.unitycoon.achievements.LuckyAchievement;
 import com.vikingz.unitycoon.achievements.MasterOfChangeAchievement;
 import com.vikingz.unitycoon.achievements.MikeFreemanAwardAchievement;
 import com.vikingz.unitycoon.achievements.PrioritiesAchievement;
@@ -238,7 +239,7 @@ public class AchievementsTest extends TestSuper {
     @Test
     public void testLuckyAchievement() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Lucky");
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, LuckyAchievement.NAME);
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
 
@@ -333,7 +334,7 @@ public class AchievementsTest extends TestSuper {
     @Test
     public void testSaviourAchievements() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Saviour");
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, SaviourAchievement.NAME);
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
 
@@ -345,7 +346,7 @@ public class AchievementsTest extends TestSuper {
     @Test
     public void testUnluckyAchievement() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Unlucky");
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, UnluckyAchievement.NAME);
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
 
@@ -367,7 +368,7 @@ public class AchievementsTest extends TestSuper {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
 
         assertDoesNotThrow(() -> {
-            Achievement testAchievement = achievementsHandler.getAchievement("Unlucky");
+            Achievement testAchievement = achievementsHandler.getAchievement(UnluckyAchievement.NAME);
             @SuppressWarnings("unused")
             UnluckyAchievement attemptCast = ((UnluckyAchievement) testAchievement);
         }, "Confirm that getAchievement returns an object of the correct type.");
@@ -381,7 +382,7 @@ public class AchievementsTest extends TestSuper {
         // Set username to random string so that subsequent tests are independent
         achievementsHandler.setUsername(java.util.UUID.randomUUID().toString());
 
-        Achievement testAchievement = achievementsHandler.getAchievement("Unlucky");
+        Achievement testAchievement = achievementsHandler.getAchievement(UnluckyAchievement.NAME);
         testAchievement.usernameAchieved = true;
 
         assertDoesNotThrow(() -> achievementsHandler.saveAchievements(), "Save achievements should not throw an error");
@@ -404,7 +405,7 @@ public class AchievementsTest extends TestSuper {
         achievementsHandler.setUsername(user1Username);
         assertDoesNotThrow(() -> achievementsHandler.loadAchievements());
 
-        Achievement testAchievement1 = achievementsHandler.getAchievement("Unlucky");
+        Achievement testAchievement1 = achievementsHandler.getAchievement(UnluckyAchievement.NAME);
         testAchievement1.usernameAchieved = true;
 
         assertDoesNotThrow(() -> achievementsHandler.saveAchievements(), "Save achievements should not throw an error");
@@ -413,7 +414,7 @@ public class AchievementsTest extends TestSuper {
         achievementsHandler.setUsername(user2Username);
         assertDoesNotThrow(() -> achievementsHandler.loadAchievements());
 
-        Achievement testAchievement2 = achievementsHandler.getAchievement("Master Of Change");
+        Achievement testAchievement2 = achievementsHandler.getAchievement(MasterOfChangeAchievement.NAME);
         testAchievement2.usernameAchieved = true;
 
         assertDoesNotThrow(() -> achievementsHandler.saveAchievements(), "Save achievements should not throw an error");
@@ -444,7 +445,7 @@ public class AchievementsTest extends TestSuper {
         achievementsHandler.loadAchievements();
 
         // Achieve the 'Unlucky' Achievement
-        Achievement testAchievement = achievementsHandler.getAchievement("Unlucky");
+        Achievement testAchievement = achievementsHandler.getAchievement(UnluckyAchievement.NAME);
         testAchievement.usernameAchieved = true;
 
         assertDoesNotThrow(() -> achievementsHandler.saveAchievements(), "Save achievements should not throw an error");
@@ -457,7 +458,7 @@ public class AchievementsTest extends TestSuper {
         achievementsHandler.setUsername(username1);
         achievementsHandler.loadAchievements();
 
-        Achievement testAchievement2 = achievementsHandler.getAchievement("Saviour");
+        Achievement testAchievement2 = achievementsHandler.getAchievement(SaviourAchievement.NAME);
         testAchievement2.usernameAchieved = true;
 
         // Save additional achievement
@@ -488,7 +489,7 @@ public class AchievementsTest extends TestSuper {
         achievementsHandler.setUsername("Guest");
         achievementsHandler.loadAchievements();
 
-        Achievement testAchievement = achievementsHandler.getAchievement("Saviour");
+        Achievement testAchievement = achievementsHandler.getAchievement(SaviourAchievement.NAME);
         ((SaviourAchievement) testAchievement).burningBuildingSaved();
 
         achievementsHandler.checkAllAchievements();
@@ -515,17 +516,17 @@ public class AchievementsTest extends TestSuper {
             assertFalse(initialOutput.contains(achievement.getName()), "The achievement " + achievement.getName() + " should not be listed");
         }
         
-        Achievement testAchievement = achievementsHandler.getAchievement("Saviour");
+        Achievement testAchievement = achievementsHandler.getAchievement(SaviourAchievement.NAME);
         testAchievement.achieved = true;
 
-        Achievement testAchievement2 = achievementsHandler.getAchievement("Master Of Change");
+        Achievement testAchievement2 = achievementsHandler.getAchievement(MasterOfChangeAchievement.NAME);
         testAchievement2.achieved = true;
 
         String laterOutput = achievementsHandler.allAchievementsCompleted();
 
-        assertTrue(laterOutput.contains("Master Of Change"), "Should list Master Of Change as being achieved");
+        assertTrue(laterOutput.contains(MasterOfChangeAchievement.NAME), "Should list Master Of Change as being achieved");
 
-        assertTrue(laterOutput.contains("Saviour"), "Saviour should have been listed as being achieved");
+        assertTrue(laterOutput.contains(SaviourAchievement.NAME), "Saviour should have been listed as being achieved");
         assertTrue(laterOutput.contains(Integer.toString(testAchievement.getSatisfactionBonus())), "'Saviour's' Bonus should be shown");
     }
 }
