@@ -106,6 +106,7 @@ public class UsernameMenu extends Window{
     private void setUsername() {
         username = usernameField.getText();
         formatUsername();
+        GameGlobals.ACHIEVEMENTS.setUsername(UsernameMenu.getUsername());
         GameGlobals.ACHIEVEMENTS.loadAchievements();
     }
 }
