@@ -1,6 +1,7 @@
 package com.vikingz.unitycoon.events;
 
 import com.vikingz.unitycoon.events.eventfiles.*;
+import com.vikingz.unitycoon.global.GameGlobals;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -53,18 +54,33 @@ public class EventHandler {
         Event e;
         Random random = new Random();
 
-        int randomChoice = random.nextInt(9);
-        e = switch (randomChoice) {
-            case 0 -> new AlumniEvent();
-            case 1 -> new AwardEvent();
-            case 2 -> new BusChangeEvent();
-            case 3 -> new FeeIncreaseEvent();
-            case 4 -> new FireEvent();
-            case 5 -> new FloodEvent();
-            case 6 -> new RosesEvent();
-            case 7 -> new SponsorEvent();
-            default -> new StrikesEvent();
-        };
+        //Prevents the game from crashing due to events trying to interact with none existent buildings
+        if (GameGlobals.BUILDINGS_MAP.getPlacedBuildings().isEmpty()) {
+            int randomChoice = random.nextInt(7);
+            e = switch (randomChoice) {
+                case 0 -> new AlumniEvent();
+                case 1 -> new AwardEvent();
+                case 2 -> new BusChangeEvent();
+                case 3 -> new FeeIncreaseEvent();
+                case 4 -> new RosesEvent();
+                case 5 -> new SponsorEvent();
+                default -> new StrikesEvent();
+            };
+        }
+        else {
+            int randomChoice = random.nextInt(9);
+            e = switch (randomChoice) {
+                case 0 -> new AlumniEvent();
+                case 1 -> new AwardEvent();
+                case 2 -> new BusChangeEvent();
+                case 3 -> new FeeIncreaseEvent();
+                case 4 -> new FireEvent();
+                case 5 -> new FloodEvent();
+                case 6 -> new RosesEvent();
+                case 7 -> new SponsorEvent();
+                default -> new StrikesEvent();
+            };
+        }
 
         //Generates the correct format depending on if the event has two options or no choice
         if (e.noChoice) {
