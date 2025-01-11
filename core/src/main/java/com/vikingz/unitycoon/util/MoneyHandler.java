@@ -1,8 +1,12 @@
 package com.vikingz.unitycoon.util;
 
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.vikingz.unitycoon.building.Building;
+import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.building.EarnSchedule;
 
 /**
@@ -12,6 +16,9 @@ import com.vikingz.unitycoon.building.EarnSchedule;
 public class MoneyHandler {
     
     int balance;
+
+    // Used to keep track of type-wide changes to the amount of money a building yields
+    Map<BuildingType, Float> earningMultipliersByType = new HashMap<BuildingType,Float>();
 
     // Support limiting the amount of debt that player is allowed to accumulate
     public static final int MAX_DEBT = Integer.MAX_VALUE;
@@ -24,6 +31,11 @@ public class MoneyHandler {
      */
     public MoneyHandler() {
         balance = STARTING_BALANCE;
+
+        // Set all multipliers initially to 1
+        EnumSet.allOf(BuildingType.class).forEach(buildingType -> {
+            earningMultipliersByType.put(buildingType, 1f);
+        });
     }
 
     /**
@@ -59,12 +71,13 @@ public class MoneyHandler {
      */
     public void earn(List<Building> buildings, EarnSchedule earnSchedule) {
         for (Building building : buildings){
-            if (balance >= 0) {
-                balance += building.calculateProfitMade(earnSchedule);
+            float multiplier = earningMultipliersByType.get(building.getBuildingType());
+
+            if (balance < 0) { // Earnings half when in debt
+                multiplier *= 0.5;
             }
-            else {
-                balance += 0.5 * building.calculateProfitMade(earnSchedule);
-            }
+            
+            balance += multiplier * building.calculateProfitMade(earnSchedule);
         }
     }
 
@@ -74,5 +87,18 @@ public class MoneyHandler {
      */
     public float getBalance() {
         return balance;
+    }
+
+    /**
+     * Applies a new multiplier to specific building type (compounded on existing multiplier)
+     * @param buildingType Type of building to apply multiplier to
+     * @param multiplier Float value to multiply by
+     * @return New total multiplier (not including how earnings half when in debt)
+     */
+    public float applyMultiplierToType(BuildingType buildingType, float multiplier) {
+        float newMultiplier = earningMultipliersByType.get(buildingType) * multiplier;
+        earningMultipliersByType.put(buildingType, newMultiplier);
+
+        return newMultiplier;
     }
 }

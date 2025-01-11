@@ -91,21 +91,6 @@ public class BuildingStats {
     }
 
     /**
-     * Change the incomes from the passed in type of building.
-     * This is a new method used to change the income from different buildings for UR_EVENTS_RESULT.
-     * @param multiplier the multiplier to modify the income from each building of the inputted type.
-     */
-    public static void setTypeIncomes(BuildingType type, float multiplier) {
-        String[] newBuildingIncomes = new String[buildingCoinDict.get(type).length];
-        //Multiplies each value in coins dict for the given type by multiplier
-        for (int i = 0; i < newBuildingIncomes.length; i++) {
-            int newIncome = (int) (multiplier * (Integer.valueOf(buildingCoinDict.get(type)[i])));
-            newBuildingIncomes[i] = String.valueOf(newIncome);
-        }
-        buildingCoinDict.put(type, newBuildingIncomes);
-    }
-
-    /**
      * Creates the Texture Image for the Building to be drawn with using the lookup dictionary.
      * @param id String name of the building
      * @return TextureRegion
