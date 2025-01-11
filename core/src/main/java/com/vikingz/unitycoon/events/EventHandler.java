@@ -1,5 +1,6 @@
 package com.vikingz.unitycoon.events;
 
+import com.badlogic.gdx.utils.Null;
 import com.vikingz.unitycoon.events.eventfiles.*;
 import com.vikingz.unitycoon.global.GameGlobals;
 
@@ -94,7 +95,7 @@ public class EventHandler {
      * Used to call specific events, mostly to created event chains
      * @param eventName a string containing the name of the event
      */
-    public EventPopup setEvent(String eventName) {
+    public EventPopup setEvent(String eventName){
 
         Event e;
 
@@ -103,8 +104,12 @@ public class EventHandler {
             case "StrikesResolvedEvent" -> new StrikesResolvedEvent();
             case "RosesWinEvent" -> new RosesWinEvent();
             case "RosesLoseEvent" -> new RosesLoseEvent();
-            default -> new TestEvent();
+            default -> null;
         };
+
+        if (e == null) {
+            throw new NullPointerException("The event specified does not exist.");
+        }
 
         if (e.noChoice) {
             return new EventPopup(e.skin, e.message, e.leftRun);
