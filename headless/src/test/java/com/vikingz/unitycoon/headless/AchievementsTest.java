@@ -1,5 +1,7 @@
 package com.vikingz.unitycoon.headless;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -10,6 +12,7 @@ import com.vikingz.unitycoon.util.AchievementsHandler;
 import com.vikingz.unitycoon.util.MoneyHandler;
 import com.vikingz.unitycoon.achievements.Achievement;
 import com.vikingz.unitycoon.achievements.SaviourAchievement;
+import com.vikingz.unitycoon.achievements.UnluckyAchievement;
 import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.global.GameGlobals;
 
@@ -342,5 +345,175 @@ public class AchievementsTest extends TestSuper {
         GameGlobals.EVENT.incrementNegativeEvent();
 
         assertTrue(relevantAchievement.isCompleted(), "Confirm that Master Of Change is awarded after 3 negative events");
+    }
+
+
+    // ─── Testing Of The AchievementsHandler Utility Functions ────────────
+
+    @Test
+    public void testGetAchievement() {
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+
+        assertDoesNotThrow(() -> {
+            Achievement testAchievement = achievementsHandler.getAchievement("Unlucky");
+            @SuppressWarnings("unused")
+            UnluckyAchievement attemptCast = ((UnluckyAchievement) testAchievement);
+        }, "Confirm that getAchievement returns an object of the correct type.");
+        
+    }
+
+    @Test
+    public void testAchievementsLoadSave() {
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+
+        // Set username to random string so that subsequent tests are independent
+        achievementsHandler.setUsername(java.util.UUID.randomUUID().toString());
+
+        Achievement testAchievement = achievementsHandler.getAchievement("Unlucky");
+        testAchievement.usernameAchieved = true;
+
+        assertDoesNotThrow(() -> achievementsHandler.saveAchievements(), "Save achievements should not throw an error");
+
+        testAchievement.usernameAchieved = false;
+
+        assertDoesNotThrow(() -> achievementsHandler.loadAchievements());
+
+        assertTrue(testAchievement.usernameAchieved);
+    }
+
+    @Test
+    public void testMultiUserAchievementsLoadSave() {
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+
+        String user1Username = java.util.UUID.randomUUID().toString();
+        String user2Username = java.util.UUID.randomUUID().toString();
+
+        // User 1 plays the game
+        achievementsHandler.setUsername(user1Username);
+        assertDoesNotThrow(() -> achievementsHandler.loadAchievements());
+
+        Achievement testAchievement1 = achievementsHandler.getAchievement("Unlucky");
+        testAchievement1.usernameAchieved = true;
+
+        assertDoesNotThrow(() -> achievementsHandler.saveAchievements(), "Save achievements should not throw an error");
+
+        // User 2 plays the game
+        achievementsHandler.setUsername(user2Username);
+        assertDoesNotThrow(() -> achievementsHandler.loadAchievements());
+
+        Achievement testAchievement2 = achievementsHandler.getAchievement("Master Of Change");
+        testAchievement2.usernameAchieved = true;
+
+        assertDoesNotThrow(() -> achievementsHandler.saveAchievements(), "Save achievements should not throw an error");
+
+        // Check that User1's achievements were saved
+        achievementsHandler.setUsername(user1Username);
+        assertDoesNotThrow(() -> achievementsHandler.loadAchievements());
+
+        assertTrue(testAchievement1.usernameAchieved, "User 1 should have completed 'Unlucky'");
+        assertFalse(testAchievement2.usernameAchieved, "User 1 should not have completed 'Master Of Change'");
+
+        // Check that User2's achievements were saved
+        achievementsHandler.setUsername(user2Username);
+        assertDoesNotThrow(() -> achievementsHandler.loadAchievements());
+
+        assertFalse(testAchievement1.usernameAchieved, "User 2 should not have completed 'Unlucky'");
+        assertTrue(testAchievement2.usernameAchieved, "User 2 should have completed 'Master Of Change'");
+        
+    }
+
+    @Test
+    public void testAchievementsExistingUserLoadSave() {
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+
+        String username1 = java.util.UUID.randomUUID().toString();
+
+        achievementsHandler.setUsername(username1);
+        achievementsHandler.loadAchievements();
+
+        // Achieve the 'Unlucky' Achievement
+        Achievement testAchievement = achievementsHandler.getAchievement("Unlucky");
+        testAchievement.usernameAchieved = true;
+
+        assertDoesNotThrow(() -> achievementsHandler.saveAchievements(), "Save achievements should not throw an error");
+
+        // Load achievements for another random user
+        achievementsHandler.setUsername(java.util.UUID.randomUUID().toString());
+        achievementsHandler.loadAchievements();
+
+        // Reload achievements for the original user
+        achievementsHandler.setUsername(username1);
+        achievementsHandler.loadAchievements();
+
+        Achievement testAchievement2 = achievementsHandler.getAchievement("Saviour");
+        testAchievement2.usernameAchieved = true;
+
+        // Save additional achievement
+        assertDoesNotThrow(() -> achievementsHandler.saveAchievements(), "Save achievements should not throw an error");
+
+        // Load achievements for another random user
+        achievementsHandler.setUsername(java.util.UUID.randomUUID().toString());
+        achievementsHandler.loadAchievements();
+
+        assertFalse(testAchievement.usernameAchieved, "The brand new user should not have completed any achievements");
+        assertFalse(testAchievement2.usernameAchieved, "The brand new user should not have completed any achievements");
+
+        // Reload achievements for the original user
+        achievementsHandler.setUsername(username1);
+        achievementsHandler.loadAchievements();
+
+        assertTrue(testAchievement.usernameAchieved, "Our test user should have completed 'Unlucky'");
+        assertTrue(testAchievement2.usernameAchieved, "Our test user should have completed 'Saviour'");
+    }
+
+
+    // ─── Presentation Of Achievements To Users ───────────────────────────
+
+    @Test
+    public void testNewAchievementUnlocked() {
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+
+        achievementsHandler.setUsername("Guest");
+        achievementsHandler.loadAchievements();
+
+        Achievement testAchievement = achievementsHandler.getAchievement("Saviour");
+        ((SaviourAchievement) testAchievement).burningBuildingSaved();
+
+        achievementsHandler.checkAllAchievements();
+
+        assertEquals(1, achievementsHandler.achievementsToDisplay.size());
+        assertTrue(achievementsHandler.achievementsToDisplay.peek().contains("NEW ACHIEVEMENT"), "'Saviour' should be a new achievement");
+        assertFalse(achievementsHandler.achievementsToDisplay.remove().contains("NEW HIDDEN ACHIEVEMENT"), "'Savior' is not a hidden achievement");
+
+        assertTrue(testAchievement.achieved, "achieved should be updated within the achievement itself");
+        assertTrue(testAchievement.usernameAchieved, "usernameAchieved should be updated");
+    }
+
+    @Test
+    public void testAllAchievementsOutput() {
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+        
+        achievementsHandler.setUsername("Guest");
+        achievementsHandler.loadAchievements();
+
+        String initialOutput = achievementsHandler.allAchievementsCompleted();
+
+        // Test that with no achievement achieved, non appear in the output
+        for (Achievement achievement : achievementsHandler.getAchievements()) {
+            assertFalse(initialOutput.contains(achievement.getName()), "The achievement " + achievement.getName() + " should not be listed");
+        }
+        
+        Achievement testAchievement = achievementsHandler.getAchievement("Saviour");
+        testAchievement.achieved = true;
+
+        Achievement testAchievement2 = achievementsHandler.getAchievement("Master Of Change");
+        testAchievement2.achieved = true;
+
+        String laterOutput = achievementsHandler.allAchievementsCompleted();
+
+        assertTrue(laterOutput.contains("Master Of Change"), "Should list Master Of Change as being achieved");
+
+        assertTrue(laterOutput.contains("Saviour"), "Saviour should have been listed as being achieved");
+        assertTrue(laterOutput.contains(Integer.toString(testAchievement.getSatisfactionBonus())), "'Saviour's' Bonus should be shown");
     }
 }

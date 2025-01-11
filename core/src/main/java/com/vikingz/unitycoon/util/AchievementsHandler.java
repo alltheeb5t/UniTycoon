@@ -21,7 +21,6 @@ import com.vikingz.unitycoon.achievements.PrioritiesAchievement;
 import com.vikingz.unitycoon.achievements.RealisticAchievement;
 import com.vikingz.unitycoon.achievements.SaviourAchievement;
 import com.vikingz.unitycoon.achievements.UnluckyAchievement;
-import com.vikingz.unitycoon.menus.UsernameMenu;
 
 /**
  * This class contains manages all achievements during the game.
@@ -39,7 +38,7 @@ public class AchievementsHandler {
     
     public Queue<String> achievementsToDisplay;
 
-    private ArrayList<String> allUserAchievements;
+    private ArrayList<String> allUserAchievements = new ArrayList<String>();
     private final File achievementsFile = new File("achievements.txt");
 
     private String username;
@@ -55,6 +54,15 @@ public class AchievementsHandler {
 
     public Achievement[] getAchievements() {
         return gameAchievements;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+
+        // When a new username is selected, reset usernameAchieved
+        for (Achievement achievement : gameAchievements) {
+            achievement.usernameAchieved = false;
+        }
     }
 
     /**
@@ -111,8 +119,7 @@ public class AchievementsHandler {
      * Loads achievements from text file.
      */
     public void loadAchievements(){
-        username = UsernameMenu.getUsername();
-        allUserAchievements = new ArrayList<String>();
+        allUserAchievements.clear();
 
         if (username != "Guest") {
             try {
