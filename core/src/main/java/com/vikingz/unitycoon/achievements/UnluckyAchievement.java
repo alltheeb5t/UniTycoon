@@ -15,10 +15,12 @@ public class UnluckyAchievement extends Achievement {
         super();
     }
 
+    @Override
     public String getName() {
         return NAME;
     }
 
+    @Override
     public String getDescription() {
         return DESCRIPTION;
     }

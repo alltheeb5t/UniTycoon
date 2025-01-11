@@ -16,10 +16,12 @@ public class SaviourAchievement extends Achievement {
         savedBurningBuilding = false;
     }
 
+    @Override
     public String getName() {
         return NAME;
     }
 
+    @Override
     public String getDescription() {
         return DESCRIPTION;
     }

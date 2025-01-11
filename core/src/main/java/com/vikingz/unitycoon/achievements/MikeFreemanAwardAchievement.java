@@ -19,10 +19,12 @@ public class MikeFreemanAwardAchievement extends Achievement {
         mikeFreemanAwardStartTime = 0;
     }
 
+    @Override
     public String getName() {
         return NAME;
     }
 
+    @Override
     public String getDescription() {
         return DESCRIPTION;
     }

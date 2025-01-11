@@ -20,10 +20,12 @@ public class MasterOfChangeAchievement extends Achievement {
         masterOfChangePossible = true;
     }
 
+    @Override
     public String getName() {
         return NAME;
     }
 
+    @Override
     public String getDescription() {
         return DESCRIPTION;
     }

@@ -16,10 +16,12 @@ public class IndecisiveAchievement extends Achievement {
         removedBuildings = 0;
     }
 
+    @Override
     public String getName() {
         return NAME;
     }
 
+    @Override
     public String getDescription() {
         return DESCRIPTION;
     }

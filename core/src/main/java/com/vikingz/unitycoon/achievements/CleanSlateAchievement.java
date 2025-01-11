@@ -18,10 +18,12 @@ public class CleanSlateAchievement extends Achievement {
         cleanSlateMinReached = false;
     }
 
+    @Override
     public String getName() {
         return NAME;
     }
 
+    @Override
     public String getDescription() {
         return DESCRIPTION;
     }

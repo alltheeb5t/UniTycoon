@@ -192,7 +192,7 @@ public class BuildingsMap {
     }
 
     /**
-     * Gets the building at the point paused in.
+     * Gets the building at the specified point
      * @param x Mouse X
      * @param y Mouse Y
      * @return Building that was at the coords

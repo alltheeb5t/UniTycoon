@@ -9,7 +9,7 @@ import com.vikingz.unitycoon.global.GameGlobals;
 public class BareMinimumAchievement extends Achievement {
     
     public static final String NAME = "Bare Minimum";
-    static final String DESCRIPTION = "Place exactly 1 of each building type.";
+    public static final String DESCRIPTION = "Place exactly 1 of each building type.";
 
     boolean bareMinimumPossible;
 
@@ -18,10 +18,12 @@ public class BareMinimumAchievement extends Achievement {
         bareMinimumPossible = true;
     }
 
+    @Override
     public String getName() {
         return NAME;
     }
 
+    @Override
     public String getDescription() {
         return DESCRIPTION;
     }

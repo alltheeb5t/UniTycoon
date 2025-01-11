@@ -27,6 +27,7 @@ public abstract class Building {
     BuildingInfo buildingInfo;
     float earnAmount;
 
+    // Protected so can be overridden by building subclasses
     protected EarnSchedule earnSchedule = EarnSchedule.DAILY;
 
     public Building(TextureRegion texture, float x, float y, BuildingInfo buildingInfo, float earnAmount){
