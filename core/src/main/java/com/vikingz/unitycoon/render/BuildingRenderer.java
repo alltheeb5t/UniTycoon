@@ -24,52 +24,55 @@ import com.vikingz.unitycoon.menus.RemoveBuildingMenu;
 import com.vikingz.unitycoon.util.GameSounds;
 
 /**
- *  This class is in charge of drawing Buildings in the game.
+ * This class is in charge of drawing Buildings in the game.
  *
  * This class also does the collision calculations for buildings
  * which make sure that the user is unable to place buildings on top
  * of each other, as well as using right click to be able to remove the
  * buildings from the game.
+ * 
+ * This class has been refactored to make the code more readable and too add new UI_features
+ * following the user evaluation.
  */
 public class BuildingRenderer{
 
-    //Used to draw buildings textures
-    private final SpriteBatch batch;
+    // Used to draw buildings textures.
+    final SpriteBatch batch;
 
-    // Used to display removeBuildingMenu on the UIRenderer stage
-    // This allows the user to interact with buttons on the menu
-    private Stage UIStage;
+    // Used to display removeBuildingMenu on the UIRenderer stage.
+    // This allows the user to interact with buttons on the menu.
+    Stage UIStage;
 
-    //X and Y values used to place buildings
-    private float previewX, previewY;
+    // X and Y values used to place buildings.
+    float previewX, previewY;
 
-    //If building is being placed by user
-    private boolean isPreviewing;
+    // If building is being placed by user.
+    boolean isPreviewing;
 
-    //Prevents building being placed and menu opening in the same click
-    private boolean openMenu;
+    // Prevents building being placed and menu opening in the same click.
+    boolean openMenu;
 
-    //Textures of Building, fire and construction
-    private TextureRegion selectedTexture;
-    private Texture underConstructionTexture = new Texture("png\\UnderConstruction.png");
-    private Texture fireTexture = new Texture("png\\fire.png");
+    // Textures of Building, fire and construction.
+    TextureRegion selectedTexture;
+    Texture underConstructionTexture = new Texture("png\\UnderConstruction.png");
+    Texture fireTexture = new Texture("png\\fire.png");
 
+    // Current Building being placed information.
+    BuildingInfo currentBuildingInfo = null;
 
-    //Current Building being placed information
-    private BuildingInfo currentBuildingInfo = null;
+    // GameRender used to get mouse position and background tiles.
+    final GameRenderer gameRenderer;
 
-    //GameRender used to get mouse position and background tiles
-    private final GameRenderer gameRenderer;
+    // Checks if the user wants to delete a building.
+    RemoveBuildingMenu removeBuildingPopUp;
 
-    //Checks if the user wants to delete a building
-    private RemoveBuildingMenu removeBuildingPopUp;
-
-    // Pop Up when a player tries to place a building on a colliding square
-    private TextButton collisionPopUp;
+    // Pop Up when a player tries to place a building on a colliding square.
+    TextButton collisionPopUp;
 
     /**
      * Creates a new Building Renderer
      * @param gameRenderer Parent renderer {@code GameRenderer}
+     * @param skin Used to display building popups
      */
     public BuildingRenderer(GameRenderer gameRenderer, Skin skin) {
 
@@ -90,7 +93,8 @@ public class BuildingRenderer{
         collisionPopUp = new TextButton("Unable to place building here", skin);
         collisionPopUp.setColor(Color.RED);
         collisionPopUp.setWidth(350);
-        collisionPopUp.setPosition((UIStage.getWidth() - collisionPopUp.getWidth()) / 2, (UIStage.getHeight() - 100));
+        collisionPopUp.setPosition((UIStage.getWidth() - collisionPopUp.getWidth()) / 2, 
+            (UIStage.getHeight() - 100));
         collisionPopUp.getLabel().setFontScale((float)0.4,(float)0.4);
     }
 
@@ -103,25 +107,27 @@ public class BuildingRenderer{
     }
 
     /**
-     * Checks if the user is currently adding or removing buildings
+     * Checks if the user is currently adding or removing buildings.
+     * This method has been refactored to complete FR_BUILD_TIME and UR_EVENTS
      * @param delta Time since last frame
      */
     private void checkBuildings(float delta){
-        //Stops previewing building and background building being removed at once
+        //Stops previewing building and background building being removed at once.
         Boolean removedPreviewing = false;
 
         // Update preview position to follow the mouse cursor
         if (isPreviewing && selectedTexture != null) {
             // Stops previewing building if user right clicks
             if(Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)){
-                System.out.println("RightClick");
                 isPreviewing = false;
                 selectedTexture = null;
                 removedPreviewing = true;
             }
 
             // Makes sure that the mouse is in the center of the building texture
-            Vector3 previewPoint = snapBuildingToGrid(Gdx.input.getX() - GameGlobals.SCREEN_BUILDING_SIZE / 2, Gdx.input.getY() + GameGlobals.SCREEN_BUILDING_SIZE / 2);
+            Vector3 previewPoint = snapBuildingToGrid(Gdx.input.getX() - 
+                GameGlobals.SCREEN_BUILDING_SIZE / 2, Gdx.input.getY() + 
+                GameGlobals.SCREEN_BUILDING_SIZE / 2);
 
             previewX = previewPoint.x;
             previewY = previewPoint.y;
@@ -135,13 +141,16 @@ public class BuildingRenderer{
             // Checks if building is under construction
             if (building.getConstructing()) {
                 batch.draw(underConstructionTexture, building.getX(), 
-                    building.getY(), GameGlobals.SCREEN_BUILDING_SIZE, (int) (GameGlobals.SCREEN_BUILDING_SIZE * 0.75));
+                    building.getY(), GameGlobals.SCREEN_BUILDING_SIZE, 
+                        (int) (GameGlobals.SCREEN_BUILDING_SIZE * 0.75));
 
-                // Starts or stops timer if needed, doesn't place building if not currently building buildings.
+                // Starts or stops timer if needed, doesn't place building if not currently building 
+                //buildings.
                 if (building.getEndConstructionTime() == -1) {
                     building.setEndConstructionTime(GameGlobals.TIME_REMAINING - 10);
                 }
-                else if(building.getEndConstructionTime() >= GameGlobals.TIME_REMAINING && GameGlobals.buildingAllowed) {
+                else if(building.getEndConstructionTime() >= GameGlobals.TIME_REMAINING && 
+                    GameGlobals.buildingAllowed) {
                     building.setConstructing(false);
                     GameGlobals.BUILDINGS_MAP.builtBuilding(building);
                 }
@@ -167,13 +176,14 @@ public class BuildingRenderer{
 
         // Removes the building the user right clicks on
         if(Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && !removedPreviewing){
-            System.out.println("RightClick");
             Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
+            Building buildingToRemove = GameGlobals.BUILDINGS_MAP.getBuildingAtPoint(translatedPoint.x, 
+                translatedPoint.y);
 
-            Building buildingToRemove = GameGlobals.BUILDINGS_MAP.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
             //If building exists brings up pop-up
             if(buildingToRemove != null) {
-                removeBuildingPopUp.setPosition((UIStage.getWidth() - removeBuildingPopUp.getWidth()) / 2, (UIStage.getHeight() - removeBuildingPopUp.getHeight()) / 2);
+                removeBuildingPopUp.setPosition((UIStage.getWidth() - removeBuildingPopUp.getWidth()) / 2, 
+                    (UIStage.getHeight() - removeBuildingPopUp.getHeight()) / 2);
                 removeBuildingPopUp.setupPopUp(GameGlobals.BUILDINGS_MAP, buildingToRemove);
                 UIStage.addActor(removeBuildingPopUp);
             }
@@ -182,10 +192,12 @@ public class BuildingRenderer{
         // Stops fire if the building is on fire
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && selectedTexture == null){
             Vector3 translatedPoint = gameRenderer.translateCoords(Gdx.input.getX(), Gdx.input.getY());
-            Building currentBuilding = GameGlobals.BUILDINGS_MAP.getBuildingAtPoint(translatedPoint.x, translatedPoint.y);
+            Building currentBuilding = GameGlobals.BUILDINGS_MAP.getBuildingAtPoint(translatedPoint.x, 
+                translatedPoint.y);
             if(currentBuilding != null) {
                 if(currentBuilding.getOnFire()){    
-                    SaviourAchievement saviourAchievement = (SaviourAchievement) GameGlobals.ACHIEVEMENTS.getAchievement(SaviourAchievement.NAME);
+                    SaviourAchievement saviourAchievement = (SaviourAchievement) (
+                        GameGlobals.ACHIEVEMENTS.getAchievement(SaviourAchievement.NAME));
                     saviourAchievement.burningBuildingSaved();
                 }
                 currentBuilding.setOnFire(false);
@@ -195,7 +207,8 @@ public class BuildingRenderer{
         // Check for left mouse click to place the texture
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && selectedTexture != null) {
 
-            if (!GameGlobals.BUILDINGS_MAP.attemptAddBuilding(currentBuildingInfo, selectedTexture, previewX, previewY).isEmpty()) {
+            if (!GameGlobals.BUILDINGS_MAP.attemptAddBuilding(currentBuildingInfo, selectedTexture, 
+                    previewX, previewY).isEmpty()) {
                 // Plays the sound of a building being places
                 GameSounds.playPlacedBuilding();
 
@@ -205,9 +218,7 @@ public class BuildingRenderer{
                 selectedTexture = null;
             }
             else {
-                // If building is colliding with something
-                
-                //Creates a task to remove the event from the screen after 8s.
+                //Creates a task to remove the event from the screen after 3s.
                 Timer timer = new Timer(3000, new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent arg0) {
@@ -219,7 +230,6 @@ public class BuildingRenderer{
                 UIStage.addActor(collisionPopUp);
                 timer.start();
 
-                System.err.println("Player Trying to place on a collision piece");
                 GameSounds.playPlaceError();
             }
 
@@ -241,10 +251,8 @@ public class BuildingRenderer{
 
         isPreviewing = true;
         BuildingInfo newBuilding = BuildingStats.getInfo(buildingType,index);
-        selectedTexture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(buildingType)[index]);
-        if (selectedTexture == null){
-            System.err.println("ERROR: Could not select building: " + BuildingStats.buildingDict.get(buildingType)[index]);
-        }
+        selectedTexture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(
+                buildingType)[index]);
         currentBuildingInfo = newBuilding;
     }
 
@@ -252,12 +260,10 @@ public class BuildingRenderer{
      * Snaps the coordinates passed in to the grid
      * @param x X
      * @param y Y
-     * @return Point new coordinates that occur on an intersection of the tiles in the background
+     * @return Point new coordinates that occur on an intersection of the tiles in the background.
      */
     private Vector3 snapBuildingToGrid(float x, float y){
 
-        // 30 rows
-        // 56 cols
         int gridSize = 32;
         Vector3 translatedPoint = gameRenderer.translateCoords(x, y);
 
@@ -276,25 +282,17 @@ public class BuildingRenderer{
     }
 
     /**
-     * Updates the width and height when the window
-     * is resized
+     * Updates the width and height when the window is resized.
      */
-    public void resize() {
-    }
+    public void resize() {}
 
     /**
-     * disposes building being drawn for garbage collection
+     * Disposes building being drawn for garbage collection.
      */
     public void dispose(){
         batch.dispose();
     }
 
-    // ─── Getters And Setters ─────────────────────────────────────────────
-
-    /**
-     * Return the Building Map object. Used by the GameScreen for satisfaction calculation
-     * @return
-     */
     public void setUIStage(Stage stage) {
         this.UIStage = stage;
     }

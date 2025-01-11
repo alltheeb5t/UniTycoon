@@ -8,9 +8,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.vikingz.unitycoon.global.GameSkins;
 
 /**
- * This is an abstract class that contains all the components
- * that all other screens use, and therefore by creating them in here
- * we de-clutter all the other screen classes.
+ * This is an abstract class that contains all the components that all other screens use, and therefore 
+ * by creating them in here we de-clutter all the other screen classes.
+ * 
+ * This class has been refactored slightly to make the code more readable, but it is largely unchanged.
  */
 public abstract class SuperScreen {
 
@@ -20,8 +21,8 @@ public abstract class SuperScreen {
     public Skin skin;
 
     /**
-     * Defines a Super screen constructor that other buildings
-     * that inherit from this abstract class use as a base case
+     * Defines a Super screen constructor that other buildings that inherit from this abstract class 
+     * use as a base case.
      */
     public SuperScreen(){
         stage = new Stage(new ScreenViewport());
@@ -38,5 +39,4 @@ public abstract class SuperScreen {
     public void takeInput(){
         Gdx.input.setInputProcessor(stage);
     }
-
 }

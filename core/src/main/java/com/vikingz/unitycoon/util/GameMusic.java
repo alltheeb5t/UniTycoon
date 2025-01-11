@@ -6,19 +6,20 @@ import com.vikingz.unitycoon.global.GameConfig;
 
 
 /**
- * This class plays the game music throughout the game
+ * This class plays the game music throughout the game.
+ * 
+ * This class has been refactored slightly to make the code more readable, however it is largely unchanged.
  */
 public class GameMusic {
 
     //Object that holds backgroundMusic to be played
-    private static Music backgroundMusic;
+    static Music backgroundMusic;
 
     //Sets the volume of the background music
     public static float volume = GameConfig.getInstance().MusicVolumeValue;
 
     /**
-     * Initialises the Game music class by loading in the
-     * sound files and settings initial settings
+     * Initialises the Game music class by loading in the sound files and settings initial settings.
      */
     public void init() {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/Background_Music.ogg"));
@@ -50,5 +51,4 @@ public class GameMusic {
         GameMusic.volume = GameConfig.getInstance().MusicVolumeValue;
         play();
     }
-
 }

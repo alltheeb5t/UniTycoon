@@ -202,10 +202,12 @@ public class BuildMenu{
         Label buildingCoins;
         // Sets label to semester if the building changes money every semester and second otherwise
         if (buildingType == BuildingType.ACADEMIC || buildingType == BuildingType.ACCOMODATION) {
-            buildingCoins = new Label("Coins Per Semester: " + buildingCoinDict.get(buildingType)[0],skin);
+            buildingCoins = new Label("Coins Per Semester: " + buildingCoinDict.get(buildingType)[0] + "k",
+                skin);
         }
         else {
-            buildingCoins = new Label("Coins Per Second: " + buildingCoinDict.get(buildingType)[0],skin);
+            buildingCoins = new Label("Coins Per Second: " + buildingCoinDict.get(buildingType)[0] + "k",
+                skin);
         }
         window.add(buildingCoins).expandX();
         window.row();
@@ -217,7 +219,7 @@ public class BuildMenu{
             buildingPrice = new Label("Price: FREE", skin);
         }
         else {
-            buildingPrice= new Label("Price: " + BuildingStats.buildingPriceDict.get(buildingType)[0],skin);
+            buildingPrice= new Label("Price: " + BuildingStats.buildingPriceDict.get(buildingType)[0] + "k",skin);
         }
         window.add(buildingPrice);
 
@@ -340,15 +342,16 @@ public class BuildMenu{
             buildingPrice.setText("Price: FREE");
         }
         else {
-            buildingPrice.setText("Price: " + BuildingStats.buildingPriceDict.get(buildingType)[index]);
+            buildingPrice.setText("Price: " + BuildingStats.buildingPriceDict.get(buildingType)[index] 
+                + "k");
         }
         buildingStudent.setText("Student Space: " + BuildingStats.buildingStudentDict.get(
                 buildingType)[index]);
         if (buildingType == BuildingType.ACADEMIC || buildingType == BuildingType.ACCOMODATION) {
-            buildingCoins.setText("Coins Per Semester: " + buildingCoinDict.get(buildingType)[index]);
+            buildingCoins.setText("Coins Per Semester: " + buildingCoinDict.get(buildingType)[index] + "k");
         }
         else {
-            buildingCoins.setText("Coins Per Second: " + buildingCoinDict.get(buildingType)[index]);
+            buildingCoins.setText("Coins Per Second: " + buildingCoinDict.get(buildingType)[index] + "k");
         }
         buildingImage.setDrawable(BuildingStats.getTextureDrawableOfBuilding(BuildingStats.buildingDict.get(
                 buildingType)[index]));

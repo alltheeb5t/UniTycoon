@@ -5,8 +5,13 @@ import java.util.List;
 import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.EarnSchedule;
 
+/**
+ * This new class contains all the balance functions.
+ * It was implemented to complete UR_FINANCE and FR_STUDENT_FINANCE.
+ */
 public class MoneyHandler {
-    private int balance;
+    
+    int balance;
 
     // Support limiting the amount of debt that player is allowed to accumulate
     public static final int MAX_DEBT = Integer.MAX_VALUE;
@@ -48,8 +53,8 @@ public class MoneyHandler {
 
 
     /**
-     * Called periodically by the timer. Calculates and adds revenue from
-     * buildings that provide a continuous revenue stream (e.g. food outlets).
+     * Called periodically by the timer. Calculates and adds revenue from buildings that provide 
+     * a continuous revenue stream (e.g. food outlets).
      * Earns only half the normal amount of money if in debt.
      */
     public void earn(List<Building> buildings, EarnSchedule earnSchedule) {

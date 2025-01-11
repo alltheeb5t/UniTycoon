@@ -21,12 +21,12 @@ import com.vikingz.unitycoon.global.GameConfig;
 public class GameRenderer {
 
     // Viewport stuff
-    private final Stage stage;
-    private final Camera camera;
-    private final Viewport viewport;
+    final Stage stage;
+    final Camera camera;
+    final Viewport viewport;
 
-    private final BackgroundRenderer backgroundRenderer;
-    private final BuildingRenderer buildingRenderer;
+    final BackgroundRenderer backgroundRenderer;
+    final BuildingRenderer buildingRenderer;
 
     /**
      * Creates and new Game Renderer
@@ -38,11 +38,9 @@ public class GameRenderer {
         camera = new OrthographicCamera();
         viewport = new FillViewport(GameConfig.getInstance().getWindowWidth(), GameConfig.getInstance().getWindowHeight());
 
-
         stage = new Stage(viewport);
         backgroundRenderer = new BackgroundRenderer(mapName);
         buildingRenderer = new BuildingRenderer(this, skin);
-
     }
 
     /**
@@ -56,11 +54,10 @@ public class GameRenderer {
         camera.update();
         backgroundRenderer.render(delta);
         buildingRenderer.render(delta);
-
     }
 
     /**
-     * Translates screen coordinates to game canvas coordinates
+     * Translates screen coordinates to game canvas coordinates.
      * @param p Point on the screen
      * @return Point on the game canvas
      */
@@ -71,7 +68,7 @@ public class GameRenderer {
     }
 
     /**
-     * Translates screen width to canvas width
+     * Translates screen width to canvas width.
      * @param width Width
      * @return float Translated width
      */
@@ -82,7 +79,7 @@ public class GameRenderer {
     }
 
     /**
-     * Translates screen height to canvas height
+     * Translates screen height to canvas height.
      * @param height Height
      * @return float Translated height
      */
@@ -93,7 +90,7 @@ public class GameRenderer {
     }
 
     /**
-     * Updates renderers when the window is resized
+     * Updates renderers when the window is resized.
      * @param width New width
      * @param height New height
      */
@@ -101,22 +98,15 @@ public class GameRenderer {
         viewport.update(width, height);
         backgroundRenderer.resize();
         buildingRenderer.resize();
-
     }
 
-    /**
-     * used to get BuildingRenderer from parent GameRenderer
-     * @return BuildingRenderer
-     */
     public BuildingRenderer getBuildingRenderer(){
         return buildingRenderer;
     }
 
-    /**
-     * used to get BackgroundRenderer from parent GameRenderer
-     * @return BackgroundRenderer
-     */
-    public BackgroundRenderer getBackgroundRenderer() {return backgroundRenderer;}
+    public BackgroundRenderer getBackgroundRenderer() {
+        return backgroundRenderer;
+    }
 
     /**
      * disposes all renderers being drawn for garbage collection

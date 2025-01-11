@@ -27,33 +27,35 @@ import com.vikingz.unitycoon.util.Leaderboard;
 
 /**
  * This class renders all the UI elements to the Screen.
- * <p>
- * This enables us to control how the UI is draw and resized
- * differently from how the rest of the game is drawn.
- * <p>
- * This class essentially forms another layer on the screen that
- * renders all the UI elements on this layer as opposed to the
- * game layer.
+ * 
+ * This enables us to control how the UI is draw and resized differently from how the rest of 
+ * the game is drawn.
+ * 
+ * This class essentially forms another layer on the screen that renders all the UI elements on 
+ * this layer as opposed to the game layer.
+ * 
+ * This class has been refactored to change the appearance of the UI to complete NFR_EASE_OF_USE.
+ * It also completes UR_ACHIEVEMENTS and UR_LEADERBOARD.
  */
 public class UIRenderer {
 
-    private final Stage stage;
-    private final Viewport viewport;
-    private final SpriteBatch spriteBatch;
+    final Stage stage;
+    final Viewport viewport;
+    final SpriteBatch spriteBatch;
 
-    private final BuildMenu buildMenu;
-    private final StatsRenderer statsRenderer;
+    final BuildMenu buildMenu;
+    final StatsRenderer statsRenderer;
 
     // Popup Menus
-    private final PauseMenu pauseMenu;
-    private final EndMenu endOfTimerPopup;
-    private final LeaderboardMenu leaderboardPopUp;
+    final PauseMenu pauseMenu;
+    final EndMenu endOfTimerPopup;
+    final LeaderboardMenu leaderboardPopUp;
 
-    private boolean displayingAchievement = false;
-    private TextButton achievementLabel;
+    boolean displayingAchievement = false;
+    TextButton achievementLabel;
 
-    private Texture statsBarTexture;
-    private ImageButton pauseBtn;
+    Texture statsBarTexture;
+    ImageButton pauseBtn;
 
     GameScreen gameScreen;
 
@@ -64,10 +66,8 @@ public class UIRenderer {
      */
     public UIRenderer(Skin skin, BuildingRenderer buildingRenderer){
 
-        //viewport = new FillViewport(1824, 1026);
         viewport = new FitViewport(1824, 1026);
         spriteBatch = new SpriteBatch();
-        //viewport = new ScreenViewport();
         stage = new Stage(viewport);
 
         //Set pause button
@@ -100,13 +100,15 @@ public class UIRenderer {
         // Set up achievements popup
         achievementLabel = new TextButton("", skin);
         achievementLabel.setWidth(1000);
-        achievementLabel.setPosition((stage.getWidth() - achievementLabel.getWidth()) / 2, (stage.getHeight() - 100));
+        achievementLabel.setPosition((stage.getWidth() - achievementLabel.getWidth()) / 2,  
+            (stage.getHeight() - 100));
         achievementLabel.getLabel().setFontScale((float)0.4,(float)0.4);
 
         // Sets what the buttons do on the end of timer window
         Runnable rightBtn = ScreenMultiplexer::closeGame;
         Runnable leftBtn = () -> {
-            leaderboardPopUp.setPosition((stage.getWidth() - leaderboardPopUp.getWidth()) / 2, (stage.getHeight() - leaderboardPopUp.getHeight()) / 2);
+            leaderboardPopUp.setPosition((stage.getWidth() - leaderboardPopUp.getWidth()) / 2, 
+                (stage.getHeight() - leaderboardPopUp.getHeight()) / 2);
             stage.addActor(leaderboardPopUp);};
 
         endOfTimerPopup.setupButtons(leftBtn, "Leaderboard", rightBtn, "Menu");
@@ -117,8 +119,8 @@ public class UIRenderer {
     }
 
     /**
-     * When the game screen has decided the game has finished the game
-     * will call this function which will show the end of game popup.
+     * When the game screen has decided the game has finished the game will call this function which 
+     * will show the end of game popup.
      */
     public void endGame(String title) {
         Leaderboard.loadLeaderboard();
@@ -127,11 +129,13 @@ public class UIRenderer {
         message += GameGlobals.ACHIEVEMENTS.allAchievementsCompleted();
         endOfTimerPopup.setTitle(title);
         endOfTimerPopup.setMessage(message);
-        endOfTimerPopup.setPosition((stage.getWidth() - endOfTimerPopup.getWidth()) / 2, (stage.getHeight() - endOfTimerPopup.getHeight()) / 2);
+        endOfTimerPopup.setPosition((stage.getWidth() - endOfTimerPopup.getWidth()) / 2, 
+            (stage.getHeight() - endOfTimerPopup.getHeight()) / 2);
         stage.addActor(endOfTimerPopup);
 
         if (Leaderboard.isLeaderboardScore(GameGlobals.SATISFACTION.getSatisfaction())) {
-            Leaderboard.addScoreToLeaderBoard(GameGlobals.SATISFACTION.getSatisfaction(), UsernameMenu.getUsername());
+            Leaderboard.addScoreToLeaderBoard(GameGlobals.SATISFACTION.getSatisfaction(), 
+                UsernameMenu.getUsername());
             Leaderboard.saveLeaderboard();
         }
 
@@ -143,11 +147,11 @@ public class UIRenderer {
      * Creates the event and displays it
      */
     public void createEvent() {
-        System.out.println("Event made");
 
         PopupMenu event = GameGlobals.EVENT.randomEvent().getPopup();
         stage.addActor(event);
-        event.setPosition((stage.getWidth() - event.getWidth()) / 2, (stage.getHeight() - event.getHeight()) / 2);
+        event.setPosition((stage.getWidth() - event.getWidth()) / 2, 
+            (stage.getHeight() - event.getHeight()) / 2);
         GameGlobals.TIME.setPaused(true);
     }
 
@@ -155,11 +159,11 @@ public class UIRenderer {
      * Creates a specific event and displays it
      */
     public void createEvent(String eventName) {
-        System.out.println("Event made");
 
         PopupMenu event = GameGlobals.EVENT.setEvent(eventName).getPopup();
         stage.addActor(event);
-        event.setPosition((stage.getWidth() - pauseMenu.getWidth()) / 2, (stage.getHeight() - pauseMenu.getHeight()) / 2);
+        event.setPosition((stage.getWidth() - event.getWidth()) / 2, 
+            (stage.getHeight() - event.getHeight()) / 2);
         GameGlobals.TIME.setPaused(true);
     }
 
@@ -168,11 +172,11 @@ public class UIRenderer {
      * @param isPaused boolean of if the game is paused
      */
     public void pause(boolean isPaused) {
-        System.out.println("Pressed ESC");
 
         if(!pauseMenu.hasParent()){
             stage.addActor(pauseMenu);
-            pauseMenu.setPosition((stage.getWidth() - pauseMenu.getWidth()) / 2, (stage.getHeight() - pauseMenu.getHeight()) / 2);
+            pauseMenu.setPosition((stage.getWidth() - pauseMenu.getWidth()) / 2, 
+                (stage.getHeight() - pauseMenu.getHeight()) / 2);
             GameGlobals.TIME.setPaused(true);
         }
         else{
@@ -183,14 +187,14 @@ public class UIRenderer {
     }
 
     /**
-     * Calls all render functions in the renderers
+     * Calls all render functions in the renderers.
      * @param delta
      */
     public void render(float delta){
         // Draws stats bar
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
-        //Uses values defined when viewport is created
+        // Uses values defined when viewport is created
         spriteBatch.draw(statsBarTexture, 0, 983, 1824, 43);
         spriteBatch.end();
 
@@ -211,7 +215,6 @@ public class UIRenderer {
         stage.getViewport().update(width, height, true);
         buildMenu.resize(width, height);
         statsRenderer.resize(width, height);
-
     }
 
     /**
@@ -219,7 +222,6 @@ public class UIRenderer {
      */
     public void takeInput(){
         Gdx.input.setInputProcessor(stage);
-
     }
 
     /**
@@ -234,7 +236,7 @@ public class UIRenderer {
      */
     public void displayAchievements() {
 
-        //Creates a task to remove the event from the screen after 8s.
+        //Creates a task to remove the achievement from the screen after 8s.
         Timer timer = new Timer(8000, new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent arg0) {

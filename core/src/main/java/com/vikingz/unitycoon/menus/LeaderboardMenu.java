@@ -72,7 +72,7 @@ public class LeaderboardMenu extends Window{
                 output +=  i + ". " + message.split("\n")[i-1];
             }
             if(i == pos) {
-                output +=  "(this game)";
+                output +=  "(you)";
             }
             output += "\n";
         }

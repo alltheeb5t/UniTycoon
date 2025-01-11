@@ -23,13 +23,15 @@ import com.vikingz.unitycoon.util.TimeHandler;
  * This class contains all the labels that are on the
  * top right of the screen that display the users balance,
  * satisfaction etc.
+ * 
+ * This class has been refactored to change the UI for the stats display
  */
 public class StatsRenderer {
 
     //Used to render UI
-    private final SpriteBatch batch;
-    private final BitmapFont font;
-    private final Stage stage;
+    final SpriteBatch batch;
+    final BitmapFont font;
+    final Stage stage;
 
     //Used to resize UI renderer to new screen size
     float width;
@@ -127,15 +129,19 @@ public class StatsRenderer {
         }
 
         //Texture atlas of building menu bar
-        Texture textureAtlas = new Texture(Gdx.files.internal("textureAtlases/buildMenuButtonsAtlas.png")); // Load your 64x64 PNG
+        Texture textureAtlas = new Texture(Gdx.files.internal("textureAtlases/buildMenuButtonsAtlas.png"));
 
         //Sets the pixel size of tiles used for build menu bar
         int atlasTileSize = 64;
         //Sets all the images
-        academImg = new Image(new TextureRegion(textureAtlas, (int) (atlasTileSize * 0.5), atlasTileSize, atlasTileSize, atlasTileSize));
-        accomImg = new Image(new TextureRegion(textureAtlas, (int) (atlasTileSize * 2.5), atlasTileSize, atlasTileSize, atlasTileSize));
-        recImg = new Image(new TextureRegion(textureAtlas, (int) (atlasTileSize * 4.5), atlasTileSize, atlasTileSize, atlasTileSize));
-        foodImg = new Image(new TextureRegion(textureAtlas, (int) (atlasTileSize * 6.5), atlasTileSize, atlasTileSize, atlasTileSize));
+        academImg = new Image(new TextureRegion(textureAtlas, (int) (atlasTileSize * 0.5), atlasTileSize, 
+            atlasTileSize, atlasTileSize));
+        accomImg = new Image(new TextureRegion(textureAtlas, (int) (atlasTileSize * 2.5), atlasTileSize, 
+            atlasTileSize, atlasTileSize));
+        recImg = new Image(new TextureRegion(textureAtlas, (int) (atlasTileSize * 4.5), atlasTileSize, 
+            atlasTileSize, atlasTileSize));
+        foodImg = new Image(new TextureRegion(textureAtlas, (int) (atlasTileSize * 6.5), atlasTileSize, 
+            atlasTileSize, atlasTileSize));
         balImg = new Image(new Texture("png\\moneySymbol.png"));
         satisImg = new Image(new Texture("png\\satisfactionSymbol.png"));
         timerImg = new Image(new Texture("png\\timeSymbol.png"));
@@ -217,7 +223,8 @@ public class StatsRenderer {
         batch.begin();
 
         // Update the label contents each frame
-        if (GameGlobals.MONEY.getBalance() < 0) {balance.setColor(Color.RED);} //Sets the balance colour to red if in debt
+        //Sets the balance colour to red if in debt
+        if (GameGlobals.MONEY.getBalance() < 0) {balance.setColor(Color.RED);} 
         else {balance.setColor(Color.WHITE);}
         balStr = "" + (int)(GameGlobals.MONEY.getBalance()) + "k";
         studentsStr = "" + GameGlobals.STUDENTS;
