@@ -192,8 +192,7 @@ public class AchievementsTest extends TestSuper {
     public void testIndecisiveAchievement() {
         BuildingsMap testMap = getTestMap();
 
-        AchievementsHandler achievementsHandler = new AchievementsHandler();
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Indecisive");
+        Achievement relevantAchievement = getRelevantAchievement(GameGlobals.ACHIEVEMENTS, "Indecisive");
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
 
