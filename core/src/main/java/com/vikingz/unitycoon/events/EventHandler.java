@@ -1,6 +1,5 @@
 package com.vikingz.unitycoon.events;
 
-import com.badlogic.gdx.utils.Null;
 import com.vikingz.unitycoon.events.eventfiles.*;
 import com.vikingz.unitycoon.global.GameGlobals;
 
@@ -96,6 +95,7 @@ public class EventHandler {
     /**
      * Used to call specific events, mostly to created event chains
      * @param eventName a string containing the name of the event
+     * @return EventPopup for requested event. null if requested event was invalid
      */
     public EventPopup setEvent(String eventName){
 
