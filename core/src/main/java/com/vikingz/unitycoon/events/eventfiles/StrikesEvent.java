@@ -11,6 +11,11 @@ import java.util.Random;
  */
 public class StrikesEvent extends Event{
 
+    /**
+     * A negative event where the staff strike, freezing buildings from building.
+     * The player can either pay the staff to end the strikes at the cost of increased building costs, and a slight satisfaction hit,
+     * or they may attempt to wait the strikes out, either recalling this event or resolving the strikes.
+     */
     public StrikesEvent() {
 
         GameGlobals.buildingAllowed = false;

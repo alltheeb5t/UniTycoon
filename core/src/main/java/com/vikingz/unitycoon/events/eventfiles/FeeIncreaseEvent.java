@@ -9,6 +9,9 @@ import com.vikingz.unitycoon.global.GameGlobals;
  */
 public class FeeIncreaseEvent extends Event{
 
+    /**
+     * A neutral event where fees increase, giving more money from accommodation buildings, but decreasing satisfaction.
+     */
     public FeeIncreaseEvent() {
 
         setMessage("Inflation has hit your Uni!\n\nIncome from Accommodation has increased,\nbut people"
