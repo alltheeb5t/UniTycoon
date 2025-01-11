@@ -6,16 +6,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
- * This class creates a Menu that pops up when the user chooses to 
- * view the leaderboard at the end of the game.
+ * This class creates a Menu that pops up when the user chooses to view the leaderboard at the end 
+ * of the game.
+ * This new class was made to complete FR_LEADERBOARD and FR_NEW_TOP_SCORE.
  */
 public class LeaderboardMenu extends Window{
 
-    private Label messageLabel;
+    Label messageLabel;
 
     // Skin for the popup
-    private final Skin skin;
-
+    final Skin skin;
 
     /**
      * Creates a new leaderboard menu.

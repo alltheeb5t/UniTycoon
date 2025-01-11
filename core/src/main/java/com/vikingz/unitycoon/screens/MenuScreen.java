@@ -16,21 +16,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 /**
  * This class represents the main menu of the game.
  *
- * The main menu is where the user begins from. This menu
- * contains multiple buttons that allow the user to begin the game.
+ * The main menu is where the user begins from. This menu contains multiple buttons that allow the user 
+ * to begin the game.
  *
  * Inherits Screen, SuperScreen
+ * 
+ * This class has been refactored slightly to make the code more readable and improve UI.
  */
 public class MenuScreen extends SuperScreen implements Screen {
-
 
     /**
      * Creates a new menu screen
      */
     public MenuScreen() {
         Gdx.input.setInputProcessor(stage);
-
-        // Load a default skin
 
         // Create buttons
         TextButton playButton = new TextButton("Play", skin);
@@ -116,9 +115,7 @@ public class MenuScreen extends SuperScreen implements Screen {
     }
 
     @Override
-    public void show() {
-        // Called when this screen becomes the current screen for the game.
-    }
+    public void show() {}
 
     @Override
     public void render(float delta) {
@@ -144,12 +141,10 @@ public class MenuScreen extends SuperScreen implements Screen {
     public void resume() { }
 
     @Override
-    public void hide() {
-        // This removes the bug where the user can still click the buttons from the game screen.
-    }
+    public void hide() {}
 
     /**
-     * disposes MenuScreen for garbage collection
+     * Disposes MenuScreen for garbage collection.
      */
     @Override
     public void dispose() {

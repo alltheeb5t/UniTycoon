@@ -13,23 +13,22 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
- * This class represents the screen where the user chooses the
- * map they want to play.
+ * This class represents the screen where the user chooses the map they want to play.
  *
- * This class contains a bunch of buttons that allow the user to
- * cycle through the different maps available as well as go back
- * to the main menu or play game.
+ * This class contains a bunch of buttons that allow the user to cycle through the different maps available 
+ * as well as go back to the main menu or play game.
  *
  * Inherits Screen, SuperScreen
- *
+ * 
+ * This class has been refactored slightly to make the code more readable and improve UI.
  */
 public class MapSelectorScreen extends SuperScreen implements Screen {
 
     //Text that shows which map is currently selected
-    private final TextField mapText;
+    final TextField mapText;
 
     //List of map Image that are used to set the preview image
-    private final TextureRegionDrawable[] mapArray;
+    final TextureRegionDrawable[] mapArray;
 
     //Current map Selected
     private int mapSelection = 1;
@@ -103,7 +102,6 @@ public class MapSelectorScreen extends SuperScreen implements Screen {
         table.setFillParent(true);
         table.center();
 
-
         table.add((Actor) null);
         table.add(mapImage).width(300).height(350).pad(10);
 
@@ -119,15 +117,12 @@ public class MapSelectorScreen extends SuperScreen implements Screen {
         table.add((Actor) null);
         table.add(startGame).pad(10);
 
-
         // Add the table to the stage
         stage.addActor(table);
     }
 
     @Override
-    public void show() {
-        // This method is called when the screen is shown
-    }
+    public void show() {}
 
     /**
      * Renders the stage to the screen
@@ -165,7 +160,7 @@ public class MapSelectorScreen extends SuperScreen implements Screen {
     public void hide() { }
 
     /**
-     * disposes MapScreen for garbage collection
+     * Disposes MapScreen for garbage collection.
      */
     @Override
     public void dispose() {

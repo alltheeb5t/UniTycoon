@@ -23,25 +23,26 @@ import com.vikingz.unitycoon.achievements.SaviourAchievement;
 import com.vikingz.unitycoon.achievements.UnluckyAchievement;
 
 /**
- * This class contains manages all achievements during the game.
+ * This new class contains manages all achievements during the game.
+ * It was implemented to complete UR_ACHIEVEMENTS.
  */
 public class AchievementsHandler {
     
     // All Achievements
-    private Achievement[] gameAchievements = {new BareMinimumAchievement(), new RealisticAchievement(),
-        new BusyCampusAchievement(), new CleanSlateAchievement(), new IndecisiveAchievement(),
-        new IsThisAUniversityAchievement(), new LuckyAchievement(), new MasterOfChangeAchievement(),
-        new MikeFreemanAwardAchievement(), new PrioritiesAchievement(), new SaviourAchievement(),
+    Achievement[] gameAchievements = {new BareMinimumAchievement(), new BusyCampusAchievement(),
+        new CleanSlateAchievement(), new IndecisiveAchievement(), new IsThisAUniversityAchievement(), 
+        new LuckyAchievement(), new MasterOfChangeAchievement(), new MikeFreemanAwardAchievement(), 
+        new PrioritiesAchievement(), new RealisticAchievement(), new SaviourAchievement(), 
         new UnluckyAchievement()};
 
-    private int bonus;
+    int bonus;
     
     public Queue<String> achievementsToDisplay;
 
-    private ArrayList<String> allUserAchievements = new ArrayList<String>();
-    private final File achievementsFile = new File("achievements.txt");
+    ArrayList<String> allUserAchievements = new ArrayList<String>();
+    final File achievementsFile = new File("achievements.txt");
 
-    private String username;
+    String username;
     
     public AchievementsHandler() {
         achievementsToDisplay = new LinkedList<>();
@@ -67,8 +68,8 @@ public class AchievementsHandler {
 
     /**
      * Saves achievement to text file. 
-     * Format: username followed by true/false for each achievement seperated by
-     * spaces. Each new username is put on a new line.
+     * Format: username followed by true/false for each achievement seperated by spaces. 
+     * Each new username is put on a new line.
      */
     public void saveAchievements(){
         // Don't save if user is a guest.
@@ -106,8 +107,6 @@ public class AchievementsHandler {
                 FileWriter fileWriter = new FileWriter(achievementsFile);
                 fileWriter.write(valueToSave);
                 fileWriter.close();
-                
-                System.out.println("Successfully wrote to the achievements file.");
 
             } catch (IOException i) {
                 System.out.println("FILE NOT FOUND");
@@ -138,16 +137,12 @@ public class AchievementsHandler {
                 }
                 fileReader.close();
 
-                System.out.println("\n\nLoaded Achievements");
-
-            } catch (IOException i) {
-                System.out.println("FILE NOT FOUND");
-            }
+            } catch (IOException i) {}
         }
     }
 
     /**
-     * Makes a list of achievements that have been completed during the game
+     * Makes a list of achievements that have been completed during the game.
      * @return String containing the list to be output
      */
     public String allAchievementsCompleted() {
@@ -155,7 +150,7 @@ public class AchievementsHandler {
         for (int i = 0; i < gameAchievements.length; i++) {
             if (gameAchievements[i].achieved) {
                 output += "\n  -  " + gameAchievements[i].getName();
-                if(i == 8 || i == 10) {
+                if(i == 7 || i == 10) {
                     if (i == 10) {output += "\t \t    ";}
                     output += "\t(+5% satisfaction)";
                 }
@@ -215,7 +210,7 @@ public class AchievementsHandler {
     }
 
     /**
-     * Returns the achievement with the desired type
+     * Returns the achievement with the desired type.
      * @param achievementName the name of the achievement wanted
      * @return
      */

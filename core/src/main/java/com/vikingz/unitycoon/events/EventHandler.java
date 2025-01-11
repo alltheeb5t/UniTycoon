@@ -1,12 +1,16 @@
 package com.vikingz.unitycoon.events;
 
 import com.vikingz.unitycoon.events.eventfiles.*;
+import com.vikingz.unitycoon.global.GameGlobals;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * This new class manages the random events that occur during the game.
+ * It was implemented to complete UR_EVENTS, FR_EVENT_RESULT, FR_EVENT_DISPLAY, FR_EVENT_CHOICE.
+ */
 public class EventHandler {
 
     public int[] getEventTimes() {
@@ -38,12 +42,10 @@ public class EventHandler {
 
         eventQueue = new HashMap<>();
 
+        //Creates 1 event per in game year.
         eventTimes[0] = random.nextInt(201, 285);
-        //eventTimes[0] = 285;
         eventTimes[1] = random.nextInt(101, 199);
         eventTimes[2] = random.nextInt(15, 99);
-
-        System.out.println(Arrays.toString(eventTimes));
     }
 
     /**
@@ -54,19 +56,35 @@ public class EventHandler {
         Event e;
         Random random = new Random();
 
-        int randomChoice = random.nextInt(9);
-        e = switch (randomChoice) {
-            case 0 -> new AlumniEvent();
-            case 1 -> new AwardEvent();
-            case 2 -> new BusChangeEvent();
-            case 3 -> new FeeIncreaseEvent();
-            case 4 -> new FireEvent();
-            case 5 -> new FloodEvent();
-            case 6 -> new RosesEvent();
-            case 7 -> new SponsorEvent();
-            default -> new StrikesEvent();
-        };
+        //Prevents the game from crashing due to events trying to interact with none existent buildings
+        if (GameGlobals.BUILDINGS_MAP.getPlacedBuildings().isEmpty()) {
+            int randomChoice = random.nextInt(7);
+            e = switch (randomChoice) {
+                case 0 -> new AlumniEvent();
+                case 1 -> new AwardEvent();
+                case 2 -> new BusChangeEvent();
+                case 3 -> new FeeIncreaseEvent();
+                case 4 -> new RosesEvent();
+                case 5 -> new SponsorEvent();
+                default -> new StrikesEvent();
+            };
+        }
+        else {
+            int randomChoice = random.nextInt(9);
+            e = switch (randomChoice) {
+                case 0 -> new AlumniEvent();
+                case 1 -> new AwardEvent();
+                case 2 -> new BusChangeEvent();
+                case 3 -> new FeeIncreaseEvent();
+                case 4 -> new FireEvent();
+                case 5 -> new FloodEvent();
+                case 6 -> new RosesEvent();
+                case 7 -> new SponsorEvent();
+                default -> new StrikesEvent();
+            };
+        }
 
+        //Generates the correct format depending on if the event has two options or no choice
         if (e.noChoice) {
             return new EventPopup(e.skin, e.message, e.leftRun);
         } else {
@@ -77,8 +95,9 @@ public class EventHandler {
     /**
      * Used to call specific events, mostly to created event chains
      * @param eventName a string containing the name of the event
+     * @return EventPopup for requested event. null if requested event was invalid
      */
-    public EventPopup setEvent(String eventName) {
+    public EventPopup setEvent(String eventName){
 
         Event e;
 
@@ -87,8 +106,12 @@ public class EventHandler {
             case "StrikesResolvedEvent" -> new StrikesResolvedEvent();
             case "RosesWinEvent" -> new RosesWinEvent();
             case "RosesLoseEvent" -> new RosesLoseEvent();
-            default -> new TestEvent();
+            default -> null;
         };
+
+        if (e == null) {
+            throw new NullPointerException("The event specified does not exist.");
+        }
 
         if (e.noChoice) {
             return new EventPopup(e.skin, e.message, e.leftRun);
@@ -97,13 +120,20 @@ public class EventHandler {
         }
     }
 
+    /**
+     * Extends the queue of events to be run, given a specified time to execute the event
+     * @param time the time that the event should fire
+     * @param event the event that should be fired compiled into a runnable
+     */
     public void extendEventQueue(int time, Runnable event) {
-
         eventQueue.put(time, event);
     }
 
+    /**
+     * Removes an event from the queue after it is executed at a specific time
+     * @param time the time that the event was executed
+     */
     public void reduceEventQueue(int time) {
-
         eventQueue.remove(time);
     }
 

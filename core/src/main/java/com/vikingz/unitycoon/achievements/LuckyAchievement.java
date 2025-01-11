@@ -3,20 +3,17 @@ package com.vikingz.unitycoon.achievements;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
- * This class creates a lucky achievement object.
+ * This new class creates a lucky achievement object.
+ * It was implemented to complete FR_LUCKY_UNLOCK.
+ * 
  */
 public class LuckyAchievement extends Achievement {
 
-    private final String NAME = "Lucky";
-    private final String DESCRIPTION = "Get 3 positive events in one game.";
+    public static final String NAME = "Lucky";
+    public static final String DESCRIPTION = "Get 3 positive events in one game.";
 
     public LuckyAchievement() {
-        achieved = false;
-    }
-
-    @Override
-    public void reset() {
-        achieved = false;
+        super();
     }
     
     @Override
@@ -29,10 +26,6 @@ public class LuckyAchievement extends Achievement {
         return DESCRIPTION;
     }
 
-    /**
-     * Checks if achievement has been completed.
-     * @return true if achievement has been completed
-     */
     @Override
     public boolean isCompleted() {
         if (GameGlobals.EVENT.getPositiveEvent() == 3) {

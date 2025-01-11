@@ -3,27 +3,23 @@ package com.vikingz.unitycoon.achievements;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
- * This class creates a master of change achievement object.
+ * This new class creates a master of change achievement object.
+ * It was implemented to complete FR_CHANGE_UNLOCK.
  */
 public class MasterOfChangeAchievement extends Achievement {
-    
-    private boolean masterOfChangePossible;
 
-    private final String NAME = "Master Of Change";
-    private final String DESCRIPTION = "Remain under 30% satisfaction for the first 3 minutes and then win the game.";
-    private final boolean HIDDEN = true;
+    public static final String NAME = "Master Of Change";
+    public static final String DESCRIPTION = "Remain under 30% satisfaction for the first 3 minutes"
+                                           + " and then win the game.";
+    static final boolean HIDDEN = true;
+
+    boolean masterOfChangePossible;
 
     public MasterOfChangeAchievement() {
+        super();
         masterOfChangePossible = true;
-        achieved = false;
     }
 
-    @Override
-    public void reset() {
-        masterOfChangePossible = true;
-        achieved = false;
-    }
-    
     @Override
     public String getName() {
         return NAME;
@@ -35,14 +31,16 @@ public class MasterOfChangeAchievement extends Achievement {
     }
 
     @Override
+    public void reset() {
+        super.reset();
+        masterOfChangePossible = true;
+    }
+
+    @Override
     public boolean getHidden() {
         return HIDDEN;
     }
 
-    /**
-     * Checks if achievement has been completed.
-     * @return true if achievement has been completed
-     */
     @Override
     public boolean isCompleted() {
         if (GameGlobals.TIME_REMAINING <= 0 && masterOfChangePossible && GameGlobals.gameWon) {

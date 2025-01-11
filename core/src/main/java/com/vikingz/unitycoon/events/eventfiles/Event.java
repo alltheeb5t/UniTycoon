@@ -4,14 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.vikingz.unitycoon.building.BuildingsMap;
 import com.vikingz.unitycoon.global.GameGlobals;
 import com.vikingz.unitycoon.global.GameSkins;
-import com.vikingz.unitycoon.render.UIRenderer;
 import com.vikingz.unitycoon.screens.GameScreen;
 import com.vikingz.unitycoon.screens.ScreenMultiplexer;
 
 /**
- * This is an abstract class that contains all the components
- * that all other events use, and therefore by creating them in here
- * we de-clutter all the other event classes.
+ * This is an abstract class that contains the components that all other events use, and therefore 
+ * by creating them in here we de-clutter all the other event classes.
  */
 public abstract class Event {
 
@@ -81,6 +79,7 @@ public abstract class Event {
         };
         rightText = "";
 
+        //the default event is assumed to have no choice in options
         noChoice = true;
     }
 }

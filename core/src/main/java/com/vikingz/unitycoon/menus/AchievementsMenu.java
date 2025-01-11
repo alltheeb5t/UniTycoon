@@ -14,15 +14,16 @@ import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
  * This class creates a Menu that pops up when the user chooses to view the achievements.
+ * 
+ * This is a new class is used to complete FR_ACHIVEMENT_MENU.
  */
 public class AchievementsMenu extends Window{
 
     // Skin for the popup
-    private final Skin skin;
+    final Skin skin;
 
     // Table to display achievements
-    private Table table;
-
+    Table table;
 
     /**
      * Creates a new achievement menu.

@@ -3,40 +3,33 @@ package com.vikingz.unitycoon.building;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.vikingz.unitycoon.global.GameGlobals;
 
-
 /**
  * Building
  *
  * Abstract class that represents all of the buildings in the game.
+ * 
+ * This class has been refactored to help with code readability.
  */
 public abstract class Building {
 
     // Building drawing properties
-    private TextureRegion texture;
-    private float x;
-    private float y;
-    private float width;
-    private float height;
-    private boolean constructing;    
-    private float endConstructionTime;
-    private boolean onFire;
-
+    TextureRegion texture;
+    float x;
+    float y;
+    float width;
+    float height;
+    boolean constructing;    
+    float endConstructionTime;
+    boolean onFire;
 
     // Building functional properties
-    private BuildingStats.BuildingType buildingType;
-    private BuildingInfo buildingInfo;
-    private float earnAmount;
+    BuildingStats.BuildingType buildingType;
+    BuildingInfo buildingInfo;
+    float earnAmount;
 
+    // Protected so can be overridden by building subclasses
     protected EarnSchedule earnSchedule = EarnSchedule.DAILY;
 
-
-    /**
-     * Creates a new Building
-     * @param texture Texture
-     * @param x X
-     * @param y Y
-     * @param buildingInfo Building Info
-     */
     public Building(TextureRegion texture, float x, float y, BuildingInfo buildingInfo, float earnAmount){
         this.x = x;
         this.y = y;
@@ -50,98 +43,46 @@ public abstract class Building {
         this.earnAmount = earnAmount;
     }
 
-
-    // Getters and Setters
-
-
-    /**
-     * gets the building information of the building
-     * @return buildingInfo Building Info
-     */
     public BuildingInfo getBuildingInfo() {
         return buildingInfo;
     }
 
-    /**
-     * returns the float of the building width in pixels
-     * @return width float of building
-     */
     public float getWidth() {
         return width;
     }
 
-
-    /**
-     * Sets the pixel width of the building
-     * @param width float
-     */
     public void setWidth(float width) {
         this.width = width;
     }
 
-
-    /**
-     * returns the float of the building height in pixels
-     * @return height float of building
-     */
     public float getHeight() {
         return height;
     }
 
-    /**
-     * Sets the pixel height of the building
-     * @param height float
-     */
     public void setHeight(float height) {
         this.height = height;
     }
 
-
-    /**
-     * Returns the current texture of the building,
-     * used for seeing a preview of a building and rendering
-     * @return TextureRegion Image of the building
-     */
     public TextureRegion getTexture() {
         return texture;
     }
 
-    /**
-     * Sets the Texture of the building to passed param
-     * @param textureBuilding
-     */
     public void setTexture(TextureRegion textureBuilding) {
         this.texture = textureBuilding;
     }
 
-    /**
-     * gets the current middle point of the building X coordinate
-     * @return x float
-     */
     public float getX() {
         return x;
     }
 
-    /**
-     * Sets the x coordinate of the building to param float
-     * @param x
-     */
     public void setX(float x) {
         this.x = x;
     }
 
-    /**
-     * gets the current middle point of the building Y coordinate
-     * @return y float
-     */
     public float getY() {
         return y;
     }
 
-    /**
-     * Sets the y coordinate of the building to param float
-     * @param y
-     */
     public void setY(float y) {
         this.y = y;
     }
@@ -162,13 +103,6 @@ public abstract class Building {
         this.endConstructionTime = endConstructionTime;
     }
 
-    /**
-     * Lowers the endConstructionTime by the given amount.
-     */
-    public void updateEndConstructionTime(float extraTime) {
-        this.endConstructionTime -= extraTime;
-    }
-
     public boolean getOnFire() {
         return onFire;
     }
@@ -177,18 +111,23 @@ public abstract class Building {
         this.onFire = onFire;
     }
 
-    /**
-     * gets the buildingType ENUM of the building
-     * @return BuildingStats.BuildingType ENUM value
-     */
     public BuildingStats.BuildingType getBuildingType() {
         return buildingType;
     }
 
+    /**
+     * Lowers endConstructionTime by the given amount (extends constructing time by given amount).
+     * This is new method added to complete FR_BUILD_TIME.
+     * @param extraTime amount of time to extends constructing time by
+     */
+    public void updateEndConstructionTime(float extraTime) {
+        this.endConstructionTime -= extraTime;
+    }
 
     /**
-     * output the class to a string
-     * @return str String
+     * Displayed in the format:
+     *    x: 0 y: 0 width: 1 height: 1 type: NONE
+     * @return the building's attributes as a string
      */
     public String toString(){
         String str = "";
@@ -204,9 +143,10 @@ public abstract class Building {
 
     /**
      * Calculate the amount of earnings this building has made for the given period.
-     * Daily will actually be called roughly every 3.5 in-game days
-     * @param earnSchedule Will be set to either DAILY or SEMESTERLY depending on where the earn method is called from
-     * @return The building's defined earnAmount or 0 if not relevant to this building's EARN schedule
+     * Daily will actually be called roughly every 3.5 in-game days.
+     * This is a new method added to complete UR_FINANCE and FR_STUDENT_FINANCE
+     * @param earnSchedule Set to either DAILY or SEMESTERLY depending on where the earn method is called.
+     * @return The building's defined earnAmount or 0 if not relevant to this building's EARN schedule.
      */
     public float calculateProfitMade(EarnSchedule earnSchedule) {
         if (getConstructing()) {
@@ -215,9 +155,9 @@ public abstract class Building {
 
         if (earnSchedule == this.earnSchedule) {
             return earnAmount;
-        } else {
+        } 
+        else {
             return 0;
         }
-        
     }
 }

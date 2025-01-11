@@ -3,8 +3,16 @@ package com.vikingz.unitycoon.events.eventfiles;
 import com.vikingz.unitycoon.building.BuildingStats;
 import com.vikingz.unitycoon.global.GameGlobals;
 
+/**
+ * This is a new class which creates a roses wins event object.
+ * It was implemented to complete UR_EVENTS.
+ */
 public class RosesWinEvent extends Event {
 
+    /**
+     * The aftermath of the Roses event where the player wins.
+     * Income from recreational buildings is reset, and a satisfaction bonus is applied.
+     */
     public RosesWinEvent() {
 
         setMessage("Your University has won Roses!\n\nPeople are very happy!");

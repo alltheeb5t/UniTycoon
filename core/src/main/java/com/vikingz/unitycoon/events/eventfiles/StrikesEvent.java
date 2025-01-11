@@ -5,13 +5,24 @@ import com.vikingz.unitycoon.global.GameGlobals;
 
 import java.util.Random;
 
+/**
+ * This is a new class which creates a strikes event object.
+ * It was implemented to complete UR_EVENTS.
+ */
 public class StrikesEvent extends Event{
 
+    /**
+     * A negative event where the staff strike, freezing buildings from building.
+     * The player can either pay the staff to end the strikes at the cost of increased building costs, and a slight satisfaction hit,
+     * or they may attempt to wait the strikes out, either recalling this event or resolving the strikes.
+     */
     public StrikesEvent() {
 
         GameGlobals.buildingAllowed = false;
 
-        setMessage("Your staff have gone on strike over pay disputes!\n\nYou can either increase their pay and stop the strikes\nor hope it goes away on its own.\n\nWhile strikes are ongoing, you cannot\nbuild any more buildings and your\nsatisfaction will fall.");
+        setMessage("Your staff have gone on strike over pay disputes!\n\nYou can either increase their"
+            + " pay and stop the strikes\nor hope it goes away on its own.\n\nWhile strikes are ongoing,"
+            + " you cannot\nbuild any more buildings and your\nsatisfaction will fall.");
 
         setLeftText("Ignore");
 
