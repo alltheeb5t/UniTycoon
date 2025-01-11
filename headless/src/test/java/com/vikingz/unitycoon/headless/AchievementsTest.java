@@ -9,6 +9,7 @@ import com.vikingz.unitycoon.building.BuildingsMap;
 import com.vikingz.unitycoon.util.AchievementsHandler;
 import com.vikingz.unitycoon.util.MoneyHandler;
 import com.vikingz.unitycoon.achievements.Achievement;
+import com.vikingz.unitycoon.achievements.BareMinimumAchievement;
 import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.global.GameGlobals;
 
@@ -21,7 +22,7 @@ public class AchievementsTest extends TestSuper {
      * @return an instance of Achievement
      */
     private Achievement getRelevantAchievement(AchievementsHandler handler, String achievementName) {
-        Achievement relevantAchievement = new Achievement();
+        Achievement relevantAchievement = new BareMinimumAchievement();
         for (Achievement achievement : handler.getAchievements()) {
             if (achievement.getName() == achievementName) {
                 relevantAchievement = achievement;
@@ -273,7 +274,7 @@ public class AchievementsTest extends TestSuper {
         GameGlobals.TIME_REMAINING = 240;
 
         // Satisfaction is raised to above 80%
-        GameGlobals.SATISFACTION.addBonus(70);
+        GameGlobals.SATISFACTION.addBonus(60);
         achievementsHandler.checkAllAchievements(); // This is normally called in render(). Needed to start the timer
 
         // 59 seconds passes

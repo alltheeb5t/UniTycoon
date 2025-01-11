@@ -213,6 +213,7 @@ public class UIRenderer {
     public void resize(int width, int height){
         viewport.update(width, height);
         stage.getViewport().update(width, height, true);
+        spriteBatch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
         buildMenu.resize(width, height);
         statsRenderer.resize(width, height);
     }
