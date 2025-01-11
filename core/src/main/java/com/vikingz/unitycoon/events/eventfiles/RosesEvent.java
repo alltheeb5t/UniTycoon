@@ -11,6 +11,10 @@ import java.util.Random;
  */
 public class RosesEvent extends Event {
 
+    /**
+     * A positive event where the Roses competition occurs over the year, doubling income from recreational buildings.
+     * Building enough recreational buildings increases the odds of winning.
+     */
     public RosesEvent() {
 
         setMessage("Roses is about to start!\n\nSports teams eagerly await the event, and would like "

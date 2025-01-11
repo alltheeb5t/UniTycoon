@@ -3,8 +3,11 @@ package com.vikingz.unitycoon.headless;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.isA;
 
+import java.io.InvalidClassException;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -14,6 +17,7 @@ import com.vikingz.unitycoon.building.EarnSchedule;
 import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.events.EventHandler;
+import com.vikingz.unitycoon.events.EventPopup;
 import com.vikingz.unitycoon.events.eventfiles.AlumniEvent;
 import com.vikingz.unitycoon.events.eventfiles.AwardEvent;
 import com.vikingz.unitycoon.events.eventfiles.BusChangeEvent;
@@ -45,6 +49,14 @@ public class EventsTest extends TestSuper {
         assertTrue(chosenTimes[0] >= 200 && chosenTimes [0] < 300, "Confirm first event happens in first year");
         assertTrue(chosenTimes[1] >= 100 && chosenTimes [1] < 200, "Confirm next event happens in second year");
         assertTrue(chosenTimes[2] >= 000 && chosenTimes [2] < 100, "Confirm final event happens in third year");
+    }
+
+    @Test
+    public void testGetEvent() {
+        EventHandler testEventHandler = new EventHandler();
+        
+        assertEquals(EventPopup.class, testEventHandler.setEvent("StrikesEvent").getClass(), "Should be possible to retrieve a valid event");
+        assertThrows(NullPointerException.class, () -> testEventHandler.setEvent("InvalidName"), "Test that attempting to get an invalid name throws an error");
     }
 
 

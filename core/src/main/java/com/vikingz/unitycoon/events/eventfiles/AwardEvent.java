@@ -8,6 +8,9 @@ import com.vikingz.unitycoon.global.GameGlobals;
  */
 public class AwardEvent extends Event {
 
+    /**
+     * A positive event where the university wins an award. This doesn't add anything.
+     */
     public AwardEvent() {
 
         setMessage("Your University has won a prestigious award!");
