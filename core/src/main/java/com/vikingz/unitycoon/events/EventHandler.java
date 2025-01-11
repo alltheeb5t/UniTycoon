@@ -1,6 +1,8 @@
 package com.vikingz.unitycoon.events;
 
+import com.badlogic.gdx.utils.Null;
 import com.vikingz.unitycoon.events.eventfiles.*;
+import com.vikingz.unitycoon.global.GameGlobals;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,19 +57,35 @@ public class EventHandler {
         Event e;
         Random random = new Random();
 
-        int randomChoice = random.nextInt(9);
-        e = switch (randomChoice) {
-            case 0 -> new AlumniEvent();
-            case 1 -> new AwardEvent();
-            case 2 -> new BusChangeEvent();
-            case 3 -> new FeeIncreaseEvent();
-            case 4 -> new FireEvent();
-            case 5 -> new FloodEvent();
-            case 6 -> new RosesEvent();
-            case 7 -> new SponsorEvent();
-            default -> new StrikesEvent();
-        };
+        //Prevents the game from crashing due to events trying to interact with none existent buildings
+        if (GameGlobals.BUILDINGS_MAP.getPlacedBuildings().isEmpty()) {
+            int randomChoice = random.nextInt(7);
+            e = switch (randomChoice) {
+                case 0 -> new AlumniEvent();
+                case 1 -> new AwardEvent();
+                case 2 -> new BusChangeEvent();
+                case 3 -> new FeeIncreaseEvent();
+                case 4 -> new RosesEvent();
+                case 5 -> new SponsorEvent();
+                default -> new StrikesEvent();
+            };
+        }
+        else {
+            int randomChoice = random.nextInt(9);
+            e = switch (randomChoice) {
+                case 0 -> new AlumniEvent();
+                case 1 -> new AwardEvent();
+                case 2 -> new BusChangeEvent();
+                case 3 -> new FeeIncreaseEvent();
+                case 4 -> new FireEvent();
+                case 5 -> new FloodEvent();
+                case 6 -> new RosesEvent();
+                case 7 -> new SponsorEvent();
+                default -> new StrikesEvent();
+            };
+        }
 
+        //Generates the correct format depending on if the event has two options or no choice
         if (e.noChoice) {
             return new EventPopup(e.skin, e.message, e.leftRun);
         } else {
@@ -79,7 +97,7 @@ public class EventHandler {
      * Used to call specific events, mostly to created event chains
      * @param eventName a string containing the name of the event
      */
-    public EventPopup setEvent(String eventName) {
+    public EventPopup setEvent(String eventName){
 
         Event e;
 
@@ -88,8 +106,12 @@ public class EventHandler {
             case "StrikesResolvedEvent" -> new StrikesResolvedEvent();
             case "RosesWinEvent" -> new RosesWinEvent();
             case "RosesLoseEvent" -> new RosesLoseEvent();
-            default -> throw new IllegalArgumentException("Unexpected value: " + eventName);
+            default -> null;
         };
+
+        if (e == null) {
+            throw new NullPointerException("The event specified does not exist.");
+        }
 
         if (e.noChoice) {
             return new EventPopup(e.skin, e.message, e.leftRun);
@@ -99,17 +121,18 @@ public class EventHandler {
     }
 
     /**
-     * Allows events to run over a duration of time.
-     * @param time the time the event should last.
-     * @param event the event.
+     * Extends the queue of events to be run, given a specified time to execute the event
+     * @param time the time that the event should fire
+     * @param event the event that should be fired compiled into a runnable
      */
     public void extendEventQueue(int time, Runnable event) {
         eventQueue.put(time, event);
     }
 
     /**
-     * Removes an event from the queue once it has been completed. 
-     */ 
+     * Removes an event from the queue after it is executed at a specific time
+     * @param time the time that the event was executed
+     */
     public void reduceEventQueue(int time) {
         eventQueue.remove(time);
     }
