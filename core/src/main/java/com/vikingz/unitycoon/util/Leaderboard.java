@@ -16,9 +16,16 @@ public class Leaderboard {
     private static int leaderboardPos = 0;
 
     /**
+     * With the ability to specify a file manually for testing
+     */
+    public static void saveLeaderboard() {
+        saveLeaderboard(leaderboardFile);
+    }
+
+    /**
      * Saves leaderboard to text file.
      */
-    public static void saveLeaderboard(){
+    public static void saveLeaderboard(File leaderboardFile) {
         try {
             FileWriter fileWriter = new FileWriter(leaderboardFile);
             fileWriter.write(leaderboardValue);
@@ -33,9 +40,16 @@ public class Leaderboard {
 
 
     /**
+     * The ability to specify which file to load is for testing
+     */
+    public static void loadLeaderboard() {
+        loadLeaderboard(leaderboardFile);
+    }
+
+    /**
      * Loads leaderboard from text file.
      */
-    public static void loadLeaderboard(){
+    public static void loadLeaderboard(File leaderboardFile){
 
         leaderboardValue = "";
         try {
