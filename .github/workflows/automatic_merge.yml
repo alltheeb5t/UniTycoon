@@ -52,5 +52,5 @@ jobs:
         with:
           title: 'CI: Merge latest changes from main'
           reviewers: Lime-Parallelogram
-          branch: stageing
+          branch: stageing-${{matrix.branch}}
           labels: 'ci-automated'
