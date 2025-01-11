@@ -9,6 +9,7 @@ import com.vikingz.unitycoon.building.BuildingsMap;
 import com.vikingz.unitycoon.util.AchievementsHandler;
 import com.vikingz.unitycoon.util.MoneyHandler;
 import com.vikingz.unitycoon.achievements.Achievement;
+import com.vikingz.unitycoon.achievements.SaviourAchievement;
 import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.global.GameGlobals;
 
@@ -221,7 +222,19 @@ public class AchievementsTest extends TestSuper {
 
     @Test
     public void testLuckyAchievement() {
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Lucky");
 
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
+
+        GameGlobals.EVENT.incrementPositiveEvent();
+        GameGlobals.EVENT.incrementPositiveEvent();
+
+        assertFalse(relevantAchievement.isCompleted(), "BOUNDARY: Confirm that achievement isn't completed after 2 events");
+
+        GameGlobals.EVENT.incrementPositiveEvent();
+
+        assertTrue(relevantAchievement.isCompleted(), "Confirm that Master Of Change is awarded after 3 positive events");
     }
 
     @Test
@@ -304,11 +317,30 @@ public class AchievementsTest extends TestSuper {
 
     @Test
     public void testSaviourAchievements() {
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Saviour");
 
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
+
+        ((SaviourAchievement) relevantAchievement).burningBuildingSaved();
+
+        assertTrue(relevantAchievement.isCompleted(), "Confirm that saviour achievement is awarded");
     }
 
     @Test
     public void testUnluckyAchievement() {
+        AchievementsHandler achievementsHandler = new AchievementsHandler();
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Unlucky");
 
+        assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
+
+        GameGlobals.EVENT.incrementNegativeEvent();
+        GameGlobals.EVENT.incrementNegativeEvent();
+
+        assertFalse(relevantAchievement.isCompleted(), "BOUNDARY: Confirm that achievement isn't completed after 2 events");
+
+        GameGlobals.EVENT.incrementNegativeEvent();
+
+        assertTrue(relevantAchievement.isCompleted(), "Confirm that Master Of Change is awarded after 3 negative events");
     }
 }
