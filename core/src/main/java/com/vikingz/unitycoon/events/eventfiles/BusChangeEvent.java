@@ -2,6 +2,10 @@ package com.vikingz.unitycoon.events.eventfiles;
 
 import com.vikingz.unitycoon.global.GameGlobals;
 
+/**
+ * This is a new class which creates a bus change event object.
+ * It was implemented to complete UR_EVENTS.
+ */
 public class BusChangeEvent extends Event {
 
     public BusChangeEvent() {

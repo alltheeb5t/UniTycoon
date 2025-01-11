@@ -13,13 +13,13 @@ import com.vikingz.unitycoon.global.GameGlobals;
 
 /**
  * This class creates a Menu that pops up when the user tries to go delete a buliding.
+ * This new class was added after user-evaluation to improve the UI and better meet NFR_EASE_OF_USE.
  */
 public class RemoveBuildingMenu extends Window {
     
-    private Skin skin;
-
-    private String message = "Are you sure you want to delete this building?";
-    private Label messageLabel;
+    Skin skin;
+    String message = "Are you sure you want to delete this building?";
+    Label messageLabel;
 
     Table buttonsTbl;
 

@@ -22,7 +22,7 @@ public class BuildingTest extends TestSuper {
         BuildingType testBuildingType = BuildingType.ACADEMIC;
         int testBuildingIndex = 0;  // Represents what variant we want. ACADEMIC 0 is a Ron Cooke Hub
         BuildingInfo testBuildingInfo = BuildingStats.getInfo(testBuildingType, testBuildingIndex);
-        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuildingType)[testBuildingIndex]);
+        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuildingType)[testBuildingIndex]);
 
         assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 100, 10, true).isEmpty());
     }
@@ -37,7 +37,7 @@ public class BuildingTest extends TestSuper {
         BuildingType testBuildingType = BuildingType.ACADEMIC;
         int testBuildingIndex = 0;  // Represents what variant we want. ACADEMIC 0 is a Ron Cooke Hub
         BuildingInfo testBuildingInfo = BuildingStats.getInfo(testBuildingType, testBuildingIndex);
-        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuildingType)[testBuildingIndex]);
+        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuildingType)[testBuildingIndex]);
 
         assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 100, 10, true).isEmpty());
 
@@ -54,17 +54,17 @@ public class BuildingTest extends TestSuper {
     @Test
     public void testValidPlacementClose() {
         BuildingsMap testMap = getTestMap();
-        System.out.println(BuildingStats.BuildingDict.get(BuildingType.FOOD));
+        System.out.println(BuildingStats.buildingDict.get(BuildingType.FOOD));
 
         BuildingType testBuildingType = BuildingType.FOOD;
         int testBuildingIndex = 0;  // Represents what variant we want. FOOD 0 is McDonalds
         BuildingInfo testBuildingInfo = BuildingStats.getInfo(testBuildingType, testBuildingIndex);
-        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuildingType)[testBuildingIndex]);
+        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuildingType)[testBuildingIndex]);
 
         BuildingType testBuilding2Type = BuildingType.RECREATIONAL;
         int testBuilding2Index = 0;  // Represents what variant we want. RECREATIONAL 0 is York Sport Village
         BuildingInfo testBuilding2Info = BuildingStats.getInfo(testBuilding2Type, testBuilding2Index);
-        TextureRegion testBuilding2Texture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuilding2Type)[testBuilding2Index]);
+        TextureRegion testBuilding2Texture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuilding2Type)[testBuilding2Index]);
 
         // Right
         assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 480, 288, true).isEmpty());
@@ -97,7 +97,7 @@ public class BuildingTest extends TestSuper {
         BuildingType testBuildingType = BuildingType.ACADEMIC;
         int testBuildingIndex = 0;  // Represents what variant we want. ACADEMIC 0 is a Ron Cooke Hub
         BuildingInfo testBuildingInfo = BuildingStats.getInfo(testBuildingType, testBuildingIndex);
-        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuildingType)[testBuildingIndex]);
+        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuildingType)[testBuildingIndex]);
 
         // Road & RCH
         assertFalse(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 320, 544, true).isEmpty(),
@@ -122,7 +122,7 @@ public class BuildingTest extends TestSuper {
         BuildingType testBuilding2Type = BuildingType.RECREATIONAL;
         int testBuilding2Index = 0;  // Represents what variant we want. RECREATIONAL 0 is York Sport Village
         BuildingInfo testBuilding2Info = BuildingStats.getInfo(testBuilding2Type, testBuilding2Index);
-        TextureRegion testBuilding2Texture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuilding2Type)[testBuilding2Index]);
+        TextureRegion testBuilding2Texture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuilding2Type)[testBuilding2Index]);
 
         // Road & YSV
         assertFalse(testMap.attemptAddBuilding(testBuilding2Info, testBuilding2Texture, 540, 384, true).isEmpty(),
@@ -143,7 +143,7 @@ public class BuildingTest extends TestSuper {
         BuildingType testBuildingType = BuildingType.ACADEMIC;
         int testBuildingIndex = 0;  // Represents what variant we want. ACADEMIC 0 is a Ron Cooke Hub
         BuildingInfo testBuildingInfo = BuildingStats.getInfo(testBuildingType, testBuildingIndex);
-        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuildingType)[testBuildingIndex]);
+        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuildingType)[testBuildingIndex]);
 
         assertTrue(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 896, 608, true).isEmpty(),
                                                                "RCH partial intersection top edge");
@@ -165,27 +165,27 @@ public class BuildingTest extends TestSuper {
         BuildingType testBuildingType = BuildingType.FOOD;
         int testBuildingIndex = 0;  // Represents what variant we want. FOOD 0 is a MacDonalds
         BuildingInfo testBuildingInfo = BuildingStats.getInfo(testBuildingType, testBuildingIndex);
-        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuildingType)[testBuildingIndex]);
+        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuildingType)[testBuildingIndex]);
 
         BuildingType testBuilding2Type = BuildingType.RECREATIONAL;
         int testBuilding2Index = 0;  // Represents what variant we want. RECREATIONAL 0 is a YSV
         BuildingInfo testBuilding2Info = BuildingStats.getInfo(testBuilding2Type, testBuilding2Index);
-        TextureRegion testBuilding2Texture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuilding2Type)[testBuilding2Index]);
+        TextureRegion testBuilding2Texture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuilding2Type)[testBuilding2Index]);
 
         BuildingType testBuilding3Type = BuildingType.ACADEMIC;
         int testBuilding3Index = 0;  // Represents what variant we want. ACADEMIC 0 is a RCH
         BuildingInfo testBuilding3Info = BuildingStats.getInfo(testBuilding3Type, testBuilding3Index);
-        TextureRegion testBuilding3Texture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuilding3Type)[testBuilding3Index]);
+        TextureRegion testBuilding3Texture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuilding3Type)[testBuilding3Index]);
 
         BuildingType testBuilding4Type = BuildingType.ACADEMIC;
         int testBuilding4Index = 1;  // Represents what variant we want. ACADEMIC 1 is a PZA
         BuildingInfo testBuilding4Info = BuildingStats.getInfo(testBuilding4Type, testBuilding4Index);
-        TextureRegion testBuilding4Texture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuilding4Type)[testBuilding4Index]);
+        TextureRegion testBuilding4Texture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuilding4Type)[testBuilding4Index]);
 
         BuildingType testBuilding5Type = BuildingType.ACCOMODATION;
         int testBuilding5Index = 0;  // Represents what variant we want. ACCOMODATION 0 is a DK
         BuildingInfo testBuilding5Info = BuildingStats.getInfo(testBuilding5Type, testBuilding5Index);
-        TextureRegion testBuilding5Texture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuilding5Type)[testBuilding5Index]);
+        TextureRegion testBuilding5Texture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuilding5Type)[testBuilding5Index]);
 
         assertTrue(testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, -64, 384, true).isEmpty(),
                                                                "MacDonalds attempt to place too far left");
@@ -220,7 +220,7 @@ public class BuildingTest extends TestSuper {
         BuildingType testBuildingType = BuildingType.FOOD;
         int testBuildingIndex = 0;  // Represents what variant we want. FOOD 0 is McDonalds
         BuildingInfo testBuildingInfo = BuildingStats.getInfo(testBuildingType, testBuildingIndex);
-        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.BuildingDict.get(testBuildingType)[testBuildingIndex]);
+        TextureRegion testBuildingTexture = BuildingStats.getTextureOfBuilding(BuildingStats.buildingDict.get(testBuildingType)[testBuildingIndex]);
 
         testMap.attemptAddBuilding(testBuildingInfo, testBuildingTexture, 480, 288, true);
 

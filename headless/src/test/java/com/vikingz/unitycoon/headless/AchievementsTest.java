@@ -9,6 +9,15 @@ import com.vikingz.unitycoon.building.BuildingsMap;
 import com.vikingz.unitycoon.util.AchievementsHandler;
 import com.vikingz.unitycoon.util.MoneyHandler;
 import com.vikingz.unitycoon.achievements.Achievement;
+import com.vikingz.unitycoon.achievements.BareMinimumAchievement;
+import com.vikingz.unitycoon.achievements.BusyCampusAchievement;
+import com.vikingz.unitycoon.achievements.CleanSlateAchievement;
+import com.vikingz.unitycoon.achievements.IndecisiveAchievement;
+import com.vikingz.unitycoon.achievements.IsThisAUniversityAchievement;
+import com.vikingz.unitycoon.achievements.MasterOfChangeAchievement;
+import com.vikingz.unitycoon.achievements.MikeFreemanAwardAchievement;
+import com.vikingz.unitycoon.achievements.PrioritiesAchievement;
+import com.vikingz.unitycoon.achievements.RealisticAchievement;
 import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.global.GameGlobals;
 
@@ -21,7 +30,7 @@ public class AchievementsTest extends TestSuper {
      * @return an instance of Achievement
      */
     private Achievement getRelevantAchievement(AchievementsHandler handler, String achievementName) {
-        Achievement relevantAchievement = new Achievement();
+        Achievement relevantAchievement = new BareMinimumAchievement(); // The fact that this is BareMinimum is irrelevant
         for (Achievement achievement : handler.getAchievements()) {
             if (achievement.getName() == achievementName) {
                 relevantAchievement = achievement;
@@ -36,7 +45,7 @@ public class AchievementsTest extends TestSuper {
         BuildingsMap testMap = getTestMap();
         AchievementsHandler achievementsHandler = new AchievementsHandler();
 
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Priorities");
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, PrioritiesAchievement.NAME);
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that the achievement is initially not completed");
 
@@ -67,7 +76,7 @@ public class AchievementsTest extends TestSuper {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
 
         // Locate the 'Is this a university?' Achievement in the list of achievements
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Is This A University");
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, IsThisAUniversityAchievement.NAME);
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that the achievement is initially not completed");
 
@@ -102,7 +111,7 @@ public class AchievementsTest extends TestSuper {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
 
         // Locate the 'Clean Slate' Achievement in the list of achievements
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Clean Slate");
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, CleanSlateAchievement.NAME);
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that the achievement is initially not completed");
 
@@ -132,7 +141,7 @@ public class AchievementsTest extends TestSuper {
         BuildingsMap testMap = getTestMap();
 
         AchievementsHandler achievementsHandler = new AchievementsHandler();
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Bare Minimum");
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, BareMinimumAchievement.NAME);
 
         GameGlobals.TIME_REMAINING = 0; // This achievement is only applicable at the end of the game
 
@@ -146,12 +155,15 @@ public class AchievementsTest extends TestSuper {
         assertTrue(relevantAchievement.isCompleted(), "Confirm that achievement matches successfully");
     }
 
+    /**
+     * Tests that achievement can't be fooled by deleting buildings
+     */
     @Test
     public void testBareMinimumAchievementErroneous() {
         BuildingsMap testMap = getTestMap();
 
         AchievementsHandler achievementsHandler = new AchievementsHandler();
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Bare Minimum");
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, BareMinimumAchievement.NAME);
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
 
@@ -173,7 +185,7 @@ public class AchievementsTest extends TestSuper {
         BuildingsMap testMap = getTestMap();
 
         AchievementsHandler achievementsHandler = new AchievementsHandler();
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Busy Campus");
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, BusyCampusAchievement.NAME);
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
 
@@ -191,8 +203,7 @@ public class AchievementsTest extends TestSuper {
     public void testIndecisiveAchievement() {
         BuildingsMap testMap = getTestMap();
 
-        AchievementsHandler achievementsHandler = new AchievementsHandler();
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Indecisive");
+        Achievement relevantAchievement = getRelevantAchievement(GameGlobals.ACHIEVEMENTS, IndecisiveAchievement.NAME);
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
 
@@ -227,7 +238,7 @@ public class AchievementsTest extends TestSuper {
     @Test
     public void testMasterOfChangeAchievement() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Master Of Change");
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, MasterOfChangeAchievement.NAME);
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
 
@@ -246,7 +257,7 @@ public class AchievementsTest extends TestSuper {
     @Test
     public void testMikeFreemanAwardAchievement() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Mike Freeman Award");
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, MikeFreemanAwardAchievement.NAME);
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
 
@@ -265,7 +276,7 @@ public class AchievementsTest extends TestSuper {
     @Test
     public void testMikeFreemanAwardAchievementErroneous() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Mike Freeman Award");
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, MikeFreemanAwardAchievement.NAME);
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
         
@@ -273,7 +284,7 @@ public class AchievementsTest extends TestSuper {
         GameGlobals.TIME_REMAINING = 240;
 
         // Satisfaction is raised to above 80%
-        GameGlobals.SATISFACTION.addBonus(70);
+        GameGlobals.SATISFACTION.addBonus(60);
         achievementsHandler.checkAllAchievements(); // This is normally called in render(). Needed to start the timer
 
         // 59 seconds passes
@@ -293,7 +304,7 @@ public class AchievementsTest extends TestSuper {
     @Test
     public void testRealisticAchievement() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
-        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, "Realistic");
+        Achievement relevantAchievement = getRelevantAchievement(achievementsHandler, RealisticAchievement.NAME);
 
         assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed initially");
 

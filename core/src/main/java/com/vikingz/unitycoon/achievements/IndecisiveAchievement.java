@@ -1,26 +1,21 @@
 package com.vikingz.unitycoon.achievements;
 
 /**
- * This class creates an indecisive achievement object.
+ * This new class creates an indecisive achievement object.
+ * It was implemented to complete FR_INDECISIVE_UNLOCK.
  */
 public class IndecisiveAchievement extends Achievement {
-
-    private static int removedBuildings;
     
-    private final String NAME = "Indecisive";
-    private final String DESCRIPTION = "Remove more than 20 buildings.";
+    public static final String NAME = "Indecisive";
+    public static final String DESCRIPTION = "Remove more than 20 buildings.";
+
+    int removedBuildings;
 
     public IndecisiveAchievement() {
+        super();
         removedBuildings = 0;
-        achieved = false;
     }
 
-    @Override
-    public void reset() {
-        removedBuildings = 0;
-        achieved = false;
-    }
-    
     @Override
     public String getName() {
         return NAME;
@@ -31,17 +26,19 @@ public class IndecisiveAchievement extends Achievement {
         return DESCRIPTION;
     }
 
-    /**
-     * Increases the removed buildings counter by one.
-     */
-    public static void incrementRemovedBuildings() {
-        removedBuildings++;
+    @Override
+    public void reset() {
+        super.reset();
+        removedBuildings = 0;
     }
 
     /**
-     * Checks if achievement has been completed.
-     * @return true if achievement has been completed
+     * Increases the removed buildings counter by one.
      */
+    public void incrementRemovedBuildings() {
+        removedBuildings++;
+    }
+
     @Override
     public boolean isCompleted() {
         if (removedBuildings > 20) {

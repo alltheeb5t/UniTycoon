@@ -9,8 +9,13 @@ import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.building.EarnSchedule;
 
+/**
+ * This new class contains all the balance functions.
+ * It was implemented to complete UR_FINANCE and FR_STUDENT_FINANCE.
+ */
 public class MoneyHandler {
-    private int balance;
+    
+    int balance;
 
     // Used to keep track of type-wide changes to the amount of money a building yields
     Map<BuildingType, Float> earningMultipliersByType = new HashMap<BuildingType,Float>();
@@ -60,8 +65,8 @@ public class MoneyHandler {
 
 
     /**
-     * Called periodically by the timer. Calculates and adds revenue from
-     * buildings that provide a continuous revenue stream (e.g. food outlets).
+     * Called periodically by the timer. Calculates and adds revenue from buildings that provide 
+     * a continuous revenue stream (e.g. food outlets).
      * Earns only half the normal amount of money if in debt.
      */
     public void earn(List<Building> buildings, EarnSchedule earnSchedule) {

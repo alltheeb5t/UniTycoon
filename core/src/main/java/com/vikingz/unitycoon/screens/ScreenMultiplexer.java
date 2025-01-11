@@ -8,19 +8,19 @@ import com.vikingz.unitycoon.global.GameConfig;
 /**
  * This class allows us to change screens anywhere within the project.
  *
- * On init(Game newGame) this class instantiates all the classes so that
- * they are ready in memory and waiting to be switched to.
+ * On init(Game newGame) this class instantiates all the classes so that they are ready in memory and
+ * waiting to be switched to.
  *
- * This class also contains the enum Screens which is what is used
- * to differentiate between the different screens available so that when the
- * user wants to change screen all they have to do is call
- * ScreenMultiplexer.switchScreens(Screens screen), which is much easier than
- * having to keep track at which point each screen is instantiated.
+ * This class also contains the enum Screens which is what is used to differentiate between the different
+ * screens available so that when the user wants to change screen all they have to do is call
+ * ScreenMultiplexer.switchScreens(Screens screen), which is much easier than having to keep track at 
+ * which point each screen is instantiated.
  *
- * This class also enables us to access the settings screen from any screen in the game
- * as when the settings screen is displayed, this class keeps track from which screen
- * it came from so that the back button on the settings screen will always send the
- * user back to the screen they just came from.
+ * This class also enables us to access the settings screen from any screen in the game as when the settings 
+ * screen is displayed, this class keeps track from which screen it came from so that the back button on the 
+ * settings screen will always send the user back to the screen they just came from.
+ * 
+ * This class has been refactored slightly to make the code more readable, however it is largely unchanged.
  */
 public class ScreenMultiplexer {
 
@@ -35,7 +35,7 @@ public class ScreenMultiplexer {
     }
 
     // The main Game that allows us to control input
-    private static Game game;
+    static Game game;
 
     // All the screens available
     public static GameScreen gameScreen;
@@ -49,14 +49,11 @@ public class ScreenMultiplexer {
      * @param newGame Game
      */
     public static void init(Game newGame){
-
         game = newGame;
 
         menuScreen = new MenuScreen();
         settingsScreen = new SettingsScreen();
         mapSelectorScreen = new MapSelectorScreen();
-
-
     }
 
     /**
@@ -64,7 +61,6 @@ public class ScreenMultiplexer {
      * @param map Map that will be loaded in
      */
     public static void runGame(String map){
-        //This is a cursed way of fixing the fullScreen on startup Bug
         int startHeight = Gdx.graphics.getHeight();
         int startWidth = Gdx.graphics.getWidth();
         boolean fullScreen = Gdx.graphics.isFullscreen();
@@ -91,8 +87,8 @@ public class ScreenMultiplexer {
 
     /**
      * Changes the screen to the settings screen
-     * @param prevScreen The screen that the settings screen was invoked from
-     * so that when the user presses the back button, they will be taken back to where they came from.
+     * @param prevScreen The screen that the settings screen was invoked from so that when the user 
+     *                   presses the back button, they will be taken back to where they came from.
      */
     public static void openSettings(Screens prevScreen){
         settingsScreen.setPrevScreen(prevScreen);
@@ -144,6 +140,4 @@ public class ScreenMultiplexer {
             }
         }
     }
-
-
 }

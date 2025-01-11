@@ -9,10 +9,13 @@ import com.vikingz.unitycoon.building.BuildingInfo;
  *
  * Represents the recreational building class in the game
  * Inherits Building
+ * 
+ * This class has been refactored.
  */
 public class RecreationalBuilding extends Building{
 
-    public RecreationalBuilding(TextureRegion texture, float x, float y, BuildingInfo buildingInfo, float earnAmount){
+    public RecreationalBuilding(TextureRegion texture, float x, float y, BuildingInfo buildingInfo, 
+            float earnAmount){
         super(texture, x, y, buildingInfo, earnAmount);
     }
 

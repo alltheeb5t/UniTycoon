@@ -9,10 +9,14 @@ import com.vikingz.unitycoon.building.Building;
 import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
 import com.vikingz.unitycoon.global.GameGlobals;
 
+/**
+ * This new class manages the student satisfaction calculation.
+ * It was implemented to complete UR_SATISFACTION.
+ */
 public class SatisfactionHandler {
 
-    private static int satisfaction;
-    private static int satisfactionModifier;
+    static int satisfaction;
+    static int satisfactionModifier;
 
     public SatisfactionHandler() {
         satisfaction = 10; //Starting satisfaction is 10
@@ -44,8 +48,7 @@ public class SatisfactionHandler {
     }
 
     /**
-     * Calculates a loss to add to satisfaction if the accomodation buildings
-     * are not near enough to one of each other building.
+     * Calculates a loss to add to satisfaction if the building types are not near enough too each other.
      * @return Loss to add to satisfaction
      */
     private int calculateProximityLoss(List<Building> placedBuildings) {
@@ -117,9 +120,8 @@ public class SatisfactionHandler {
     }
 
     /**
-     * Calculates a loss to add to satisfaction if the number of
-     * non-accomodation buildings is much higher than the number of
-     * accomodation buildings.
+     * Calculates a loss to add to satisfaction if the number of non-accomodation buildings is much 
+     * higher than the number of accomodation buildings.
      * @return Loss to add to satisfaction
      */
     private int calculateBuildingProportionLoss() {
@@ -145,8 +147,8 @@ public class SatisfactionHandler {
     }
 
     /**
-     * Increases the satisfaction by a given amount. Stores that amount so that
-     * it is added everytime satisfaction is calculated.
+     * Increases the satisfaction by a given amount. Stores that amount so that it is added everytime 
+     * satisfaction is calculated.
      * @param bonus
      */
     public void addBonus(int bonus) {
@@ -155,8 +157,8 @@ public class SatisfactionHandler {
     }
 
     /**
-     * Decreases the satisfaction by a given amount. Stores that amount so that
-     * it is removed everytime satisfaction is calculated.
+     * Decreases the satisfaction by a given amount. Stores that amount so that it is removed everytime 
+     * satisfaction is calculated.
      * @param penalty
      */
     public void applyPenalty(int penalty) {
@@ -165,8 +167,7 @@ public class SatisfactionHandler {
     }
 
     /**
-     * Calculates the maximum satisfaction the user can have based on
-     * the number of placed buildings.
+     * Calculates the maximum satisfaction the user can have based on the number of placed buildings.
      * @return the max satisfaction
      */
     private int calculateMaxSatisfaction() {

@@ -5,18 +5,16 @@ import com.badlogic.gdx.Gdx;
 import java.io.Serializable;
 
 /**
- * This class contains all of the config for the game, 
- * things such as width, height, sounds volume etc.
- * This class is also used by the GameConfig Manager to save
- * the current config so that when the user reloads the game
- * their settings are still present.
+ * This class contains all of the config for the game, things such as width, height, sounds volume etc.
+ * This class is also used by the GameConfig Manager to save the current config so that when the user 
+ * reloads the game their settings are still present.
  * 
- * This is also a singleton class which means we instanciate it
- * once and then that instance can be fetched statically by calling
- * GameConfig.getInstance() and then from this instance we can retrieve 
- * settings. We have chose to do this because by not making it static we 
- * are able to implement Serializable which lets us save the GameConfig class 
- * as is without any other logic.
+ * This is also a singleton class which means we instanciate it once and then that instance can be 
+ * fetched statically by calling GameConfig.getInstance() and then from this instance we can retrieve 
+ * settings. We have chosen to do this because by not making it static we are able to implement 
+ * Serializable which lets us save the GameConfig class as is without any other logic.
+ * 
+ * This class has been refactored slightly to make the code more readable, however it is largely unchanged.
  */
 public class GameConfig implements Serializable{
 
@@ -26,14 +24,11 @@ public class GameConfig implements Serializable{
     public boolean skipMenus;
     public float SoundVolumeValue;
     public float MusicVolumeValue;
-    private static boolean VSync = false;
+    static boolean VSync = false;
     public float guiSize = 1;
 
-    // 31.5 rows
-    // 56 cols
-
     // The single instance of GameConfig (eager initialization)
-    private static GameConfig INSTANCE = new GameConfig(
+    static GameConfig INSTANCE = new GameConfig(
         1792, 1008, false, 1f,1f); // Default values
 
     // Private constructor to prevent instantiation from outside
@@ -45,7 +40,7 @@ public class GameConfig implements Serializable{
         this.MusicVolumeValue = MusicVolumeValue;
     }
 
-    //Sets VSync mode for game on or off
+    // Sets VSync mode for game on or off
     public static boolean setVSync(boolean enable){
         VSync = enable;
         Gdx.graphics.setVSync(enable);
@@ -65,8 +60,6 @@ public class GameConfig implements Serializable{
         return INSTANCE;
     }
 
-
-    // Getters and Setters
     public int getWindowWidth() {
         return windowWidth;
     }

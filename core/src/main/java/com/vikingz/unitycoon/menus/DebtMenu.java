@@ -13,11 +13,12 @@ import com.vikingz.unitycoon.render.BuildingRenderer;
 
 /**
  * This class creates a Menu that pops up when the user tries to go into debt the first time.
+ * This new class was created to help with UI and meet NFR_EASE_OF_USE.
  */
 public class DebtMenu extends Window {
     
-    private String message = "Are you sure you want to go into debt?";
-    private Label messageLabel;
+    String message = "Are you sure you want to go into debt?";
+    Label messageLabel;
 
     public DebtMenu (Skin skin) {
         
@@ -38,7 +39,8 @@ public class DebtMenu extends Window {
     /**
      * Configures the button that appears on the popup.
      */
-    public void setupButton(Skin skin, BuildingRenderer buildingRenderer, Window window, BuildingType buildingType, int index){
+    public void setupButton(Skin skin, BuildingRenderer buildingRenderer, Window window, 
+        BuildingType buildingType, int index){
 
         Table table = new Table();
 

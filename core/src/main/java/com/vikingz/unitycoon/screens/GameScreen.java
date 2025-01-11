@@ -16,22 +16,22 @@ import com.vikingz.unitycoon.util.TimeHandler;
 /**
  * This is the main game class from which the game is run.
  *
- * This game instantiates the 2 renderers which are the GameRenderer
- * and the UIRenderer, as well as contains the game loop that control how the game
- * runs.
+ * This game instantiates the 2 renderers which are the GameRenderer and the UIRenderer, as well as 
+ * contains the game loop that control how the game runs.
  *
- * The game loop contains a section where everything in that section is updated
- * every second which is where all of our game stats are updated.
+ * The game loop contains a section where everything in that section is updated every second which 
+ * is where all of our game stats are updated.
  *
  * Inherits Screen, SuperScreen
+ * 
+ * This class has been refactored to complete UR_EVENTS, UR_ACHIEVEMENTS and UR_LEADERBOARD.
  */
 public class GameScreen extends SuperScreen implements Screen {
 
     //Determines if the game had been loaded from fullScreen
     public boolean fullScreen;
 
-    // Counter variables
-    private float elapsedTime;
+    float elapsedTime;
 
     public GameRenderer getGameRenderer() {
         return gameRenderer;
@@ -71,12 +71,8 @@ public class GameScreen extends SuperScreen implements Screen {
         GameGlobals.BUILDINGS_MAP = new BuildingsMap(gameRenderer.getBackgroundRenderer());
     }
 
-
     @Override
-    public void show() {
-        // Initialize game objects here
-
-    }
+    public void show() {}
 
     /**
      * Contains the game loop, renders game all game content from this loop
@@ -91,11 +87,6 @@ public class GameScreen extends SuperScreen implements Screen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             pause();
         }
-
-        // Testing events key
-        //if(Gdx.input.isKeyJustPressed(Input.Keys.SEMICOLON)){
-        //    event();
-        //}
 
         if(!GameGlobals.TIME.isPaused()){
 
@@ -169,13 +160,11 @@ public class GameScreen extends SuperScreen implements Screen {
     }
 
     /**
-     * Pauses the game and calls the UI renderer to display the
-     * pause menu UI
+     * Pauses the game and calls the UI renderer to display the pause menu UI.
      */
     @Override
     public void pause() {
         uiRenderer.pause(GameGlobals.TIME.isPaused());
-
     }
 
     /**
@@ -247,5 +236,4 @@ public class GameScreen extends SuperScreen implements Screen {
     public void takeInput() {
         uiRenderer.takeInput();
     }
-
 }
