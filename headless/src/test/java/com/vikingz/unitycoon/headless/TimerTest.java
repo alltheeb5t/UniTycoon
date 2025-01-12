@@ -1,39 +1,18 @@
 package com.vikingz.unitycoon.headless;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.mockito.Mockito.mock;
-
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.vikingz.unitycoon.util.TimeHandler;
 
-
-
-
-
-
-public class TimerTest {
-
-    @BeforeEach
-    public void setup() {
-        System.out.println("Starting LibGDX Headless");
-        Gdx.gl = Gdx.gl20 = mock(GL20.class);
-        HeadlessLauncher.main(new String[0]);
-
-        System.out.println("Started Headless Mode");
-    }
+public class TimerTest extends TestSuper {
 
     /**
      * Test that if seconds can correctly convert to minute
      */
     @Test
-    void testSecondsTOMinSecs(){
+    public void testSecondsTOMinSecs() {
         TimeHandler.Time  time1 = TimeHandler.secondsToMinSecs(125);
          // Asserts that test if 125 seconds is converted correctly
         assertEquals(2, time1.mins);
@@ -57,7 +36,7 @@ public class TimerTest {
      * Test that if Semester and Summer is in order
      */
     @Test
-    void testInGameTime(){
+    public void testInGameTime() {
         // Asserts that test if Year 1 is in the right order
         assertEquals("Year 1, Summer", TimeHandler.inGameTime(290));
         assertEquals("Year 1, Semester 1", TimeHandler.inGameTime(260));
