@@ -10,10 +10,11 @@ import com.vikingz.unitycoon.building.BuildingsMap;
 import com.vikingz.unitycoon.global.GameGlobals;
 
 import java.util.List;
-public class SatisfactionTest extends TestSuper{
+public class SatisfactionTest extends TestSuper {
 
      /**
      * Test that the game initial Satisfaction starts at 10
+     * Relates to: FR_SATISFACTION
      */
     @Test
     public void testInitialSatisfaction() {
@@ -22,6 +23,7 @@ public class SatisfactionTest extends TestSuper{
 
      /**
      * Test that the game Satisfaction dose not go over 100 and dose not go below 0
+     * Relates to: FR_SATISFACTION
      */
     @Test
     public void testSatisfactionDoesNotExceedLimits() {
@@ -34,6 +36,7 @@ public class SatisfactionTest extends TestSuper{
 
      /**
      * Test that the AddBonus adds the right number.
+     * Relates to: FR_SATISFACTION, FR_EVENT_RESULT
      */
     @Test
     public void testAddBonus() {
@@ -43,6 +46,7 @@ public class SatisfactionTest extends TestSuper{
 
      /**
      * Test that the ApplyPenalty minus the right number 
+     * Relates to: FR_SATISFACTION, FR_EVENT_RESULT
      */
     @Test
     public void testApplyPenalty() {
@@ -51,7 +55,9 @@ public class SatisfactionTest extends TestSuper{
     }
 
     /**
-     * Test that if 4 kinds of building increases the right amount of satisfaction 
+     * Test that if 4 kinds of building increases the right amount of satisfaction
+     * Relates to: FR_SATISFACTION, FR_EATING_BUILDING, FR_ACCOMMODATION_BUILDING,
+     *             FR_RECREATIONAL_BUILDING, FR_LEARNING_BUILDING
      */ 
       @Test
     public void testRecalculateSatisfactionWithBuildingProximity() {
@@ -77,6 +83,7 @@ public class SatisfactionTest extends TestSuper{
 
     /**
      * Test that two of the same building adjacent to each other have an appropriate effect
+     * Relates to: FR_SATISFACTION, FR_EATING_BUILDING
      */ 
      @Test
      public void testDuplicationBuilding () {

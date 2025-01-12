@@ -14,6 +14,7 @@ import com.vikingz.unitycoon.building.BuildingsMap;
 public class BuildingTest extends TestSuper {
     /**
      * Test placement of building in empty space
+     * Relates to: FR_MAP
      */
     @Test
     public void validPlacement() {
@@ -29,6 +30,7 @@ public class BuildingTest extends TestSuper {
 
     /**
      * Test that buildings can't be placed on top of other buildings
+     * Relates to: FR_MAP, FR_NO_OVERLAP
      */
     @Test
     public void buildingOnBuildingCollision() {
@@ -50,6 +52,7 @@ public class BuildingTest extends TestSuper {
 
     /**
      * Test that buildings can be placed very close to each other
+     * Relates to: FR_MAP, FR_NO_OVERLAP, FR_EATING_BUILDING
      */
     @Test
     public void testValidPlacementClose() {
@@ -89,6 +92,7 @@ public class BuildingTest extends TestSuper {
     
     /**
      * Test placing buildings in close proximity to obstacles. All locations should be valid though
+     * Relates to: FR_MAP, FR_NO_OVERLAP, FR_LEARNING_BUILDING, FR_RECREATION_BUILDING
      */
     @Test
     public void testBuildingObstaclePlacementValid() {
@@ -135,6 +139,7 @@ public class BuildingTest extends TestSuper {
 
     /**
      * Test that buildings can't be placed when they partially or fully intersect with obstacles
+     * Relates to: FR_MAP, FR_NO_OVERLAP, FR_LEARNING_BUILDING
      */
     @Test
     public void testObstacleCollision() {
@@ -157,6 +162,8 @@ public class BuildingTest extends TestSuper {
 
     /**
      * Testing that building placement interacts with edges of the map correctly
+     * Relates to: FR_MAP, FR_NO_OVERLAP, FR_EATING_BUILDING, FR_ACCOMMODATION_BUILDING,
+     *             FR_RECREATIONAL_BUILDING, FR_LEARNING_BUILDING
      */
     @Test
     public void testEdgeBoundary() {
@@ -211,6 +218,10 @@ public class BuildingTest extends TestSuper {
                                                                "Test can place a David Kato building next to right side");
     }
 
+    /**
+     * Tests that a building can be deleted and removed from the map
+     * Relates to: FR_MAP
+     */
     @Test
     public void testBuildingDeletion() {
         BuildingsMap testMap = getTestMap();

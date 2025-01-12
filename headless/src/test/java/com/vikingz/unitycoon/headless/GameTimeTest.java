@@ -1,26 +1,16 @@
 package com.vikingz.unitycoon.headless;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.vikingz.unitycoon.global.GameGlobals;
 
-public class GameTimeTest {
-    @BeforeEach
-    public void setup() {
-        System.out.println("Starting LibGDX Headless");
-        Gdx.gl = Gdx.gl20 = mock(GL20.class);
-        HeadlessLauncher.main(new String[0]);
-        System.out.println("Started Headless Mode");
-    }
+public class GameTimeTest extends TestSuper {
 
     /**
      * Test that the game timer counts down correctly from 5 minutes
+     * Relates to: FR_TIMER
      */
     @Test
     public void testTimerCountdown() {
@@ -44,6 +34,7 @@ public class GameTimeTest {
 
     /**
      * Test that the timer does not go negative
+     * Relates to: FR_TIMER, FR_GAME_END
      */
     @Test
     public void testTimerDoesNotGoNegative() {
