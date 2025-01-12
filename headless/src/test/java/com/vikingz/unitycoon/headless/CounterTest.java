@@ -11,7 +11,9 @@ import com.vikingz.unitycoon.building.BuildingsMap;
 
 public class CounterTest extends TestSuper {
     /**
-     * Test that building counters are appropriately incremented when a new building is placed and decremented when a 
+     * Test that building counters are appropriately incremented when a new building is placed
+     * and decremented when deleted
+     * Relates to: FR_COUNT
      */
     @Test
     public void testCounterIncreaseDecrease() {

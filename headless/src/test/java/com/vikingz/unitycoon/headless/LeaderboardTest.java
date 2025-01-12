@@ -11,6 +11,10 @@ import com.vikingz.unitycoon.util.Leaderboard;
 
 public class LeaderboardTest extends TestSuper {
     
+    /**
+     * Test that the leaderboard can be loaded from the standard file.
+     * Relates to: FR_LEADERBOARD, FR_SAVES
+     */
     @Test
     public void testLoadLeaderboard() {
         Leaderboard.loadLeaderboard();
@@ -20,6 +24,10 @@ public class LeaderboardTest extends TestSuper {
                      "The leaderboard should have 5 lines");
     }
 
+    /**
+     * Test that the leaderboard is initialized as 5 blank 0% entries initially.
+     * Relates to: FR_LEADERBOARD
+     */
     @Test
     public void testLoadEmptyLeaderboard() {
         File testLeaderboardFile = new File("testLoadEmptyLeaderboardFile.txt");
@@ -32,6 +40,11 @@ public class LeaderboardTest extends TestSuper {
 
     }
 
+    /**
+     * Test that adding two user's scores to the leaderboard, they are displayed in the correct
+     * order
+     * Relates to: FR_LEADERBOARD
+     */
     @Test
     public void testAddLeaderboardEntriesTop() {
         File testLeaderboardFile = new File("testAddLeaderboardEntriesTopLeaderboardFile.txt");
@@ -56,6 +69,10 @@ public class LeaderboardTest extends TestSuper {
         assertEquals("10% UsernameA", secondLine, "Original best should be pushed down by 1");
     }
 
+    /**
+     * Test that adding a new score to an already full leaderboard places it correctly
+     * Relates to: FR_LEADERBOARD
+     */
     @Test
     public void testAddLeaderboardEntriesWhenFull() {
         File testLeaderboardFile = new File("testAddLeaderboardEntriesWhenFullLeaderboardFile.txt");
@@ -86,6 +103,10 @@ public class LeaderboardTest extends TestSuper {
         assertEquals(5, lines.length, "The leaderboard should still only have 5 lines");
     }
 
+    /**
+     * Tests that a fully occupied leaderboard can be loaded and saved in its entirety
+     * Relates to: FR_LEADERBOARD, FR_SAVES
+     */
     @Test
     public void testSaveLeaderboard() {
         File testLeaderboardFile1 = new File("testSaveLeaderboardLeaderboardFile.txt");
