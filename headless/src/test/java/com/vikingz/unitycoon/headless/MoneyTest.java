@@ -14,6 +14,10 @@ import com.vikingz.unitycoon.util.MoneyHandler;
 
 public class MoneyTest extends TestSuper {
 
+    /**
+     * Test that placing a building reduces the available balance.
+     * Relates to: FR_MAP
+     */
     @Test
     public void testBuildingReducesBalance() {
         BuildingsMap testMap = getTestMap();
@@ -24,6 +28,10 @@ public class MoneyTest extends TestSuper {
         assertEquals(initialBalance-Integer.valueOf(BuildingStats.buildingPriceDict.get(BuildingType.ACADEMIC)[0]), GameGlobals.MONEY.getBalance());
     }
 
+    /**
+     * Tests that the withdraw and deposit methods change balance by the correct amount.
+     * Relates to: FR_MAP, FR_ALUMNI_EVENT, FR_FIRE_EVENT, FR_FLOOD_EVENT
+     */
     @Test
     public void testDepositWithdraw() {
         MoneyHandler testMoneyHandler = new MoneyHandler();
@@ -38,6 +46,10 @@ public class MoneyTest extends TestSuper {
         assertEquals(initialBalance+1700, testMoneyHandler.getBalance(), "Confirm that withdrawal works");
     }
 
+    /**
+     * Tests that accommodation and academic buildings add the correct amount of money at the start/end of semester.
+     * Relates to: FR_NEW_MONEY
+     */
     @Test
     public void testEarnSemesterly() {
         BuildingsMap testMap = getTestMap();
@@ -61,6 +73,10 @@ public class MoneyTest extends TestSuper {
 
     }
 
+    /**
+     * Test that food and recreational buildings earn an income on a more constant basis.
+     * Relates to: FR_INCOME
+     */
     @Test
     public void testEarnDaily() {
         BuildingsMap testMap = getTestMap();
@@ -84,6 +100,10 @@ public class MoneyTest extends TestSuper {
 
     }
 
+    /**
+     * Test that earning multipliers are correctly applied.
+     * Relates to: FR_STRIKES_EVENT, FR_FEE_INCREASE_EVENT, FR_ROSES_EVENT
+     */
     @Test
     public void testEarningMultipliers() {
         BuildingsMap testMap = getTestMap();

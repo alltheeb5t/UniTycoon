@@ -35,6 +35,7 @@ public class EventsTest extends TestSuper {
     
     /**
      * Test that appropriate times are generated for all events
+     * Relates to: FR_EVENT_GENERATOR
      */
     @Test
     public void testEventTimeGeneration() {
@@ -49,6 +50,10 @@ public class EventsTest extends TestSuper {
         assertTrue(chosenTimes[2] >= 000 && chosenTimes [2] < 100, "Confirm final event happens in third year");
     }
 
+    /**
+     * Tests that it is possible to trigger an event manually by referencing its name
+     * Relates to: FR_EVENT_GENERATOR, FR_EVENT_CHOICE
+     */
     @Test
     public void testGetEvent() {
         EventHandler testEventHandler = new EventHandler();
@@ -60,6 +65,10 @@ public class EventsTest extends TestSuper {
 
     // ─── Alumni Donation ─────────────────────────────────────────────────
 
+    /**
+     * Tests that the 'Alumni' event correctly manipulates values when run.
+     * Relates to: FR_EVENT_RESULT, FR_ALUMNI_EVENT
+     */
     @Test
     public void testAlumniEvent() {
         Event relevantEvent = new AlumniEvent();
@@ -78,6 +87,10 @@ public class EventsTest extends TestSuper {
     
     // ─── University Receives An Award ────────────────────────────────────
 
+    /**
+     * Tests that the 'Award' event doesn't do anything, as specified
+     * Relates to: FR_AWARD_EVENT, FR_EVENT_RESULT
+     */
     @Test
     public void testAwardEvent() {
         Event relevantEvent = new AwardEvent();
@@ -98,6 +111,10 @@ public class EventsTest extends TestSuper {
 
     // ─── Bus Routes Change ───────────────────────────────────────────────
 
+    /**
+     * Tests that the 'Bus Change' event just makes people dissatisfied
+     * Relates to: FR_BUS_CHANGE_EVENT, FR_EVENT_RESULT
+     */
     @Test
     public void testBusChangeEvent() {
         Event relevantEvent = new BusChangeEvent();
@@ -116,6 +133,10 @@ public class EventsTest extends TestSuper {
 
     // ─── Fee Increases ───────────────────────────────────────────────────
 
+    /**
+     * Tests that the 'Fee Increase' event has an effect on both satisfaction and earnings
+     * Relates to: FR_FEE_INCREASE_EVENT, FR_EVENT_RESULT
+     */
     @Test
     public void testFeeIncreaseEvent() {
         BuildingsMap testMap = getTestMap();
@@ -150,6 +171,10 @@ public class EventsTest extends TestSuper {
 
     // ─── Fire ────────────────────────────────────────────────────────────
 
+    /**
+     * Tests that the 'Fire' event doesn't remove buildings if a fire is extinguished
+     * Related to: FR_FIRE_EVENT, FR_EVENT_RESULT, FR_EVENT_CHOICE
+     */
     @Test
     public void testFireEventExtinguish() {
         BuildingsMap testMap = getTestMap();
@@ -172,12 +197,18 @@ public class EventsTest extends TestSuper {
         GameGlobals.EVENT.getEventQueue().get(GameGlobals.TIME_REMAINING-2).run();
         GameGlobals.EVENT.reduceEventQueue(GameGlobals.TIME_REMAINING-2);
 
+        assertEquals(1, testMap.getPlacedBuildings().size(), "Confirm that no buildings are removed");
+
         assertEquals(originalBalance, GameGlobals.MONEY.getBalance(), "This event should have no effect on balance");
         assertEquals(originalSatisfaction, GameGlobals.SATISFACTION.getSatisfaction(), "This event should have no effect on satisfaction");
 
         assertEquals(1, GameGlobals.EVENT.getNegativeEvent(), "Check the event is registered as negative event");
     }
 
+    /**
+     * Tests that the 'Fire' event removes a single building if it burns
+     * Related to: FR_FIRE_EVENT, FR_EVENT_RESULT, FR_EVENT_CHOICE
+     */
     @Test
     public void testFireEventDestroy() {
         BuildingsMap testMap = getTestMap();
@@ -214,6 +245,10 @@ public class EventsTest extends TestSuper {
         assertEquals(1, GameGlobals.EVENT.getNegativeEvent(), "Check the event is registered as negative event");
     }
 
+    /**
+     * Tests that the 'Fire' event doesn't do anything if there are no buildings on the map
+     * Related to: FR_FIRE_EVENT
+     */
     @Test
     public void testFireEventNoBuildings() {
         BuildingsMap testMap = getTestMap();
@@ -237,6 +272,10 @@ public class EventsTest extends TestSuper {
 
     // ─── Flooding ────────────────────────────────────────────────────────
 
+    /**
+     * Tests that the 'Flood' event has no effect if the campus contains no buildings
+     * Relates to: FR_FLOOD_EVENT
+     */
     @Test
     public void testFloodEventNoBuildings() {
         BuildingsMap testMap = getTestMap();
@@ -257,6 +296,10 @@ public class EventsTest extends TestSuper {
         assertEquals(1, GameGlobals.EVENT.getNegativeEvent(), "Check the event is registered as negative event");
     }
 
+    /**
+     * Tests that the 'Flood' event removes a building and the insurance money is paid
+     * Related to: FR_FLOOD_EVENT, FR_EVENT_RESULT
+     */
     @Test
     public void testFloodEvent() {
         BuildingsMap testMap = getTestMap();
@@ -290,6 +333,10 @@ public class EventsTest extends TestSuper {
 
     // ─── Roses Event ─────────────────────────────────────────────────────
 
+    /**
+     * Tests that a the start of roses has the intended effect on income
+     * Relates to: FR_ROSES_EVENT, FR_EVENT_RESULT
+     */
     @Test
     public void testRosesEvent() {
         BuildingsMap testMap = getTestMap();
@@ -320,6 +367,11 @@ public class EventsTest extends TestSuper {
         assertEquals(1, GameGlobals.EVENT.getPositiveEvent(), "Check the event is registered as a positive event");
     }
 
+    /**
+     * Tests that winning roses has the intended effect on satisfaction and returns earning to
+     * normal
+     * Relates to: FR_EVENT_RESULT, FR_ROSES_FINAL
+     */
     @Test
     public void testRosesWinEvent() {
         BuildingsMap testMap = getTestMap();
@@ -348,6 +400,11 @@ public class EventsTest extends TestSuper {
         assertEquals(originalSatisfaction+20, GameGlobals.SATISFACTION.getSatisfaction(), "This event should increase satisfaction by 20%");
     }
 
+    /**
+     * Test that losing roses has the intended negative impact on satisfaction, with income
+     * reverting to normal
+     * Relates to: FR_EVENT_RESULT, FR_ROSES_FINAL
+     */
     @Test
     public void testRosesLoseEvent() {
         BuildingsMap testMap = getTestMap();
@@ -379,6 +436,10 @@ public class EventsTest extends TestSuper {
     
     // ─── Sponsorship Event (Free Building) ───────────────────────────────
 
+    /**
+     * Test that the 'Sponsorship' event gives a free building
+     * Relates to: FR_SPONSOR_EVENT, FR_EVENT_RESULT
+     */
     @Test
     public void testSponsorEvent() {
         BuildingsMap testMap = getTestMap();
@@ -403,6 +464,10 @@ public class EventsTest extends TestSuper {
 
     // ─── Strikes Event ───────────────────────────────────────────────────
 
+    /**
+     * Tests that if a user ignores strikes, they loose satisfaction and the strikes reoccur
+     * Relates to: FR_STRIKE_CHOICE, FR_STRIKE_EVENT, FR_EVENT_RESULT, FR_EVENT_CHOICE
+     */
     @Test
     public void testStrikesEventIgnore() {
         Event relevantEvent = new StrikesEvent();
@@ -425,6 +490,11 @@ public class EventsTest extends TestSuper {
         assertEquals(1, GameGlobals.EVENT.getNegativeEvent(), "Check the event is registered as negative event");
     }
 
+    /**
+     * Tests that if a user pays up on the 'Strikes' event, corresponding satisfaction and earnings
+     * penalties will be applied.
+     * Relates to: FR_STRIKE_CHOICE, FR_STRIKE_EVENT, FR_EVENT_RESULT, FR_EVENT_CHOICE
+     */
     @Test
     public void testStrikesEventPayUp() {
         BuildingsMap testMap = getTestMap();
@@ -463,6 +533,11 @@ public class EventsTest extends TestSuper {
         assertTrue(GameGlobals.buildingAllowed);
     }
 
+    /**
+     * Test that if the strikes automatically resolve themselves, nothing happens but building is
+     * allowed again
+     * Relates to: FR_STRIKE_CHOICE, FR_STRIKE_EVENT, FR_EVENT_RESULT, FR_EVENT_CHOICE
+     */
     @Test
     public void testStrikesResolvedEvent() {
         Event relevantEvent = new StrikesResolvedEvent();
