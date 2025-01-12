@@ -4,15 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.mock;
 
 import java.util.Iterator;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.vikingz.unitycoon.building.BuildingStats;
 import com.vikingz.unitycoon.building.BuildingStats.BuildingType;
@@ -21,16 +17,13 @@ import com.vikingz.unitycoon.util.FileHandler;
 /**
  * Tests relating to loading and saving of file content
  */
-public class FileHandlerTest {
+public class FileHandlerTest extends TestSuper {
     
-    @BeforeEach
-    public void setup() {
-        Gdx.gl = Gdx.gl20 = mock(GL20.class);
-        HeadlessLauncher.main(new String[0]);
-    }
-
     /**
-     * Test that the building file is correctly loaded and formed such that all building dictionaries are populated
+     * Test that the building file is correctly loaded and formed such that all building
+     * dictionaries are populated.
+     * Relates to: FR_MAP, FR_EATING_BUILDING, FR_ACCOMMODATION_BUILDING, FR_RECREATIONAL_BUILDING,
+     *             FR_LEARNING_BUILDING
      */
     @Test
     public void loadBuildingFiles() {
@@ -69,6 +62,7 @@ public class FileHandlerTest {
 
     /**
      * Test loading the map
+     * Relates to: FR_MAP
      */
     @Test
     public void loadMap() {

@@ -46,6 +46,10 @@ public class AchievementsTest extends TestSuper {
         return relevantAchievement;
     }
     
+    /**
+     * Tests that the Study Priority achievement is awarded appropriately.
+     * Relates to: FR_PRIORITIES_UNLOCK
+     */
     @Test
     public void testStudyPrioritiesAchievement() {
         BuildingsMap testMap = getTestMap();
@@ -76,6 +80,10 @@ public class AchievementsTest extends TestSuper {
         assertFalse(relevantAchievement.isCompleted(), "Confirm the achievement is no longer achieved if a building is deleted.");
     }
 
+    /**
+     * Tests that the 'Is this a university' is awarded appropriately
+     * Relates to: FR_ITAU_UNLOCK
+     */
     @Test
     public void testIsThisAUniversityAchievement() {
         BuildingsMap testMap = getTestMap();
@@ -111,6 +119,10 @@ public class AchievementsTest extends TestSuper {
         assertFalse(relevantAchievement.isCompleted(), "Confirm the achievement is no longer achieved if a building is deleted.");
     }
 
+    /**
+     * Tests that the 'Clean slate' achievement is awarded appropriately
+     * Relates to: FR_CS_UNLOCK
+     */
     @Test
     public void testCleanSlateAchievement() {
         BuildingsMap testMap = getTestMap();
@@ -142,6 +154,10 @@ public class AchievementsTest extends TestSuper {
         
     }
 
+    /**
+     * Tests that 'Bare Minimum' is unlocked when only one of each building type is ever placed
+     * Relates to: FR_BM_UNLOCK
+     */
     @Test
     public void testBareMinimumAchievement() {
         BuildingsMap testMap = getTestMap();
@@ -162,7 +178,8 @@ public class AchievementsTest extends TestSuper {
     }
 
     /**
-     * Tests that achievement can't be fooled by deleting buildings
+     * Tests that 'Bare Minimum' achievement can't be fooled by deleting buildings
+     * Relates to: FR_BM_UNLOCK
      */
     @Test
     public void testBareMinimumAchievementErroneous() {
@@ -186,6 +203,10 @@ public class AchievementsTest extends TestSuper {
         assertFalse(relevantAchievement.isCompleted(), "Confirm that achievement isn't completed, even if a building is deleted");
     }
 
+    /**
+     * Tests that 'Busy Campus' is unlocked if there are more than 40 buildings
+     * Relates to: FR_BUSY_UNLOCK
+     */
     @Test
     public void testBusyCampusAchievement() {
         BuildingsMap testMap = getTestMap();
@@ -205,6 +226,10 @@ public class AchievementsTest extends TestSuper {
         assertTrue(relevantAchievement.isCompleted(), "Confirm that achievement is achieved after placing 41 buildings");
     }
 
+    /**
+     * Tests that 'Indecisive' is unlocked when more than 21 buildings are removed
+     * Relates to: FR_INDECISIVE_UNLOCK
+     */
     @Test
     public void testIndecisiveAchievement() {
         BuildingsMap testMap = getTestMap();
@@ -236,6 +261,10 @@ public class AchievementsTest extends TestSuper {
         assertTrue(relevantAchievement.isCompleted(), "Confirm that achievement is completed after removing 21 buildings");
     }
 
+    /**
+     * Tests that 'Lucky' is unlocked if 3 positive events occur
+     * Relates to FR_LUCKY_UNLOCK
+     */
     @Test
     public void testLuckyAchievement() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
@@ -253,6 +282,10 @@ public class AchievementsTest extends TestSuper {
         assertTrue(relevantAchievement.isCompleted(), "Confirm that Master Of Change is awarded after 3 positive events");
     }
 
+    /**
+     * Tests that 'Master of Change' is unlocked if conditions are met
+     * Relates to: FR_CHANGE_UNLOCK
+     */
     @Test
     public void testMasterOfChangeAchievement() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
@@ -272,6 +305,10 @@ public class AchievementsTest extends TestSuper {
         assertTrue(relevantAchievement.isCompleted(), "Confirm that Master Of Change is awarded correctly");
     }
 
+    /**
+     * Test that 'Mike Freeman Award' is unlocked when appropriate conditions are met
+     * Relates to: FR_MFA_UNLOCK
+     */
     @Test
     public void testMikeFreemanAwardAchievement() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
@@ -291,6 +328,10 @@ public class AchievementsTest extends TestSuper {
         assertTrue(relevantAchievement.isCompleted(), "Confirm that Mike Freeman Award is awarded correctly");
     }
 
+    /**
+     * Test that 'Mike Freeman Award' is not awarded if satisfaction drops at any point
+     * Relates to: FR_MFA_UNLOCK
+     */
     @Test
     public void testMikeFreemanAwardAchievementErroneous() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
@@ -319,6 +360,10 @@ public class AchievementsTest extends TestSuper {
         assertFalse(relevantAchievement.isCompleted(), "Confirm that Mike Freeman Award is not awarded if satisfaction dropped at any point");
     }
 
+    /**
+     * Test that the 'Realistic' achievement is granted if debt exceeds £24M
+     * Relates to: FR_REALISTIC_UNLOCK
+     */
     @Test
     public void testRealisticAchievement() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
@@ -331,6 +376,10 @@ public class AchievementsTest extends TestSuper {
         assertTrue(relevantAchievement.isCompleted(), "Confirm that achievement is completed if the balance falls below 24,000 at any point");
     }
 
+    /**
+     * Tests that the 'Saviour' achievement is granted if a burning building is saved
+     * Relates to: FR_SAVIOUR_UNLOCK
+     */
     @Test
     public void testSaviourAchievements() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
@@ -343,6 +392,10 @@ public class AchievementsTest extends TestSuper {
         assertTrue(relevantAchievement.isCompleted(), "Confirm that saviour achievement is awarded");
     }
 
+    /**
+     * Tests that the 'Unlucky' achievement is granted if a player sees 3 negative events
+     * Relates to: FR_UNLUCKY_UNLOCK
+     */
     @Test
     public void testUnluckyAchievement() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
@@ -363,6 +416,9 @@ public class AchievementsTest extends TestSuper {
 
     // ─── Testing Of The AchievementsHandler Utility Functions ────────────
 
+    /**
+     * Confirm that specific achievements can be retrieved based on their name
+     */
     @Test
     public void testGetAchievement() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
@@ -375,6 +431,10 @@ public class AchievementsTest extends TestSuper {
         
     }
 
+    /**
+     * Test a single achievement is loaded and saved without error
+     * Relates to: FR_SAVES
+     */
     @Test
     public void testAchievementsLoadSave() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
@@ -394,6 +454,11 @@ public class AchievementsTest extends TestSuper {
         assertTrue(testAchievement.usernameAchieved);
     }
 
+    /**
+     * Tests that loading and saving works where two usernames have achieved a distinct set of
+     * achievements.
+     * Relates to: FR_SAVES
+     */
     @Test
     public void testMultiUserAchievementsLoadSave() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
@@ -435,6 +500,11 @@ public class AchievementsTest extends TestSuper {
         
     }
 
+    /**
+     * Tests that saving an achievement works when a user has previously played and been awarded
+     * other achievements
+     * Relates to: FR_SAVES
+     */
     @Test
     public void testAchievementsExistingUserLoadSave() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
@@ -482,6 +552,13 @@ public class AchievementsTest extends TestSuper {
 
     // ─── Presentation Of Achievements To Users ───────────────────────────
 
+    /**
+     * Test that, if a new achievement has been unlocked in this game, it is presented on the
+     * end-screen
+     * Relates to: FR_MFA_UNLOCK, FR_BM_UNLOCK, FR_PRIORITIES_UNLOCK, FR_ITAU_UNLOCK,
+     *             FR_UNLUCKY_UNLOCK, FR_LUCKY_UNLOCK, FR_INDECISIVE_UNLOCK, FR_CS_UNLOCK,
+     *             FR_SAVIOUR_UNLOCK, FR_BUSY_UNLOCK, FR_CHANGE_UNLOCK, FR_REALISTIC_UNLOCK
+     */
     @Test
     public void testNewAchievementUnlocked() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();
@@ -502,6 +579,13 @@ public class AchievementsTest extends TestSuper {
         assertTrue(testAchievement.usernameAchieved, "usernameAchieved should be updated");
     }
 
+    /**
+     * Test that the list of all achievements (accessible via menus) is updated to show user's
+     * current achievements
+     * Relates to: FR_ACHIEVEMENT_MENU, FR_BM_UNLOCK, FR_PRIORITIES_UNLOCK, FR_ITAU_UNLOCK,
+     *             FR_UNLUCKY_UNLOCK, FR_LUCKY_UNLOCK, FR_INDECISIVE_UNLOCK, FR_CS_UNLOCK,
+     *             FR_SAVIOUR_UNLOCK, FR_BUSY_UNLOCK, FR_CHANGE_UNLOCK, FR_REALISTIC_UNLOCK
+     */
     @Test
     public void testAllAchievementsOutput() {
         AchievementsHandler achievementsHandler = new AchievementsHandler();

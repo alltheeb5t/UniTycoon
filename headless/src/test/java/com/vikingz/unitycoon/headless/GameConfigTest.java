@@ -4,27 +4,19 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.GL20;
 import com.vikingz.unitycoon.global.GameConfig;
 import com.vikingz.unitycoon.global.GameConfigManager;
 
-public class GameConfigTest {
-
-    @BeforeEach
-    public void setup() {
-        Gdx.gl = Gdx.gl20 = mock(GL20.class);
-        HeadlessLauncher.main(new String[0]);
-    }
+public class GameConfigTest extends TestSuper {
 
     /**
      * Attempt to save a new value to the config file, save it and then load the saved value
+     * Relates to: FR_MUTEABLE
      */
     @Test
     public void testConfigFileLoadSave() {

@@ -9,7 +9,8 @@ import com.vikingz.unitycoon.util.TimeHandler;
 public class TimerTest extends TestSuper {
 
     /**
-     * Test that if seconds can correctly convert to minute
+     * Test that seconds are correctly displayed as minutes and seconds for the real life counter
+     * Relates to: FR_TIMER
      */
     @Test
     public void testSecondsTOMinSecs() {
@@ -33,7 +34,8 @@ public class TimerTest extends TestSuper {
     }
 
     /**
-     * Test that if Semester and Summer is in order
+     * Test that seconds are converted to Years and Semesters appropriately
+     * Relates to: FR_TIMER
      */
     @Test
     public void testInGameTime() {
